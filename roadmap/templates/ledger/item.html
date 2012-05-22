@@ -1,0 +1,128 @@
+
+
+{% extends "ledger/base.html" %}
+
+{% block "title" %}
+Editing {{ item.description }}
+{% endblock %}
+
+{% block "toolbox" %}
+	
+{% endblock %}
+
+
+{% block "heading" %}
+	<span class="floatRight">Priority: {{ item.priority }}</span>
+	<h3>{{ item.item_type }}</h3>
+{% endblock %}
+
+
+{% block "maincontent" %}
+	<form action="/roadmap/ledger/item/{{ item.id }}" method="post" name="itemForm" enctype="multipart/form-data" >
+		<input type="hidden" name="referrer" value="{{ referrer }}" />
+		<span class="floatRight">
+			<input class="ui-state-default ui-corner-all dialog_link submit " type="submit" name="update" value="Update" />
+		</span>
+	
+		<div id="toolbox">		
+			<!--<a class="ui-state-default ui-corner-all dialog_link" href="/roadmap/ledger/active"><span class="ui-icon ui-icon-back"></span>Back</a>-->
+			&nbsp;
+		</div>
+		
+		<div id="tabs"> 
+			<ul> 
+				<li><a href="#tabs-1">Details</a></li>	
+				<!--<li><a href="#tabs-2">Advanced</a></li>-->
+				<li><a href="#tabs-3">Move</a></li>
+			</ul>
+			
+			<div id="tabs-1">
+				<div id="editItem">	
+				{% include preview %}
+				
+				{{ linked_item_form.field.errors }} 
+					<ul>
+						{% csrf_token %}
+						{{ linked_item_form.as_ul }}
+						
+						{# if extra.buttons_update #}
+							<input class="ui-state-default ui-corner-all dialog_link submit" type="submit" name="update" value="Update" />
+						
+						
+							{% if item.item_type.name == 'Issue' or item.item_type.name == 'Requirement' %}
+								{% if item.location.name == 'Production' %}
+									<input class="ui-state-default ui-corner-all dialog_link submit" type="submit" name="update" value="Completed" />
+								{% endif %}
+								
+								{% if item.location.name == 'Testing' %}
+									<input class="ui-state-default ui-corner-all dialog_link submit" type="submit" name="update" value="Failed" />
+									<input class="ui-state-default ui-corner-all dialog_link submit" type="submit" name="update" value="Verified" />
+								{% endif %}
+							{% endif %}
+						{# endif #}
+
+					</ul>
+			
+					{% if extra.comments %}
+						<h3>Comments</h3>
+						
+						<ol id="comments">
+							{% for comment in extra.comments %}
+								<li>
+									<div>
+										<img src="{{ comment.user.gravatar }}" />
+										<!--<img src="{% avatar_url comment.user %}" />-->
+											
+										<div class="dateTime">{{ comment.date_time }}</div>
+										<span class="name">
+											<a href="mailto:{{ comment.user.email }}?cc={{ settings.ROADMAP_EMAIL_EMAIL }}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a>
+										</span>
+									</div>
+									<p>{{ comment.message }}</p>
+								</li>
+							{% endfor %}
+						</ol>
+					{% endif %}
+				</div>
+			</div>
+			
+			<div id="tabs-3">
+				<div id="owner">
+					<h3>Owner</h3>
+					<ol class="choiceList">
+						{% for loop_item in users%}
+							<li><input type="radio" id="owner_{{ loop_item.id }}" name="owner" value="{{ loop_item.id }}" {% ifequal loop_item item.assigned_to %}checked="checked"{% endifequal %}/> <label for="location_{{ loop_item.id }}"><img src="/media/layout/icons/user.png" alt="Image for {{ loop_item }}" /> {{ loop_item.first_name }} {{ loop_item.last_name }}</label></li>
+						{% endfor %}
+					</ol>
+				</div>
+				
+				<h3>Location</h3> 
+				<ol class="choiceList">
+					{% for loop_item in location %}
+						<li><input type="radio" id="location_{{ loop_item.id }}" name="location" value="{{ loop_item.id }}" {% ifequal loop_item item.location %}checked="checked"{% endifequal %}/> <label for="location_{{ loop_item.id }}"><img src="/media/layout/icons/{{ loop_item }}.png" alt="Image for {{ loop_item }}" /> {{ loop_item.name }}</label></li>
+					{% endfor %}
+				</ol>
+				
+				<h3>Project</h3>
+				<ol class="choiceList">
+					{% for loop_item in project %}
+						<li><input type="radio" name="project" value="{{ loop_item.id }}" {% ifequal loop_item item.project %}checked="checked"{% endifequal %}/> {{ loop_item.name }}</li>
+					{% endfor %}
+					<li><input type="radio" name="project" value="new" /> New <input name="newProject" type="text" value="" /></li>
+				</ol>
+				
+				
+			</div>
+		</div>
+	</form>	
+	
+	{% load tagging_tags %}
+	{% tags_for_model ledger.Item as item_tags %}
+	
+		<script type="text/javascript">
+			$('#tabs').tabs();
+			
+			var availableTags =  [ {% for item in item_tags %}"{{ item }}", {% endfor %} ];
+		</script>
+{% endblock %}
+

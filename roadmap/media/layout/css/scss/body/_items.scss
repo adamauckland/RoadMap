@@ -1,0 +1,221 @@
+@mixin locationHeaderShared {
+	margin-top: 2em; padding: 8px; padding-left: 12px; width: 940px;
+}
+.locationHeader {
+	.reported {
+		@include locationHeaderShared; background-color: #eee; border-top: 1px dotted #ccc; color: #000;
+	}
+
+	.production {
+		@include locationHeaderShared; background-color: #CBE8F9;  border-top: 1px dotted #ccc; color: #000;
+	}
+
+	.testing {
+		@include locationHeaderShared; background-color: #fff9d0;  border-top: 1px dotted #ccc; color: #000;
+	}
+
+	.approved {
+		@include locationHeaderShared; background-color: #E4FED0;  border-top: 1px dotted #ccc; color: darken(#E4FED0, 70%);
+	}
+
+	.delivered {
+		@include locationHeaderShared; background-color: #eee; border-top: 1px dotted #ccc; color: #000;
+	}
+}
+
+#homeList {
+	#selectedItems {
+		background-color: #FFF4D8; border-top: solid 1px #aca693; display: none; padding: 8px; position: fixed; @include shadow(0px, -4px, 12px, rgba(0,0,0,0.3) );
+		bottom: 0; width: 944px; z-index: 1000;
+		a {
+			margin-right: 12px;
+		}
+		button {
+			padding: 0px 9px 4px 9px;
+		}
+		input {
+			padding: 4px 9px 4px 9px;
+		}
+	}
+}
+
+#tagBox { border-top: 1px solid #e5e5e5; padding: 8px; }
+	#tagBox #tags, #instantFilter { border: solid 1px #FFCFA8; padding: 5px; width: 450px; }
+	#tagBox #moveTags { margin-right: 0em; }
+	.ui-autocomplete li { background-color: #fff; }
+
+
+
+
+/*
+	The items page has a preview box which pops up when the links are hovered over
+*/
+#previewWrap {
+	display: none;
+	#previewContent {
+		background-color: #FFFED6; position: fixed; right: 0px; scroll: fixed; top: 0px; width: 300px; z-index: 9999;
+		@include shadow(0px, 4px, 12px, rgba(0,0,0,0.3) );
+
+		#innerContent {
+			font-size: 90%; padding: 12px;
+			p {
+				margin-bottom: 8px;
+			}
+			#comments {
+				border-top: solid 1px #eee; margin-top: 8px; padding-top: 8px;
+				.comment {
+					margin-bottom: 16px;
+					.username {
+						color: $blue; font-size: 10px;
+					}
+					.date {
+						color: $charcoal; font-size: 10px;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+#activeList {
+	margin-right: 0; width: 100%;
+	#instantFilter {
+		/*@include shadow(inset 0px, 1px, 1px, rgb(206,206,207)); border: none; padding: 4px;*/
+		&:focus {
+
+		}
+	}
+	tbody {
+		tr {
+			background-color: #f8f8f8;
+
+			&:nth-child(2n) {
+				background-color: #ffffff;
+			}
+
+			&.locationChanged {
+				background: #D4D7DD url(/media/layout/images/content/insetTop.png) top repeat-x; color: #000; font-size: 110%; text-align: left;
+				/* green-  background: #D2DBD7; */
+				@include shadow(inset 0px, 2px, 2px, rgb(180,180,180));
+				td {
+					color: #000;  padding: 8px; padding-left: 8px;
+				}
+			}
+
+			&.unseen {
+				background-color: #fffde0;
+			}
+
+			&.itemGroup {
+				background-color: #eeeeee;
+			}
+
+			&.instaFilterThis:hover {
+
+			}
+
+			&.instaFilterThis td img.previewThis:hover {
+				cursor: pointer;
+			}
+
+			&.preview {
+				background-color: #FFFED6;
+			}
+			.reminderDate {
+				color: #419c41;
+			}
+		}
+	}
+	thead {
+		/*background: -moz-linear-gradient(bottom, #F4f4f4 0%,  #ffffff 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f4f4f4)); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#f4f4f4',GradientType=0 );*/
+
+		th {
+			padding: 8px;
+
+			a{
+				text-shadow: 0 2px 0 #FFFFFF;
+				&.selected {
+					color: #FB9E4A;
+				}
+			}
+
+		}
+
+
+	}
+	tfoot {
+		border-bottom: solid 1px #ccc; background: #eeeeee; background: -moz-linear-gradient(top, #fff 0%, #f4f4f4 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f4f4f4)); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#f4f4f4',GradientType=0 ); font-size: 0.8em;
+	}
+}
+
+
+
+#assignToGroup {
+	display:none;
+	#assignToGroupSpinner {
+		display: none; margin:0; padding: 0; position: absolute;
+	}
+	#assignToGroupContent {
+		background: #ffffff; padding: 12px;
+		h3 {
+			margin-top: 0;
+		}
+		#assignToGroupButtons {
+			margin-top: 12px;
+		}
+
+	}
+}
+
+#remindMeWhen {
+	display:none;
+	#remindMeWhenSpinner {
+		display: none; margin:0; padding: 0; position: absolute;
+	}
+	#remindMeWhenContent {
+		background: #ffffff; padding: 12px;
+		p,em {
+			display: block; margin-bottom: 12px;
+		}
+		h3 {
+			margin-top: 0;
+		}
+		ol {
+			li {
+				margin-bottom: 8px;
+			}
+		}
+
+		input {
+			margin-left: 1em; margin-right: 1em; width: 5em;
+		}
+
+		textarea {
+			height: 100px; width: 414px;
+		}
+
+		#remindMeWhenButtons {
+			margin-top: 12px;
+		}
+
+	}
+}
+
+#viewSettingsTrigger {
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+#viewSettingsPopup {
+	background: #EDEFEF; font-size: 14px;
+}
+
+#latestUpdatesCollapse {
+	border: solid 1px #777; display: none; @include shadow(0px, 4px, 12px, rgba(0,0,0,0.3) ); position: relative; top: -24px;
+	#activeList tbody tr.itemGroup {
+		//background: #FFFDE0;
+	}
+}

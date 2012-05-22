@@ -1,0 +1,284 @@
+
+
+{% extends "ledger/base.html" %}
+{% load custom %}
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/Binder.png" />
+{% endblock %}
+
+{% block "title" %}
+
+{% endblock %}
+
+{% block "toolbox" %}
+	<div id="toolbox">
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new issue"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+		</span>
+
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new requirement"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+		</span>
+
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new file"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+		</span>
+
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new note"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+		</span>
+	</div>
+{% endblock %}
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+{% block "topnav2" %}
+
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+	<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/folder_user.png" />
+	<a href="/roadmap/ledger/binder/{{ item.project.binder.slug }}">{{ item.project.binder.client.name }} <!--{{ item.project.binder }}--></a> <span class="arrow">&#9654;</span>
+
+	<img src="/media/layout/icons/group.png" /> <a href="{% url roadmap.ledger.views.view_binder name=item.project.binder.slug %}">{{ item.project.binder.name }}</a> <span class="arrow">&#9654;</span>
+
+	<img src="/media/layout/icons/timeline_marker.png" />
+	<a href="/roadmap/ledger/project/{{ item.project.binder.slug }}/{{ item.project.slug }}">{{ item.project }}</a> <span class="arrow">&#9654;</span>
+
+	{% if search_url %}
+		<img src="/media/layout/icons/application_view_list.png" alt="Items" title="Items" /> <a href="{{ search_url }}">Items</a> <span class="arrow">&#9654;</span>
+	{% endif %}
+	<img src="/media/layout/icons/{{ item.item_type }}.png"  /> Issue
+
+
+{% endblock %}
+
+
+
+{% block "maincontent" %}
+	<div>
+		<h2>
+			<a href="{% url roadmap.ledger.views.item id=item.id %}">&lt; Back to "{{ item.description }}"</a>
+		</h2>
+
+		<table class="margin24">
+			{% for loop_item in ownership_list %}
+				<tr>
+					<td>{{ loop_item.date_time|date:"d/M/Y  H:i" }}</td>
+					<td>{{ loop_item.location }}</td>
+					<td>{{ loop_item.user.first_name }} {{ loop_item.user.last_name }}</td>
+					<td>{{ loop_item.comments}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+
+
+
+
+
+	{% load tagging_tags %}
+	{% tags_for_model ledger.Item as item_tags %}
+
+		<script type="text/javascript">
+			$('#tabs').tabs();
+
+
+			var availableTags =  [ {% for item in item_tags %}"{{ item }}", {% endfor %} ];
+
+			function addComments() {
+				var comments_text = $('#id_comments').val();
+				$.post(
+					'/roadmap/ledger/item_details_comment',
+					{
+						item_id: {{ item.id }},
+						file_uuid: '{{ file_uuid }}',
+						comments: comments_text
+					},
+					function(data) {
+						$('#commentHook').html(data);
+						$('#id_comments').val('')
+						Roadmap.hoverButtons($('#comments'));
+					}
+				);
+				return false;
+			}
+
+
+			Roadmap.addLoader(function() {
+				$('#tags').bind('blur', function() {
+					$.post(
+						'/roadmap/ledger/update_tags',
+						{
+							item_id: {{ item.id }},
+							tags: $('#tags').val()
+						},
+						function(data) {
+
+						}
+					);
+				});
+				}
+			);
+
+			function setupPopups() {
+				$('#id_comments').bind('focus', function(data) {
+				  $('#addComment').show();
+				});
+				$('#id_comments').bind('blur', function(data) {
+				  if($('#id_comments').val() == '') {
+					$('#addComment').hide();
+				  }
+				});
+				$("#moveToOwner").hide();
+				$("#moveToLocation").hide();
+				$("#moveToProject").hide();
+			}
+
+			function addComment() {
+				var comments_text = $('#id_comments').val();
+				$.post(
+					'/roadmap/ledger/item_details_comment',
+					{
+						item_id: {{ item.id }},
+						file_uuid: '{{ file_uuid }}',
+						comments: comments_text
+					},
+					function(data) {
+						var referrer = '{{ referrer }}';
+						if(referrer == 'None') {
+							referrer= '/roadmap/ledger/';
+						}
+						window.location.href = referrer;
+					}
+				);
+				return false;
+			}
+
+			function updateLocationNoAnimation(item_id, location_id) {
+
+				$.post(
+					'/roadmap/ledger/item_details_location',
+					{ item_id: item_id, location_id: location_id },
+					function(data) {
+						$('#contentLocation').html(data);
+						$('input[name="location"]').val(location_id);
+					}
+				);
+				return false;
+			}
+
+			function updateLocation(item_id, location_id) {
+				Roadmap.slideInOut("#moveToLocation", $('#moveToLocation').parent().children('.changeLink') ,'Move', 'Hide');
+				$.post(
+					'/roadmap/ledger/item_details_location',
+					{ item_id: item_id, location_id: location_id },
+					function(data) {
+						$('#contentLocation').html(data);
+						$('input[name="location"]').val(location_id);
+					}
+				);
+				return false;
+			}
+
+			function updateOwner(item_id, owner_id) {
+				Roadmap.slideInOut("#moveToOwner", $('#moveToOwner').parent().children('.changeLink') ,'Reassign', 'Hide');
+
+				$.post(
+					'/roadmap/ledger/item_details_owner',
+					{ item_id: item_id, owner_id: owner_id },
+					function(data) {
+						$('#contentAssigned').html(data);
+						$('input[name="owner"]').val(owner_id);
+				});
+				return false;
+			}
+
+			function updateProject(item_id, project_id, new_project) {
+				Roadmap.slideInOut("#moveToProject", $('#moveToProject').parent().children('.changeLink') ,'Change', 'Hide');
+				$.post(
+					'/roadmap/ledger/item_details_project',
+					{ item_id: item_id, project_id: project_id, new_project: $('#newProject').val() },
+					function(data) {
+						$("#contentProject").html(data);
+						$('input[name="project"]').val(project_id);
+				});
+				return false;
+			}
+
+			function markCompleted() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_completed',
+					{ item_id: item_id },
+					function(data) {
+						$('#markFixed').html(data);
+				});
+				return false;
+			}
+
+			function markFailed() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_failed',
+					{ item_id: item_id },
+					function(data) {
+						$('#markFixed').html(data);
+				});
+				return false;
+			}
+
+			function markVerified() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_verified',
+					{ item_id: item_id },
+					function(data) {
+						$('#markFixed').html(data);
+				});
+				return false;
+			}
+
+			function updateTarget(item_id, target_id) {
+				Roadmap.slideInOut("#moveToTarget", $('#moveToTarget').parent().children('.changeLink') ,'Set', 'Hide');
+
+				updateTargetData(item_id, target_id);
+				return false;
+			}
+
+			function updateTargetData(item_id, target_id) {
+				$.post(
+					'/roadmap/ledger/item_details_target',
+					{ item_id: item_id, target_id: target_id },
+					function(data) {
+						$('#timeDetailsPanel').html(data);
+				});
+				return false;
+			}
+
+			Roadmap.addLoader(setupPopups);
+		</script>
+{% endblock %}
+
+
+
+{% block "rightcontent" %}
+	<span class="floatRight" style="margin-right: 12px;">
+		<label for="selectedCheck" style="margin-right: 12px;">Selected</label>
+		<input type="checkbox" name="selectedCheck" id="selectedCheck" value="{{ item.id }}" onchange="$.get('{% url roadmap.ledger.views.toggle_item item_id=item.id %}');" {% if item.id|make_key in selected_items %} checked="checked" {% endif %} />
+	</span>
+
+	<h2 style="margin:0; margin-bottom: 24px;padding-left:15px;">
+		#{{ item.id }}
+	</h2>
+
+	{% include "ledger/objects/extra_details.html" %}
+{% endblock %}

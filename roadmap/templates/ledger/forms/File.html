@@ -1,0 +1,368 @@
+{% extends "ledger/base.html" %}
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+
+
+
+{% block "toolbox" %}
+
+	<div id="toolbox">
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new issue">+ Issue</a>
+		</span>
+
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new requirement">+ Requirement</a>
+		</span>
+
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new file">+ File</a>
+		</span>
+
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new note">+ Note</a>
+		</span>
+	</div>
+{% endblock %}
+
+
+
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+
+
+{% block "topnav2" %}
+
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+
+{% endblock %}
+
+
+
+
+{% block "rightcontent2" %}
+
+
+	{% include "ledger/objects/extra_details.html" %}
+{% endblock %}
+
+
+
+
+
+{% block "navigation" %}
+	<ol id="tabBar">
+		<li>
+			<ol>
+				<li>
+					<a href="{% url roadmap.ledger.views.view_client name=binder.client.slug %}">{{ binder.client.name }}</a>
+				</li>
+			</ol>
+		</li>
+
+		<li>
+			<div class="sectionTop project  {% if template_section == 'overview' %} selected {% endif %}">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.project.slug }}/overview">{{ item.project.name }}</a>
+			</div>
+		</li>
+
+
+		<li>
+			<div class="sectionTop">
+				<a id="viewDefaultItems" href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.project.slug %}?{{ view_settings }}">
+					Items
+				</a>
+			</div>
+
+			{% if user_filters.count > 1 %}
+				<ol>
+					{% for loop_filter in user_filters %}
+						<li>
+							<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.project.slug %}?searchId={{ loop_filter.search_id }}">{{ loop_filter.name }}</a>
+						</li>
+					{% endfor %}
+				</ol>
+			{% endif %}
+		</li>
+
+		<li>
+			<div class="sectionTop  {% if template_section == 'notes' %} selected {% endif %}">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.project.slug }}/notes">Notes</a>
+			</div>
+		</li>
+		<li>
+			<div class="sectionTop  {% if template_section == 'emails' %} selected {% endif %}">
+			  <a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.project.slug }}/emails">Communication</a>
+			</div>
+		</li>
+
+		<li>
+			<div class="sectionTop  {% if template_section == 'files' %} selected {% endif %}">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.project.slug }}/files">File Library</a>
+			</div>
+		</li>
+
+		<li class="last  {% if template_section == 'deliverynotes' %} selected {% endif %}">
+			<div class="sectionTop">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.project.slug }}/deliverynotes">Delivery Notes</a>
+			</div>
+		</li>
+	</ol>
+{% endblock %}
+
+
+
+
+
+{% block "maincontent" %}
+
+	<div id="details">
+		<div id="contents">
+			<div id="editItem">
+
+				<h2 >
+				   {% if linked_item.filetype|removedots %}
+
+				   {% else %}
+
+				   {% endif %}
+
+				   {% if item.description %}{{ item.description }}{% else %}New File{% endif %}
+				</h2>
+
+				<form class="clearfix " action="/roadmap/ledger/item/{{ item.id }}" method="post" name="itemForm" enctype="multipart/form-data" >
+					<input type="hidden" name="referrer" value="{{ referrer }}" />
+
+					{{ linked_item_form.field.errors }}
+					{% csrf_token %}
+
+					<ul>
+						{% for loop_item in linked_item_form %}
+							{% ifnotequal loop_item.html_name "comments" %}
+							{% ifnotequal loop_item.html_name "tags" %}
+								<li>
+
+									{{ loop_item.label_tag }}
+
+									{% if loop_item.html_name == "file" %}
+										<span style="margin-top: 4px;">{{ loop_item }}</span>
+									{% else %}
+										{{ loop_item }}
+									{% endif %}
+
+									{% ifequal loop_item.html_name "file" %}
+										{% if extra.fileitem.file %}
+
+
+											<a class="orangeInput info floatRight" href="/media/documents/{{ extra.fileitem.file }}">
+												{% if item.icon %}
+												<img src="/media/layout/icons/{{ item.icon }}" width="16px" height="16px" alt="File" title="File" />
+											{% else %}
+												<img src="/media/layout/icons/File.png" width="16px" height="16px" alt="File" title="File" />
+											{% endif %}Download File</a>
+										{% endif %}
+									{% endifequal %}
+								</li>
+							{% endifnotequal %}
+							{% endifnotequal %}
+						{% endfor %}
+<li>&nbsp;</li>
+
+						{% include "ledger/forms/comments.html" %}
+
+						{% if item.comments %}
+<!--
+						 <li>
+							<label style="margin-top: 2em;">Commments</label>
+
+							<ol id="comments">
+							{% for comment in item.comments %}
+								<li>
+									<div>
+
+										<span class="floatRight">
+											<img src="{% avatar_url comment.user 32 %}" />
+										</span>
+
+										<span class="name">
+
+											<a href="{% url roadmap.ledger.views.profile username=comment.user.username %}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a>
+											<span class="dateTime">{{ comment.date_time|date:"d M Y" }} at {{ comment.date_time|date:"H:i" }}</span>
+										</span>
+
+										<p>
+										{{ comment.message|safe  }}
+										</p>
+									</div>
+
+								</li>
+							{% endfor %}
+							</ol>
+						</li>-->
+						{% endif %}
+
+						{% if item.state = 1 %}
+
+
+						{% endif %}
+
+
+						<input type="hidden" name="priority" value="{{ item.priority.id }}" />
+
+						<input type="hidden" name="location" value="{{ item.location.id }}" />
+						<input type="hidden" name="project" value="{{ item.project.id }}" />
+						<input type="hidden" name="owner" value="{{ item.assigned_to.id }}" />
+
+					{% if item.state = 0 %}
+
+					{% endif %}
+					<li>
+						<label for="id_comments">Add Comments:</label>
+					</li>
+
+						<li>
+							{{ linked_item_form.comments }}
+
+							{% if item.state = 0 %}
+							<!--
+							<button id="addComment" class="ui-state-default ui-corner-all dialog_link submit" name="addComment" onclick="return addComment();">Add Comment</button>
+						-->
+							{% endif %}
+						</li>
+
+						{# if extra.buttons_update #}
+							<li>
+								{% if item.state = 1 %}
+
+								{% endif %}
+								<input class="orangeInput submit" type="submit" name="update" value="Done" />
+							</li>
+						{# endif #}
+					</ul>
+
+					{% if item.state = 1 %}
+
+					{% endif %}
+				</form>
+			</div>
+
+		</div>
+	</div>
+
+
+	 {% load tagging_tags %}
+	{% tags_for_model ledger.Item as item_tags %}
+
+		<script type="text/javascript">
+			$('#tabs').tabs();
+
+			var availableTags =  [ {% for item in item_tags %}"{{ item }}", {% endfor %} ];
+
+			function setupPopups() {
+				$("#moveToOwner").dialog({
+					autoOpen: false,
+					height: 300,
+					width: 350,
+					modal: true,
+				});
+
+				$("#moveToLocation").dialog({
+					autoOpen: false,
+					height: 300,
+					width: 350,
+					modal: true,
+				});
+
+				$("#moveToProject").dialog({
+					autoOpen: false,
+					height: 300,
+					width: 350,
+					modal: true,
+				});
+
+			}
+
+			function addComment() {
+				var comments_text = $('#id_comments').val();
+				$.post(
+					'/roadmap/ledger/item_details_comment',
+					{ item_id: {{ item.id }}, comments: comments_text },
+					function(data) {
+						var referrer = '{{ referrer }}';
+						if(referrer == 'None') {
+							referrer= '/roadmap/ledger/';
+						}
+						window.location.href = referrer;
+					}
+				);
+				return false;
+			}
+
+			function updateLocation(item_id, location_id) {
+				$("#moveToLocation").dialog('close');
+				$.post(
+					'/roadmap/ledger/item_details_location',
+					{ item_id: item_id, location_id: location_id },
+					function(data) {
+						$('#contentLocation').html(data);
+					}
+				);
+				return false;
+			}
+
+			function updateOwner(item_id, owner_id) {
+				$("#moveToOwner").dialog('close');
+				$.post(
+					'/roadmap/ledger/item_details_owner',
+					{ item_id: item_id, owner_id: owner_id },
+					function(data) {
+						$('#contentAssigned').html(data);
+				});
+				return false;
+			}
+
+			function updateProject(item_id, project_id, new_project) {
+				$("#moveToProject").dialog('close');
+				$.post(
+					'/roadmap/ledger/item_details_project',
+					{ item_id: item_id, project_id: project_id, new_project: $('#newProject').val() },
+					function(data) {
+						$("#contentProject").html(data);
+				});
+				return false;
+			}
+
+			function markCompleted() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_completed',
+					{ item_id: item_id },
+					function(data) {
+						$('#markFixed').html(data);
+				});
+				return false;
+			}
+
+			Roadmap.addLoader(setupPopups);
+		</script>
+{% endblock %}
+
+
+{% block "rightcontent" %}
+  <div id="line-divider">
+
+  </div>
+{% endblock %}

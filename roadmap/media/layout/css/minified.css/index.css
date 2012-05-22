@@ -1,0 +1,1017 @@
+@charset "UTF-8";
+/* 444444;*/
+/*  electric blue  #39ADF9; */
+/*#0875ba; */
+/*#7CA9CA;*/
+/* lighten($lightBlue, 27%);*/
+/* #FFF0EA;  */
+/* #FBF7E0;											*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000316}}
+.charcoal { color: #696969; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000319}}
+.margin24 { margin-left: 24px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000320}}
+.marginRight24 { margin-right: 24px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000321}}
+.explanation { color: #9c9c9c; font-size: 11px; }
+
+/* Usage */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000376}}
+input.submit, button, .orangeInput { border: none; display: inline-block; padding: 3px 9px 4px; color: #fff; text-decoration: none; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25); border-bottom: 1px solid rgba(0, 0, 0, 0.25); position: relative; cursor: pointer; background-color: #fb9e4a; background: -moz-linear-gradient(top, #fcb97c 10%, #fa8b27 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #fcb97c), color-stop(0.9, #fa8b27)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcb97c', endColorstr='#fa8b27'); font-size: 12px; font-weight: normal; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000379}}
+input.submit.error, button.error, .orangeInput.error { background-color: red; background: -moz-linear-gradient(top, #ff3333 10%, #db0000 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #ff3333), color-stop(0.9, #db0000)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3333', endColorstr='#db0000'); }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000380}}
+input.submit.warning, button.warning, .orangeInput.warning { background-color: red; background: -moz-linear-gradient(top, #ff3333 10%, #db0000 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #ff3333), color-stop(0.9, #db0000)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3333', endColorstr='#db0000'); }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000381}}
+input.submit.info, button.info, .orangeInput.info { background-color: #0875ba; background: -moz-linear-gradient(top, #0a94eb 10%, #075f98 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #0a94eb), color-stop(0.9, #075f98)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0a94eb', endColorstr='#075f98'); }
+
+/* Hover colour change for "click-me"-ness */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000385}}
+input.submit:hover { background-color: #fa9131; background: -moz-linear-gradient(top, #fcab63 10%, #fa7e0e 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #fcab63), color-stop(0.9, #fa7e0e)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcab63', endColorstr='#fa7e0e'); }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000386}}
+input.error:hover { background-color: #e60000; background: -moz-linear-gradient(top, #ff1a1a 10%, #c20000 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #ff1a1a), color-stop(0.9, #c20000)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff1a1a', endColorstr='#c20000'); }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000387}}
+input.warning:hover { background-color: #e60000; background: -moz-linear-gradient(top, #ff1a1a 10%, #c20000 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #ff1a1a), color-stop(0.9, #c20000)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff1a1a', endColorstr='#c20000'); }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000388}}
+input.info:hover { background-color: #0984d2; background: -moz-linear-gradient(top, #19a0f5 10%, #086fb0 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #19a0f5), color-stop(0.9, #086fb0)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#19a0f5', endColorstr='#086fb0'); }
+
+/* Make it depress on click */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000391}}
+input.submit:active { top: 1px; }
+
+/* Grey it out when input element is disabled, remove hover colour change and remove click depress */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000394}}
+input.submit[disabled="disabled"], input.submit[disabled], input.disabled { color: #0875ba; background-color: #a3a3a3; background: -moz-linear-gradient(top, #bcbcbc 10%, #919191 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #bcbcbc), color-stop(0.9, #919191)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bcbcbc', endColorstr='#919191'); }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000398}}
+input.submit[disabled="disabled"]:hover, input.submit[disabled]:hover, input.disabled:hover { background-color: #a3a3a3; background: -moz-linear-gradient(top, #bcbcbc 10%, #919191 90%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, #bcbcbc), color-stop(0.9, #919191)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bcbcbc', endColorstr='#919191'); }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\0000399}}
+input.submit[disabled="disabled"]:active, input.submit[disabled]:active, input.disabled:active { top: 0; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_brand\.scss}line{font-family:\00003102}}
+.popOver { background-color: white; z-index: 99999; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; border: 1px solid #ccc; display: block; position: absolute; box-shadow: 0px 5px 10px #aaaaaa; -webkit-box-shadow: 0px 5px 10px #aaaaaa; -moz-box-shadow: 0px 5px 10px #aaaaaa; }
+
+/*
+
+	Base HTML styles
+
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_html\.scss}line{font-family:\000036}}
+body { background: url(../images/header/backgroundTexture.png); line-height: 1.5em; margin: 1.5em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_html\.scss}line{font-family:\000039}}
+body.login { background: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_html\.scss}line{font-family:\0000310}}
+h2 { color: #2779AA; font-size: 1.2em; margin-top: 0px; margin-bottom: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_html\.scss}line{font-family:\0000311}}
+h2 img { position: relative; top: 2px; z-index: 30; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_html\.scss}line{font-family:\0000312}}
+h3 { margin-top: 12px; font-size: 11px; font-weight: normal; margin-bottom: 8px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_html\.scss}line{font-family:\0000313}}
+p { /*margin-bottom: 1em;*/ }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_html\.scss}line{font-family:\0000314}}
+a { color: #2779AA; text-decoration: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/_html\.scss}line{font-family:\0000316}}
+a:hover { text-decoration: underline; }
+
+/* START header */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\000032}}
+header { height: 62px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\000035}}
+header #headerWrapper { color: #fff; display: block; margin-left: auto; margin-right: auto; overflow: hidden; /*padding-right: 8px;*/ padding-top: 20px; padding-left: 0px; width: 960px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\000037}}
+header #headerWrapper #homeLink { margin-left: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000310}}
+header #headerWrapper #roadmapHome { color: #696969; float: left; font-family: Impact, Charcoal, sans-serif; font-size: 42px; height: 48px; margin-top: 0px; margin-left: 14px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000312}}
+header #headerWrapper #roadmapHome .secondColour { color: #CF7B00; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000315}}
+header #headerWrapper #roadmapHome a { color: #848484; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000319}}
+header #headerWrapper a { color: #3badf9; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000322}}
+header #headerWrapper img { margin-right: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000327}}
+header #searchResults { text-shadow: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000332}}
+header #recordLocking { display: none; background: #440000; border-bottom: solid 1px #A2150B; color: #fff; font-size: 28px; height: 80px; position: fixed; top: 0; width: 100%; box-shadow: 0px 8px 8px #333333; -webkit-box-shadow: 0px 8px 8px #333333; -moz-box-shadow: 0px 8px 8px #333333; z-index: 9999; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000338}}
+header #recordLocking div { margin-left: auto; margin-right: auto; width: 900px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000340}}
+header #recordLocking div img { margin-left: 30px; margin-right: 20px; margin-top: 10px; float: left; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000343}}
+header #recordLocking div div { color: #FB3E00; display: inline; left: 10px; position: relative; top: 30px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000353}}
+#navCrumbWrapper { background: #202020; color: #ccc; font-size: 12px; height: 24px; margin-left: 24px; margin-left: auto; margin-right: auto; padding-top: 8px; padding-bottom: 8px; box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4); -webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4); width: 960px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000356}}
+#navCrumbWrapper img { margin-left: 12px; margin-right: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000359}}
+#navCrumbWrapper img:first-child { margin-left: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000362}}
+#navCrumbWrapper img { padding-right: 4px; position: relative; top: 3px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000365}}
+#navCrumbWrapper a { color: #fb9e4a; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000368}}
+#navCrumbWrapper .arrow { color: #fb9e4a; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000375}}
+#breadCrumb { color: #fb9e4a; font-size: 13px; height: 92px; text-shadow: 0px -1px 0px black; /*@include shadow(0px, 12px, 12px, rgba(0, 0, 0, 0.2)); */ z-index: 500; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000378}}
+#breadCrumb #addItemLink { cursor: pointer; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000382}}
+#breadCrumb #breadcrumbWrapper { background: url(../images/header/blackBinder.png) repeat-x top left scroll; border-bottom: solid 1px #343434; height: 52px; margin-left: auto; margin-right: auto; padding-left: 0px; width: 960px; box-shadow: 0px 12px 12px rgba(0, 0, 0, 0.2); -webkit-box-shadow: 0px 12px 12px rgba(0, 0, 0, 0.2); -moz-box-shadow: 0px 12px 12px rgba(0, 0, 0, 0.2); border-left: solid 1px #454545; border-right: solid 1px #454545; border-top: solid 1px #797979; /* toolbox */ /* /toolbox */ }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000387}}
+#breadCrumb #breadcrumbWrapper #unseenNotification { border: solid 1px #ccc; margin-left: 24px; padding: 4px; border-radius: 4px 4px 4px 4px; -moz-border-radius: 4px 4px 4px 4px; -webkit-border-radius: 4px 4px 4px 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000395}}
+#breadCrumb #breadcrumbWrapper #toolbox { height: 20px; margin-left: auto; padding-top: 15px; position: relative; text-shadow: none; width: 484px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000397}}
+#breadCrumb #breadcrumbWrapper #toolbox a { color: #696969; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\0000399}}
+#breadCrumb #breadcrumbWrapper #toolbox a:hover { text-decoration: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003104}}
+#breadCrumb #breadcrumbWrapper #toolbox div { background: #000; padding: 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003107}}
+#breadCrumb #breadcrumbWrapper #toolbox span.linkButton { height: 24px; margin-right: 12px; padding-right: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003109}}
+#breadCrumb #breadcrumbWrapper #toolbox span.linkButton a { color: #000000; font-size: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003112}}
+#breadCrumb #breadcrumbWrapper #toolbox span.linkButton img { margin-left: 6px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003116}}
+#breadCrumb #breadcrumbWrapper #toolbox span.linkButton:first-child { margin-left: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003124}}
+#breadCrumb img { padding-right: 4px; position: relative; top: 3px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003127}}
+#breadCrumb a { color: #fb9e4a; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003130}}
+#breadCrumb .arrow { color: #696969; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003134}}
+#breadCrumb span.linkButton { border: solid 1px #333; border-bottom: solid 1px #666; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003150}}
+header a { color: #FFFFFF; text-decoration: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003152}}
+header a:hover { color: #FFFFFF; text-decoration: underline; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003155}}
+header a.selected { color: #FB9E4A; font-weight: normal; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003158}}
+header a strong { color: #FB9E4A; font-weight: normal; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003164}}
+#site-nav a { padding: 0 8px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003167}}
+#user-controls li { float: left; font-size: 11px; margin-left: 16px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003169}}
+#user-controls li img { position: relative; top: 2px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003172}}
+#user-controls li.first { margin-left: 0; }
+
+/* END header */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003179}}
+nav { padding-left: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003180}}
+nav ol { list-style: none; margin: 0; overflow: hidden; padding: 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003181}}
+nav ol li { display: block; float: left; margin-right: 32px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003182}}
+nav ol li img { position: relative; top: 3px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003185}}
+nav a { text-decoration: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003188}}
+#topNav { background: url(/media/layout/images/header/orangeTopFade.png) repeat-x; }
+
+/*
+
+	Nav template
+
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003200}}
+#activeMenu { background-color: #373737; border: solid 1px #696969; color: #fb9e4a; display: none; position: absolute; top: 44px; z-index: 99999; -moz-box-shadow: 0px 3px 5px #444; -webkit-box-shadow: 0px 3px 5px  #444; box-shadow: 0px 3px 5px #444; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003203}}
+#activeMenu ol { /*margin-left: 20px;*/ margin-top: 8px; margin-bottom: 8px; margin-right: 1em; width: auto; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003206}}
+#activeMenu ol li { display: block; float: none; padding: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003208}}
+#activeMenu ol li a { color: #fb9e4a; text-shadow: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003216}}
+#chatAvailableUsers { background-color: #000; border: none; color: white; height: auto; top: 48px; padding: 4px; position: absolute; z-index: 99999; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003217}}
+#chatAvailableUsers { -moz-box-shadow: 0px 3px 10px #555; -webkit-box-shadow: 0px 3px 10px  #555; box-shadow: 0px 3px 10px #555; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003218}}
+#chatAvailableUsers ol { color: white; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003219}}
+#chatAvailableUsers ol li { color: white; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003220}}
+#chatAvailableUsers ol li a { color: white; cursor: pointer; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003221}}
+#chatAvailableUsers ol li img { background-color: white; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003223}}
+#messageBox { background-color: #000; color: white; height: auto; top: 48px; padding: 1px; position: absolute; z-index: 99999; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003224}}
+#messageBox { -moz-box-shadow: 0px 3px 10px #555; -webkit-box-shadow: 0px 3px 10px  #555; box-shadow: 0px 3px 10px #555; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003225}}
+#messageBox #chatRetainer { background-color: #000; height: 300px; overflow: auto; width: 260px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003226}}
+#messageBox #chatRetainer #chatCore { color: white; font-size: 90%; padding: 3px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003228}}
+#messageBox #chatButtons textarea { font-size: 100%; height: 45px; margin: 0; margin-top: 2px; width: 196px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/header\/_header\.scss}line{font-family:\00003229}}
+#messageBox #chatButtons #chatPost { border: solid 1px #FB9E4A; float: right; height: 45px; margin-top: 2px; width: 56px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tagcloud\.scss}line{font-family:\000032}}
+#tagCloud { /*padding-top: 16px;*/ }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tagcloud\.scss}line{font-family:\000035}}
+#tagCloud .tag-1 { font-size: 80%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tagcloud\.scss}line{font-family:\000036}}
+#tagCloud .tag-2 { font-size: 90%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tagcloud\.scss}line{font-family:\000037}}
+#tagCloud .tag-3 { font-size: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tagcloud\.scss}line{font-family:\000038}}
+#tagCloud .tag-4 { font-size: 110%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tagcloud\.scss}line{font-family:\000039}}
+#tagCloud .tag-5 { font-size: 120%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tagcloud\.scss}line{font-family:\0000310}}
+#tagCloud .tag-6 { font-size: 130%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tagcloud\.scss}line{font-family:\0000312}}
+#tagCloud h2 { color: #696969; margin-bottom: 0px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_forms\.scss}line{font-family:\000031}}
+.dropTarget { border: solid 1px #fb9e4a; padding: 2px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\000031}}
+#searchLauncher { cursor: pointer; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\000035}}
+#searchStart { background: url(/media/layout/icons/magnifier.png) 229px white no-repeat; border: solid 1px #ccc; margin-left: 16px; padding: 2px; width: 243px; border-radius: 12px 12px 12px 12px; -moz-border-radius: 12px 12px 12px 12px; -webkit-border-radius: 12px 12px 12px 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\000037}}
+#searchStart:focus { border: solid 1px #3badf9; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\0000310}}
+#searchStart.working { background: white url("/media/layout/images/indicator.white.gif") 229px no-repeat; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\0000316}}
+#searchWrapper { position: absolute; top: 33px; width: 600px; z-index: 99999; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\0000319}}
+#searchWrapper #searchResults { background-color: black; border: none; color: black; display: none; left: -361px; position: relative; z-index: 99999; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\0000321}}
+#searchWrapper #searchResults a { color: #fb9e4a; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\0000323}}
+#searchWrapper #searchResults ol li { background-color: #fff; border: solid 1px #0875ba; border-bottom: none; display: block; /*margin-bottom: 16px; */ margin-right: 0px; padding: 4px; width: 600px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\0000325}}
+#searchWrapper #searchResults ol li.selected { background-color: #fb9e4a; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\0000327}}
+#searchWrapper #searchResults ol li.selected a { color: black; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\0000331}}
+#searchWrapper #searchResults ol li .milestone { color: #777; padding-left: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_search\.scss}line{font-family:\0000334}}
+#searchWrapper #searchResults ol li .tags { color: #174e6e; }
+
+/*
+
+	Home page template
+
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\000036}}
+#dashboardConstraint { padding-right: 12px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000312}}
+#dashboard ol { padding-top: 4px; margin-top: 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000314}}
+#dashboard ol li { background: #fafafa; border-collapse: separate; border-radius: 16px 16px 16px 16px; -moz-border-radius: 16px 16px 16px 16px; -webkit-border-radius: 16px 16px 16px 16px; border-spacing: 1px; margin-bottom: 12px; margin-left: 12px; margin-top: 28px; margin-bottom: 48px; padding: 12px; padding-top: 0; box-shadow: inset 0px 1px 1px #cececf; -webkit-box-shadow: inset 0px 1px 1px #cececf; -moz-box-shadow: inset 0px 1px 1px #cececf; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000323}}
+#dashboard ol li .bubble a { font-size: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000327}}
+#dashboard ol li .listHeader { background: #fafafa; border-bottom: none; border-radius: 16px 16px 0px 0px; -moz-border-radius: 16px 16px 0px 0px; -webkit-border-radius: 16px 16px 0px 0px; font-size: 12px; left: 0px; padding: 8px 12px 6px 12px; position: relative; top: -23px; box-shadow: inset 0px 1px 1px #cececf; -webkit-box-shadow: inset 0px 1px 1px #cececf; -moz-box-shadow: inset 0px 1px 1px #cececf; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000331}}
+#dashboard ol li .listHeader a { color: #174e6e; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000335}}
+#dashboard ol li a.binderTitle { font-weight: normal; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000338}}
+#dashboard ol li ol { margin-top: -4px; width: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000340}}
+#dashboard ol li ol li { background: none; border: none; margin-top: 0; margin-bottom: 10px; padding: 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000342}}
+#dashboard ol li ol li:hover { background: none; border: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000349}}
+#dashboard ol li span.linkButton { border: solid 1px #fdc695; background: white url(/media/layout/images/content/button-orange-background.png) repeat-x top; margin-left: 1em; padding: 1px 3px 0px 2px; border-radius: 16px 16px 16px 16px; -moz-border-radius: 16px 16px 16px 16px; -webkit-border-radius: 16px 16px 16px 16px; border-collapse: separate; border-spacing: 1px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000351}}
+#dashboard ol li span.linkButton:hover { background: white url(/media/layout/images/content/button-orange-background-hover.png) repeat-x top; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000356}}
+#dashboard ol li table { width: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000359}}
+#dashboard ol li table tr td { margin: 0px; padding: 0px; padding-bottom: 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000365}}
+#dashboard ol li#newBinder { background: none; border: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000372}}
+#locations li { padding-bottom: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000373}}
+#news { padding-top: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000375}}
+#news li { padding-bottom: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000376}}
+#pageCount { float: right; margin-top: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000379}}
+#dashboardTable { border: solid 1px #D0D0D0; -moz-box-shadow: 0px 3px 5px #ddd; -webkit-box-shadow: 0px 3px 5px  #ddd; box-shadow: 0px 3px 5px #ddd; margin-left: 12px; width: 247px; text-align: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000381}}
+#dashboardTable th { text-align: center; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000388}}
+#dashboardTable tbody tr td { border-left: dotted 1px #fff; border-top: dotted 1px #fff; position: relative; z-index: 500; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000390}}
+#dashboardTable tbody tr td.left { border-left: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000393}}
+#dashboardTable tbody tr td.today { font-weight: bold; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000396}}
+#dashboardTable tbody tr td .abs { position: absolute; z-index: 506; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000398}}
+#dashboardTable tbody tr td .abs .bottomRight { opacity: 0.5; position: relative; left: 8px; top: 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003100}}
+#dashboardTable tbody tr td .abs .bottomRight:hover { opacity: 1; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003112}}
+#dashboard .monthYear { background: #E4F3FE; text-align: center; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003115}}
+#dashboard table { border-radius: 5px 5px 5px 5px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-collapse: separate; border-spacing: 1px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003120}}
+#dashboard table#dashboardTable thead tr { border: solid 1px #AED0EA; margin: 0; padding: 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003122}}
+#dashboard table#dashboardTable thead tr th { background: url("/media/layout/development-bundle/themes/cupertino/images/ui-bg_glass_80_d7ebf9_1x400.png") repeat-x scroll 50% 50% #d7ebf9; color: #2779AA; margin: 0; padding: 0.5em 1em 0.5em 1em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003126}}
+#dashboard table#dashboardTable thead tr.hasItems { background: #f6f6f6; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003133}}
+#dashboard table#dashboardTable tbody tr td { padding: 1em; }
+
+/*
+
+	Milestone template
+
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\000037}}
+#milestone #locationList { margin-bottom: 24px; margin-top: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\000039}}
+#milestone #locationList li { background: url(../images/content/blue-arrow.png) no-repeat right; height: 44px; padding-top: 22px; width: 120px; padding-right: 32px; text-align: right; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000316}}
+#milestone #binderLogo { border: solid 1px #AED0EA; float: left; height: 240px; overflow: hidden; width: 240px; -moz-box-shadow: 0px 3px #eee; -webkit-box-shadow: 0px 3px #eee; box-shadow: 0px 3px #eee; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000319}}
+#milestone #header { float: left; margin-left: 2em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000322}}
+#milestone #details { background: #ffffff; clear: left; float: none; padding-top: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000324}}
+#milestone #details h2 { color: #696969; margin-bottom: 1em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000329}}
+#milestone #details #overview table { border: solid 1px #f4f4f4; margin-left: 60px; margin-top: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000331}}
+#milestone #details #overview table thead { /*background-color:#FCFAF1; */ border-bottom: solid 1px #eee; color: #696969; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000334}}
+#milestone #details #overview table thead tr th { padding: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000340}}
+#milestone #details #overview table tbody th { background-color: #f4f4f4; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000342}}
+#milestone #details #overview table tbody th .plain { color: #666; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000346}}
+#milestone #details #overview table tbody td { border: solid 1px #f4f4f4; padding: 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000348}}
+#milestone #details #overview table tbody td a { display: block; padding: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000351}}
+#milestone #details #overview table tbody td .plain { color: #666; padding: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000360}}
+#milestone #details #files li { border-radius: 5px 5px 5px 5px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-collapse: separate; border-spacing: 1px; background-color: #F8F8F8; border: solid 1px #fff; margin-bottom: 1em; padding: 1em; width: 600px; -moz-box-shadow: 0px 3px 5px #eee; -webkit-box-shadow: 0px 3px 5px #eee; box-shadow: 0px 3px 5px #eee; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000368}}
+#milestone #details ol#notes li.note { border-radius: 5px 5px 5px 5px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-collapse: separate; border-spacing: 1px; background-color: #FFFED6; border: solid 1px #fff; margin-bottom: 1em; padding: 1em; padding-bottom: 0; width: 600px; -moz-box-shadow: 0px 3px 5px #eee; -webkit-box-shadow: 0px 3px 5px #eee; box-shadow: 0px 3px 5px #eee; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000373}}
+#milestone #details ol#notes h3 { margin-top: 0; margin-bottom: 1em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_milestone\.scss}line{font-family:\0000378}}
+#milestone #details #feedFilter { border: solid 1px #ccc; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_team\.scss}line{font-family:\000032}}
+#team h2 { color: #696969; margin-bottom: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_team\.scss}line{font-family:\000039}}
+#team ol li div .userType { color: #696969; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_team\.scss}line{font-family:\0000311}}
+#team ol li div .userType img { position: relative; top: 2px; }
+
+/*
+
+	Tab bar
+
+*/
+/*$tabBorder: #EAE4AD;*/
+/*$tabBackground: #F7F7E1;*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tabbar\.scss}line{font-family:\0000313}}
+#tabWrap { margin-top: 24px; margin-bottom: 16px; padding: 0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tabbar\.scss}line{font-family:\0000316}}
+#tabWrap ol#tabBar li { background: -moz-linear-gradient(top, white 0%, #eaeaea 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #eaeaea)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='$gradientBottom',GradientType=0 ); /*background: url("/media/layout/images/content/search-background.png") repeat-x bottom; */ border-left: solid 1px #fff; border-right: solid 1px #eee; border-bottom: solid 1px #ebebeb; display: block; float: left; margin-top: 4px; padding: 8px; padding-top: 4px; text-align: center; width: 119px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tabbar\.scss}line{font-family:\0000320}}
+#tabWrap ol#tabBar li img { position: relative; top: 2px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tabbar\.scss}line{font-family:\0000322}}
+#tabWrap ol#tabBar li.first { border-left: solid 1px #eee; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tabbar\.scss}line{font-family:\0000323}}
+#tabWrap ol#tabBar li.last { border-right: solid 1px #eaeaea; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tabbar\.scss}line{font-family:\0000324}}
+#tabWrap ol#tabBar li.selected { background: -moz-linear-gradient(top, #edefef 0%, white 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #edefef), color-stop(100%, white)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$gradientBottomLight', endColorstr='#ffffff',GradientType=0 ); border-bottom: solid 1px #fff; border-left: solid 1px #fff; border-right: solid 1px #eee; border-top: solid 0px #e3e3e3; margin-top: 0; padding-top: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tabbar\.scss}line{font-family:\0000328}}
+#tabWrap ol#tabBar li.first.selected { border-left: solid 1px #eee; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tabbar\.scss}line{font-family:\0000333}}
+.tabContent { border-left: solid 1px #e3e3e3; border-top: solid 1px #fff; border-bottom: solid 1px #fff; clear: left; min-height: 300px; padding: 12px; padding-right: 12px; padding-top: 12px; padding-left: 12px; width: 663px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_tabbar\.scss}line{font-family:\0000338}}
+#sub-content { /*padding-top: 56px;*/ background: url("/media/layout/images/content/playingAreaTopBackground.png") top repeat-x; }
+
+/*
+
+	Binder template
+
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\000038}}
+#binder ol li { clear: both; padding: 0px 24px 0px 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000313}}
+#binder ol li h3 { font-size: 1.2em; margin-top: 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000316}}
+#binder ol li a.binderTitle { color: #2F2F2F; font-size: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000319}}
+#binder ol li ol { margin-top: 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000321}}
+#binder ol li ol li { background: none; border: none; float: left; padding: 0; margin-right: 2em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000323}}
+#binder ol li ol li:hover { background: none; border: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000328}}
+#binder ol li#newBinder { background: none; border: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000335}}
+#team { /*(border-top: dashed 1px #dddddd; margin-top: 16px;*/ margin-left: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000338}}
+#team ol { margin-top: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000340}}
+#team ol li { background-color: #fff; border: solid 1px #ddd; clear: none; float: left; height: 64px; padding: 1em; margin-bottom: 1em; margin-left: 12px; width: 182px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000342}}
+#team ol li #trophies { clear: right; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000346}}
+#team ol li.reporting { background-color: #e1e9f8; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000350}}
+#team ol li.production { background-color: #fdf7d3; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_binder\.scss}line{font-family:\0000354}}
+#team ol li.unselected { background-color: #ddd; }
+
+/* dropdown select items.
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dropdownSelect\.scss}line{font-family:\000034}}
+.dropdownSelect { position: relative; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dropdownSelect\.scss}line{font-family:\000037}}
+.dropdownSelect span img { float: none; position: relative; top: 5px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dropdownSelect\.scss}line{font-family:\0000312}}
+.dropdownSelect span:hover { cursor: pointer; outline: dashed 1px #e3e3e3; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dropdownSelect\.scss}line{font-family:\0000316}}
+.dropdownSelect ol { background-color: #D4D7DD; display: none; position: absolute; top: 1em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dropdownSelect\.scss}line{font-family:\0000318}}
+.dropdownSelect ol li { cursor: pointer; padding-top: 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_dropdownSelect\.scss}line{font-family:\0000320}}
+.dropdownSelect ol li:hover { color: #2779aa; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_createItemWhere\.scss}line{font-family:\000032}}
+#createItemWhere .clients { margin-left: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_createItemWhere\.scss}line{font-family:\000036}}
+#createItemWhere .clients li .binders { margin-left: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_createItemWhere\.scss}line{font-family:\0000310}}
+#createItemWhere .clients li .binders li .milestones { margin-left: 24px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000312}}
+.demoHeaders { margin-top: 2em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000314}}
+.dialog_link { padding: .4em 1em .4em 20px; text-decoration: none; position: relative; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000315}}
+.dialog_link span.ui-icon { margin: 0 5px 0 0; position: absolute; left: .2em; top: 50%; margin-top: -8px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000316}}
+.ui-menu-item { cursor: pointer; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000318}}
+ul#icons { margin: 0; padding: 0; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000319}}
+ul#icons li { margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left; list-style: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000320}}
+ul#icons span.ui-icon { float: left; margin: 0 4px; }
+
+/*
+
+	Helper classes
+
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000332}}
+#flash { margin-bottom: 2em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000333}}
+#flash .flashItem { border-radius: 1em 1em 1em 1em; -moz-border-radius: 1em 1em 1em 1em; -webkit-border-radius: 1em 1em 1em 1em; border-collapse: separate; border-spacing: 1px; background-color: #FFFED6; padding: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000335}}
+#flash .flashItem img { margin-right: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000337}}
+.floatLeft { float: left; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000338}}
+.floatRight { float: right; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000339}}
+.tags { color: #aaa; margin-left: 2em; font-size: 0.9em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000340}}
+.hidePopup { display: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000341}}
+.hoverButtons { display: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000346}}
+#home { margin-bottom: 2.5em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000347}}
+#home ol li { display: inline; margin-right: 20px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000348}}
+#home ol li img { position: relative; top: 3px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000350}}
+#tagbox { /*margin-bottom: 1em;*/ margin-top: 2em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000351}}
+#tagbox input { border: solid 1px #AED0EA; padding: 0.5em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000352}}
+#tagbox input.textBox { width: 400px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000360}}
+table th { text-align: left; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000364}}
+table.jtable thead tr th { padding: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000366}}
+table td { padding: 0.8em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000367}}
+table.jtable td { /* font-weight: bold; */ }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000368}}
+table td.checkbox { width: 2em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000369}}
+table td.auto { width: auto; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000370}}
+table td.description { cursor: pointer; width: 100%; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000372}}
+.segmentWrap { clear: both; float: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000373}}
+.segment { float: left; width: 200px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000381}}
+#notesEmails { margin-top: 0em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000382}}
+#notesEmails .item { margin-left: 2em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000383}}
+#notesEmails .item img { margin-right: 2px; position: relative; top: 2px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000385}}
+.choiceList { padding-bottom: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000386}}
+.choiceList li { padding-left: 1em; padding-top: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000388}}
+.itemList { padding-bottom: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000389}}
+.itemList li { padding-left: 1em; padding-top: 0.5em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000390}}
+.buttons { padding-top: 2em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000393}}
+#loginWrap { margin-left: 50%; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000394}}
+#login { margin-left: -60%; width: 640px; height: 410px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000395}}
+#login form { position: relative; left: 310px; top: 85px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000396}}
+#login p { color: red; position: relative; left: 310px; top: 85px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000397}}
+#login input { border: solid 1px black; padding: 0.5em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\0000398}}
+#login input.loginButton { margin-left: 185px; margin-top: 15px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003100}}
+#news li { border: solid 1px #fff; padding-bottom: 3em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003101}}
+#news li img { float: left; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003102}}
+#news li .dateTime { margin-left: 48px; padding-left: 1em; padding-bottom: 9px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003103}}
+#news li .name { padding-left: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003104}}
+#news li .gravatarPush { margin-left: 60px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003105}}
+#news li p { margin-top: 1em; width: 200px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003107}}
+#itemForm #owner { float: left; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003112}}
+#itemLocationBox { margin-top: 2px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003113}}
+#itemLocationBox li { display: inline; margin-right: 2em; padding: 4px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003115}}
+#itemHeader { margin-top: 2em; padding-top: 0; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003116}}
+#itemHeader.active { border-bottom: solid 1px #AED0EA; margin-bottom: 2em; -moz-box-shadow: 0px 3px #eee; -webkit-box-shadow: 0px 3px #eee; box-shadow: 0px 3px #eee; padding: 1em; padding-bottom: 1em; width: 100%; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003117}}
+#itemHeader.active h3 { margin-top: 2em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003119}}
+#tabs { font-size: 100%; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003124}}
+#editItem form { border-left: dotted 1px #e3e3e3; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003128}}
+#editItem .errorlist { color: #ff1111; margin-left: 16px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003129}}
+#editItem h2 { margin-top: 0px; /* padding-left: 18px;*/ }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003130}}
+#editItem h3 { margin-bottom: 1em; margin-top: 2em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003131}}
+#editItem li { margin-bottom: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003133}}
+#editItem li.input { margin-bottom: 12px; }
+
+/*F5EEE5*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003143}}
+#editItem li label { color: #696969; display: block; margin-top: 8px; padding-left: 12px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003144}}
+#editItem li input[type='text'] { background-color: white; border: none; border-radius: 4px 4px 4px 4px; -moz-border-radius: 4px 4px 4px 4px; -webkit-border-radius: 4px 4px 4px 4px; padding: 6px 6px 6px 12px; width: 643px; box-shadow: inset 0px 1px 1px #cececf; -webkit-box-shadow: inset 0px 1px 1px #cececf; -moz-box-shadow: inset 0px 1px 1px #cececf; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003147}}
+#editItem li input[type='text']:focus { background-color: white; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003149}}
+#editItem li input.checkbox { width: 1em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003150}}
+#editItem li input.submit { background-color: #fef8f5; border: solid 1px #fb9e4a; float: right; width: 150px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003151}}
+#editItem textarea { background-color: white; border: none; border-radius: 4px 4px 4px 4px; -moz-border-radius: 4px 4px 4px 4px; -webkit-border-radius: 4px 4px 4px 4px; padding: 6px 6px 6px 12px; width: 643px; box-shadow: inset 0px 1px 1px #cececf; -webkit-box-shadow: inset 0px 1px 1px #cececf; -moz-box-shadow: inset 0px 1px 1px #cececf; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003155}}
+#editItem textarea:focus { background-color: white; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003161}}
+#editItem #addStepHelper label { display: inline; float: left; width: 6em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003162}}
+#editItem #addStepHelper input.text { display: inline; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003163}}
+#editItem .addStepExpand { width: 660px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003164}}
+#editItem .addCommentsExpand { /*width: 679px;*/ }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003165}}
+#editItem #addStepHelper .addStepExpand { display: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003166}}
+#editItem #addStepHelper .addStepExpand iframe { background: #fff; border: none; width: 200px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003167}}
+#editItem #checkList li { list-style: circle; list-style-position: inside; padding-left: 12px; padding-right: 12px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003171}}
+#detailsPanel, #timeDetailsPanel { border: solid 1px #bcbcbc; -moz-box-shadow: 0px 3px 5px #ddd; -webkit-box-shadow: 0px 3px 5px  #ddd; box-shadow: 0px 3px 5px #ddd; margin-left: 14px; width: 248px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003175}}
+#detailsPanel ol li, #timeDetailsPanel ol li { padding: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003177}}
+#detailsPanel ol li.first, #timeDetailsPanel ol li.first { border-bottom: solid 1px #E6e6e6; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003180}}
+#detailsPanel ol li.second, #timeDetailsPanel ol li.second { border-top: solid 1px #FFFFFF; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003183}}
+#detailsPanel ol li h3, #timeDetailsPanel ol li h3 { color: #000; margin-top: 4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003186}}
+#detailsPanel ol li img, #timeDetailsPanel ol li img { position: relative; top: 2px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003189}}
+#detailsPanel ol li input, #timeDetailsPanel ol li input { border: solid 1px #0875ba; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003193}}
+#detailsPanel ol li.instaFilterSelected, #timeDetailsPanel ol li.instaFilterSelected { background: #fb9e4a; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003200}}
+#itemAdded { background-color: #eeffee; border: solid 2px #ddeedd; border-collapse: separate; border-radius: 16px 16px 16px 16px; -moz-border-radius: 16px 16px 16px 16px; -webkit-border-radius: 16px 16px 16px 16px; margin: 8px 24px 12px 24px; padding: 12px 12px 24px 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003202}}
+#itemAdded p { color: #696969; margin-left: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003205}}
+#itemAdded .addAnotherBox { color: black; font-size: 14px; margin-top: 32px; }
+
+/*
+
+	details view
+
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003221}}
+#details #sideBar { border: solid 1px #B8DEFA; float: right; padding: 1em; width: 300px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003227}}
+#details #sideBar ol li { padding-top: 0.5em; padding-botton: 0.5em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003229}}
+#details #sideBar ol li #tags { border: solid 1px #AED0EA; padding: 0.5em; width: 100%; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003239}}
+#details #contents { padding-right: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003241}}
+#details #contents form { padding-left: 12px; }
+
+/*
+
+	Footer
+
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003264}}
+#footer { height: 300px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003268}}
+.icon-issue { background-image: url(/media/layout/icons/Issue.png); height: 16px; width: 16px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003269}}
+.changeLink { float: right; font-size: 0.9em; margin-left: 5px; text-align: right; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003270}}
+span.gravatar img { border: solid 1px #AED0EA; padding: 2px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003272}}
+.smoothBack { background: #fff9f7 url(../images/content/calendar-back.png) repeat-x bottom left; color: #666; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003273}}
+.smoothBack tbody { text-shadow: 0px 1px 0px #fff; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003278}}
+.arrow { color: #2779aa; margin-left: 12px; margin-right: 0px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003282}}
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+/* START global */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003299}}
+html { overflow-y: scroll; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003300}}
+body { font-family: "Lucida Sans Unicode", "Lucida Grande"; font-size: 75%; margin: 0; padding: 0; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003301}}
+#bodyWrap { background: url(../images/header/backgroundTextureFade.png) transparent repeat-x top left scroll; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003303}}
+a img { border: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003305}}
+h1, h2, h3, h4, h5, h6 { color: #565656; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003306}}
+h2 { color: #505050; /*font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;*/ font-family: Trebuchet MS,Liberation Sans,DejaVu Sans,sans-serif; font-weight: normal; font-size: 22px; letter-spacing: 0.1px; margin-bottom: 20px; margin-left: 24px; text-shadow: 0 2px 0px #ffffff; line-height: 22px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003312}}
+h2 img { float: left; margin-right: 8px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003317}}
+.float-left { float: left; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003318}}
+.float-right { float: right; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003319}}
+.icon-adjust { position: relative; top: 3px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003320}}
+.padding24 { padding-left: 24px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003324}}
+textarea { background: #FFFFFF; border: 1px solid #AED0EA; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003325}}
+textarea:focus { border: 1px solid #FB9E4A; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003327}}
+.button { background: #fff9f7 url(../images/content/new-controls-repeater.png) repeat-x bottom left scroll; border: 1px solid #FB9E4A; color: #444444; line-height: 1; padding: 5px 10px; text-decoration: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003330}}
+thead { text-align: center; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003331}}
+tfoot { text-align: right; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003332}}
+th { font-weight: normal; padding: 5px; text-align: left; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003333}}
+td { padding: 5px; }
+
+/* END global */
+/* START content */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003341}}
+#container { background: #edefef url("/media/layout/images/content/playingAreaTopBackground.png") top repeat-x; margin: auto; overflow: visible; width: 960px; box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4); -webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4); -moz-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4); }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003345}}
+#wrapper { background: url("/media/layout/images/content/sidebarLowerBackground.png") 685px repeat-y; min-height: 400px; padding-bottom: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003349}}
+#wrapper.wideWrapper { background: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003354}}
+#content { /*min-height: 500px;*/ }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003359}}
+.content { padding: 24px 0; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003360}}
+.wide { padding: 24px 0; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003362}}
+#main-content.content { width: 685px; /*700px;*/ }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003370}}
+#sub-content { padding-right: 16px; width: 259px; background:  url("/media/layout/images/content/playingAreaTopBackground.png") top repeat-x; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003375}}
+#sub-content #line-divider { background: url("/media/layout/images/content/sidebarTopBackground.png") 1px top no-repeat; clear: right; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003378}}
+#sub-content #line-divider .repeatBackground { background: url("/media/layout/images/content/sidebarMiddleBackground.png") left repeat-y; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003384}}
+#lower-content { background: url("/media/layout/images/content/sidebarBottomBackground.png") left top no-repeat; clear: right; height: 260px; margin-top: 400px; padding-bottom: 0px; width: 274px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003390}}
+span.linkButton { border: solid 1px #aaa; background: white url(/media/layout/images/content/button-background.png) repeat-x 0px 0px; padding: 1px 3px 0px 2px; border-radius: 16px 16px 16px 16px; -moz-border-radius: 16px 16px 16px 16px; -webkit-border-radius: 16px 16px 16px 16px; border-collapse: separate; border-spacing: 1px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003393}}
+span.linkButton:hover { background: white url(/media/layout/images/content/button-background-hover.png) repeat-x top; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003397}}
+img { position: relative; top: 3px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003400}}
+span.linkButton a { color: #333333; padding-left: 8px; padding-right: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003402}}
+span.linkButton a:hover { text-decoration: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003413}}
+.locationHeader .reported { margin-top: 2em; padding: 8px; padding-left: 12px; width: 940px; background-color: #eee; border-top: 1px dotted #ccc; color: #000; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003417}}
+.locationHeader .production { margin-top: 2em; padding: 8px; padding-left: 12px; width: 940px; background-color: #CBE8F9; border-top: 1px dotted #ccc; color: #000; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003421}}
+.locationHeader .testing { margin-top: 2em; padding: 8px; padding-left: 12px; width: 940px; background-color: #fff9d0; border-top: 1px dotted #ccc; color: #000; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003425}}
+.locationHeader .approved { margin-top: 2em; padding: 8px; padding-left: 12px; width: 940px; background-color: #E4FED0; border-top: 1px dotted #ccc; color: #2e6702; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003429}}
+.locationHeader .delivered { margin-top: 2em; padding: 8px; padding-left: 12px; width: 940px; background-color: #eee; border-top: 1px dotted #ccc; color: #000; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003435}}
+#tagBox { background-color: #FFF4ED; border-top: 1px dotted #fb9e4a; margin-top: 2em; padding: 8px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003436}}
+#tagBox #tags, #instantFilter { border: solid 1px #FFCFA8; padding: 5px; width: 450px; }
+
+/*#tagBox #searchTags, #tagBox #clearTags, #tagBox #moveTags {
+	background: url(/media/layout/images/content/button-orange-background.png) repeat-x bottom #ffffff; border: solid 1px #FFCFA8; margin-right: 3ex; padding: 4px; padding-left: 8px; padding-right: 8px;
+	&:hover {
+		background: url(/media/layout/images/content/button-orange-background-hover.png) repeat-x bottom #ffffff; cursor: pointer;
+	}
+}*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003443}}
+#tagBox #moveTags { margin-right: 0em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003444}}
+.ui-autocomplete li { background-color: #fff; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003446}}
+#activeList { margin-right: 0; width: 100%; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003448}}
+#activeList #instantFilter { /*@include shadow(inset 0px, 1px, 1px, rgb(206,206,207)); border: none; padding: 4px;*/ }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003455}}
+#activeList tbody tr { background-color: #f8f8f8; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003458}}
+#activeList tbody tr:nth-child(2n) { background-color: #ffffff; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003462}}
+#activeList tbody tr.locationChanged { background: #d4d7dd url(/media/layout/images/content/insetTop.png) top repeat-x; color: #000; font-size: 110%; text-align: left; /* green-  background: #D2DBD7; */ box-shadow: inset 0px 2px 2px #b4b4b4; -webkit-box-shadow: inset 0px 2px 2px #b4b4b4; -moz-box-shadow: inset 0px 2px 2px #b4b4b4; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003466}}
+#activeList tbody tr.locationChanged td { color: #000; padding: 8px; padding-left: 12px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003471}}
+#activeList tbody tr.unseen { background-color: #fffde0; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003478}}
+#activeList thead { background-color: #eceeee; /*background: -moz-linear-gradient(bottom, #F4f4f4 0%,  #ffffff 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,#f4f4f4)); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='#f4f4f4',GradientType=0 );*/ }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003481}}
+#activeList thead th { background-color: #FFF4ED; padding: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003484}}
+#activeList thead th a { text-shadow: 0 2px 0 #FFFFFF; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003486}}
+#activeList thead th a.selected { color: #FB9E4A; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003495}}
+#activeList tfoot { border-bottom: solid 1px #ccc; background: #eeeeee; background: -moz-linear-gradient(top, white 0%, #f4f4f4 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #f4f4f4)); filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff', endColorstr='#f4f4f4',GradientType=0 ); font-size: 0.8em; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_body\.scss}line{font-family:\00003501}}
+#homeList { /* @include shadow(0px, 3px, 10px, #eee); */ }
+
+	/*button, .orangeInput {
+		background:#fef8f5 url("/media/layout/images/content/button-orange-background.png") repeat-x scroll center bottom ; border: solid 1px #FFCFA8; padding: 0.5em;
+
+	}*/
+/* END content */
+/* START footer */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/footer\/_footer\.scss}line{font-family:\000033}}
+footer { clear: both; display: block; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/footer\/_footer\.scss}line{font-family:\000036}}
+footer #footer { /*background-color: #B3B6B6; */ color: #696969; border-top: dotted 1px #ddd; font-size: 0.8em; padding: 16px; margin-top: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/footer\/_footer\.scss}line{font-family:\000039}}
+footer #footer .orange { color: #fb9e4a; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/footer\/_footer\.scss}line{font-family:\0000311}}
+footer #footer .strapline { font-style: italic; }
+
+/* END footer */
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_client\.scss}line{font-family:\000033}}
+#client h3 { margin-left: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_client\.scss}line{font-family:\0000311}}
+#client #teamExplanation { margin: 0px 24px 12px 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_client\.scss}line{font-family:\0000316}}
+#client #teamList li { margin-bottom: 24px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_client\.scss}line{font-family:\0000319}}
+#client #teamList li ol { padding-top: 8px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_client\.scss}line{font-family:\0000321}}
+#client #teamList li ol li { margin-bottom: 0px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/_client\.scss}line{font-family:\0000330}}
+#newClient h2 { margin-top: 0px; }
+
+/*
+Comments styling
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/forms\/_comments\.scss}line{font-family:\000037}}
+#editItem ol#comments li { border-bottom: dashed 1px #f0f0f0; margin-bottom: 0em; padding-bottom: 0px; padding-top: 8px; padding-left: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/forms\/_comments\.scss}line{font-family:\0000310}}
+#editItem ol#comments li div .speechBubbleWrapper { /*background: url(/media/layout/images/content/speechBubbleTick.png) 590px bottom no-repeat;*/ padding-bottom: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/forms\/_comments\.scss}line{font-family:\0000313}}
+#editItem ol#comments li div .speechBubbleWrapper .speechBubble { background: #ffffff; border-radius: 24px 24px 24px 24px; -moz-border-radius: 24px 24px 24px 24px; -webkit-border-radius: 24px 24px 24px 24px; padding: 12px; box-shadow: 0 1px 2px #cececf; -webkit-box-shadow: 0 1px 2px #cececf; -moz-box-shadow: 0 1px 2px #cececf; margin: 0px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/forms\/_comments\.scss}line{font-family:\0000317}}
+#editItem ol#comments li div .rightText { margin-right: 42px; padding-top: 0px; text-align: right; width: 618px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/forms\/_comments\.scss}line{font-family:\0000320}}
+#editItem ol#comments li div .commentUser { position: relative; top: -4px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/forms\/_comments\.scss}line{font-family:\0000325}}
+#editItem ol#comments li .gravatar img { float: left; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/forms\/_comments\.scss}line{font-family:\0000329}}
+#editItem ol#comments li.last { border-bottom: 0; padding-bottom: 0em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/forms\/_comments\.scss}line{font-family:\0000332}}
+#editItem ol#comments li .dateTime { color: #999; font-size: 0.9em; margin-left: 1em; padding-right: 1em; padding-bottom: 9px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/adam\/Web\/roadmap\/roadmap\/media\/layout\/css\/scss\/body\/forms\/_comments\.scss}line{font-family:\0000335}}
+#editItem ol#comments li p { padding-top: 0; }

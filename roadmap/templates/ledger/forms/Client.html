@@ -1,0 +1,109 @@
+
+
+{% extends "ledger/base.html" %}
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/Binder.png" />
+{% endblock %}
+
+{% block "title" %}
+
+{% endblock %}
+
+{% block "toolbox" %}
+
+{% endblock %}
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+{% block "topnav2" %}
+
+{% endblock %}
+
+{% block "breadcrumb" %}
+  Add New Client
+{% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+	<h3 style="margin:0; margin-bottom: 8px; padding-top:18px; float:right;  width: 245px;">&nbsp;</h3>
+  	<div id="line-divider">
+		{% include "ledger/objects/calendar.html" %}
+
+		div id="tagCloud" style="border-top: dashed 1px #dddddd; margin-top: 12px; padding-left: 12px; ">
+			<h3>Tags</h3>
+			{% load tag_cloud %}
+			{% tag_cloud_for_model ledger.Item as tags with steps=6 min_count=1 %}
+			<div>
+				{% for tag in tags %}
+					<span class="tag-{{tag.font_size}}"><a href="/roadmap/ledger/active?location=All&tags={{ tag.name|urlencode }}&SearchTags=Search">{{tag.name}}</a></span>
+				{% empty %}
+					<span class="tag-1 charcoal">You do not have any tagged items</span>
+				{% endfor %}
+
+			</div>
+		</div>
+
+		<div id="clientList" style="border-top: dashed 1px #dddddd; margin-top: 12px; padding-left: 12px; ">
+			<span class="floatRight" style="font-size: 11px; margin-top: 12px;"><a href="/roadmap/ledger/new_client">New client</a></span>
+			<h3>Clients</h3>
+
+			<ol>
+				{% for client in clients %}
+					<li>
+						<a href="/roadmap/ledger/client/{{ client.slug }}">{{ client.name }}</a>
+					</li>
+				{% empty %}
+					<li>
+						<span class="tag-1">No clients</span>
+					</li>
+				{% endfor %}
+
+			</ol>
+		</div>
+	</div>
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+	  <div id="dashboardConstraint">
+	<div id="dashboard">
+
+		<h2>
+		 New Client
+		</h2>
+
+		<div style="margin-left: 24px;">
+			{{ form.field.errors }}
+
+			<form method="post" name="new_client id="newClient">
+				{% csrf_token %}
+				<ul>
+					{{ form.as_ul }}
+
+					<br/>
+
+					<li class="floatRight marginRight24">
+						<input type="submit" class="submit" name="Create" value="Create" />
+					</li>
+
+					<li class="floatLeft">
+						<a class="orangeInput info" href="{% url roadmap.ledger.views.home %}">Cancel</a>
+					</li>
+				</ul>
+			</form>
+		</div>
+
+	</div>
+	</div>
+{% endblock %}

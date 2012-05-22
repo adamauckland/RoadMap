@@ -1,0 +1,66 @@
+{% extends "ledger/base_wide.html" %}
+
+{% load custom %}
+{% load markup %}
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/timeline_marker.png" />
+{% endblock %}
+
+
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+	<img src="/media/layout/icons/folder_user.png" />
+	<a href="{% url roadmap.ledger.views.view_client name=binder.client.slug %}">{{ binder.client.name }}</a> <span class="arrow">&#9654;</span>
+
+	<img src="/media/layout/icons/timeline_marker.png" alt="Logo for Projects" />
+	<a href="{% url roadmap.ledger.views.view_project binder_name=binder.slug,name=item.project.slug %}">{{ item.project.name }}</a> <span class="arrow">&#9654;</span>
+
+	<img src="/media/layout/icons/{{ item.location }}.png" />
+	<a href="/roadmap/ledger/active?binder={{ item.project.binder.slug }}&project={{ item.project.slug }}&location={{ item.location }}">{{ item.location }}</a>
+{% endblock %}
+
+
+
+
+{% block "toolbox" %}
+
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+	<div id="itemAdded">
+		  <h2>
+			  <img src="/media/layout/icons/{{ item.item_type }}.png" alt="Logo for {{ item.item_type }}" />  {{ item.item_type.name }} added to &nbsp;&nbsp;<a href="{% url roadmap.ledger.views.view_client name=binder.client.slug %}">{{ binder.client.name }}</a><span class="arrow">&#9654;</span> <a href="{% url roadmap.ledger.views.view_project binder_name=binder.slug,name=item.project.slug %}">{{ item.project.name }}</a>
+		  </h2>
+
+	 <p>Binder owner: {{ item.project.binder.owner.first_name }} {{ item.project.binder.owner.last_name }}</p>
+	 <p>Item number: <a href="/roadmap/ledger/item/{{ item.id }}">#{{ item.id }}</a> </p>
+
+
+	 {% if search_id %}
+	  <p style="text-align: center;">
+			<a href="{{ search_url }}">Return to list</a>
+	  </p>
+	 {% endif %}
+
+	  <p class="addAnotherBox">
+			Add Another <a style="font-size: 15px;" href="/new_item/Issue?project={{ item.project.id }}">Issue</a> or <a style="font-size:15px;" href="/new_item/Requirement?project={{ item.project.id }}">Requirement</a>
+	  </p>
+	</div>
+
+
+{% endblock %}

@@ -1,0 +1,25 @@
+<div id="assignToGroup" class="popOver">
+	<div id="assignToGroupContent">
+		<h3><img src="/media/layout/icons/folder_page.png" /> Add to Group</h3>
+
+		<ol>
+			<li><a onclick="return(Roadmap.grouping.addToGroupUpdate(''));" href="">No Group</a></li>
+			{% for loop_group in item_groups %}
+				<li>
+					<a href="" onclick="return(Roadmap.grouping.addToGroupUpdate('{{ loop_group }}'));">{{ loop_group }}</a>
+				</li>
+			{% endfor %}
+
+			<li style="margin-top:12px;">
+				New Group: <input type="text" id="assignToGroupNewGroup" />
+			</li>
+		</ol>
+
+		<div id="assignToGroupButtons">
+			<button id="assignToGroupCancelButton">Cancel</button> <button id="assignToGroupUpdateButton" class="floatRight">Update</button>
+		</div>
+
+
+	</div>
+	<img id="assignToGroupSpinner" src="/media/layout/images/indicator.white.gif" alt="Wait" />
+</div>

@@ -1,0 +1,50 @@
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+<li id="commentHook">
+	<img src="/media/layout/images/content/upperGradient.png" style="width:660px;"/>
+
+{% if item.comments %}
+
+		<ol id="comments">
+		{% for comment in item.comments %}
+			<li class="hoverParent clearfix {% if forloop.last %}last{% endif %}">
+				<div>
+					<div class="speechBubbleWrapper">
+						<div class="speechBubble">
+							{{ comment.message|safe|linebreaksbr  }}
+						</div>
+						<img src="/media/layout/images/content/speechBubbleTick.png" style="position: relative; left:590px; top: 0px; padding:0; margin:0;" alt="speech bubble arrow"/>
+					</div>
+
+					<div class="floatRight commentUser">
+						<span class="gravatar floatRight">
+							<img src="{% avatar_url comment.user 32 %}" />
+						</span>
+
+						<div class="rightText">
+							<span class="hoverButtons" style="padding-right: 24px;">
+								{% ifnotequal comment.user item.assigned_to %}
+								<a href="#" onclick="return(updateOwner({{ item.id }}, {{ comment.user.id }}));">Reassign issue to {{ comment.user.first_name }}</a>
+							  {% endifnotequal %}
+
+							  <a href="#" style="margin-left: 12px;" onclick="Roadmap.requestFollowUp({{ item.id }}, 'true', this); return false;">{% if item.follow_up %}Follow up requested{% else %}Request follow up{% endif %}</a>
+							</span>
+
+							<a href="{% url roadmap.ledger.views.profile username=comment.user.username %}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a>
+								<div style="color: #999999; font-size: 80%; padding-bottom: 0;">
+								{{ comment.date_time|date:"d M Y" }} at {{ comment.date_time|date:"H:i" }}
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</li>
+		{% endfor %}
+		</ol>
+{% endif %}
+
+
+
+</li>

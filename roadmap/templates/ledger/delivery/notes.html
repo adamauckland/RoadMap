@@ -1,0 +1,108 @@
+	{% extends "ledger/base_wide.html" %}
+	{% load custom %}
+	{% load markup %}
+
+	{% block "title" %}
+	Active {{ page.location }}
+	{% endblock %}
+
+
+
+
+
+	{% block "breadcrumb" %}
+		<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
+		<img src="/media/layout/icons/folder_user.png" /> <a href="{% url roadmap.ledger.views.view_client name=project_item.binder.client.slug %}">{{ project_item.binder.client.name }}</a> <span class="arrow">&#9654;</span>
+		<img src="/media/layout/icons/group.png" /> <a href="{% url roadmap.ledger.views.view_binder name=project_item.binder.slug %}">{{ project_item.binder.name }}</a> <span class="arrow">&#9654;</span>
+		<img src="/media/layout/icons/timeline_marker.png" /> <a href="/roadmap/ledger/project/{{ project_item.binder.slug }}/{{ project_item.slug }}" title="Go to {{ project_item.name }} project ">{{ project_item.name }}</a> <span class="arrow">&#9654;</span>
+		<img src="/media/layout/icons/application_view_list.png"  title="Items" /> Delivery
+	{% endblock %}
+
+
+
+
+	{% block "toolbox" %}
+		{% if page.project_id %}
+			<div id="toolbox">
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new issue"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new requirement"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new file"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new note"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+				</span>
+			</div>
+		{% endif %}
+	{% endblock %}
+
+
+
+
+	{% block "maincontent" %}
+		<div id="project">
+			<div id="details" style="background: none">
+				<div id="createItemWhere"  class="instaFilter">
+					<h2>Make Delivery to {{ destination_location.name }}</h2>
+
+					<p class="margin24 marginRight24">
+						Your delivery notes for your selected items are shown below.
+					</p>
+
+					<p class="margin24 marginRight24">
+						Click <em>Done</em> to cross the item off your list. No data will be saved back, you can refresh this page to start again.
+
+					</p>
+
+					<ol class="margin24" id="notes" style="margin-top: 12px;">
+						{% for loop_item in notes_items %}
+							<li class="note clearfix" style="padding-bottom: 24px; width: 886px">
+								<img src="/media/layout/icons/{{ loop_item.item_type }}.png" width="16" height="16" alt="{{ loop_item.item_type }}" title="{{ loop_item.item_type }}" />
+								<a href="{% url roadmap.ledger.views.item id=loop_item.id %}" class="marginRight24">#{{ loop_item.id }}</a>
+								<a href="{% url roadmap.ledger.views.item id=loop_item.id %}">{{ loop_item.description }}</a>
+								<p style="border-top: solid 1px #F6F3CD; margin-top: 8px; padding-top: 8px;" class="deliveryNoteDetails">
+									{{ loop_item.linked_item.delivery_notes }}
+								</p>
+
+								<button class="floatRight doneButton">Done</button>
+							</li>
+						{% empty %}
+							<li>
+								Good news, you don't have any delivery notes.
+							</li>
+						{% endfor %}
+					</ol>
+
+					<a class="orangeInput floatRight marginRight24" href="{% url roadmap.ledger.views.make_delivery_assign client=client, binder=binder, project=project, location=location %}">Next</a>
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$('button.doneButton').each(function(index, element) {
+				var jElement = $(element);
+
+				jElement.click(function() {
+					jElement.parent().find('a, p.deliveryNoteDetails').css(
+						{
+							'text-decoration': 'line-through'
+						}
+					);
+					jElement.parent().css(
+						{
+							'background-color': '#F6F3CD'
+						}
+					);
+
+					jElement.replaceWith('<span class="floatRight charcoal">Done</span>');
+				});
+			});
+		</script>
+	{% endblock %}

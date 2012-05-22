@@ -1,0 +1,34 @@
+#client {
+
+	h3 {
+		margin-left: 24px;
+	}
+
+	.groupTitle {
+
+	}
+
+	#teamExplanation {
+		margin: 0px 24px 12px 24px;
+	}
+
+	#teamList {
+		li {
+			margin-bottom: 24px;
+
+			ol {
+				padding-top: 8px;
+				li {
+					margin-bottom: 0px;
+				}
+			}
+		}
+	}
+}
+
+#newClient {
+	h2 {
+		margin-top: 0px;
+	}
+
+}

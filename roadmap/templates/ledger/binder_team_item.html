@@ -1,0 +1,59 @@
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+{% ifnotequal loop_item.first_name '' %}
+	{% ifnotequal loop_item.last_name '' %}
+		<li class="clearfix instaFilterThis {% ifnotequal loop_item binder.owner %}{% if loop_item not in binder.reporters.all %}{% if loop_item not in binder.producers.all %}unselected{% endif %}{% endif %}{% endifnotequal %}" id="user{{ loop_item.id }}">
+			<span style="float: left;">
+				<span class="gravatar">
+						<img src="{% avatar_url loop_item 48 %}" />
+				</span>
+			</span>
+
+			<div style="float:right; text-align: right;">
+				<a href="{% url roadmap.ledger.views.profile username=loop_item.username %}">{{ loop_item.first_name }} {{ loop_item.last_name }}</a><br/>
+				{% ifequal loop_item binder.owner %}
+					<span class="userType"> Owner</span>
+				{% else %}
+
+					{% if loop_item in binder.reporters.all  %}
+						<div class="userType"> Limited user
+							<a href="#" onclick="addUserToTeam(this, {{ loop_item.id }}, {{ binder.id }}, 'true', '', 'remove'); return false;">remove</a>
+						</div>
+
+					{% else %}
+						{% if loop_item not in binder.producers.all %}
+							<div><a href="#" onclick="addUserToTeam(this, {{ loop_item.id }}, {{ binder.id }}, 'true', '', 'add'); return false;">Add limited user</a></div>
+						{% endif %}
+					{% endif %}
+
+					{% if loop_item in binder.producers.all %}
+						<div class="userType">
+							Full user
+							<a href="#" onclick="addUserToTeam(this, {{ loop_item.id }}, {{ binder.id }}, '', 'true', 'remove'); return false;">remove</a>
+						</div>
+					{% else %}
+						{% if loop_item not in binder.reporters.all  %}
+							<div><a href="#" onclick="addUserToTeam(this, {{ loop_item.id }}, {{ binder.id }}, '', 'true', 'add'); return false;">Add full user</a></div>
+						{% endif %}
+					{% endif %}
+				{% endifequal %}
+
+
+			</div>
+
+
+			<!--{% if binder.owner = user %}
+				{% if loop_item.id %}
+					<div style="clear:left;">
+						<a href="" onclick="return(removeFromTeam(this, {{ loop_item.id }}, {{ binder.id }}));">
+						Remove
+						</a>
+					</div>
+				{% endif %}
+			{% endif %}
+-->
+		</li>
+	{% endifnotequal %}
+	{% endifnotequal %}

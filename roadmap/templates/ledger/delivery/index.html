@@ -1,0 +1,85 @@
+	{% extends "ledger/base_wide.html" %}
+	{% load custom %}
+	{% load markup %}
+
+	{% block "title" %}
+	Active {{ page.location }}
+	{% endblock %}
+
+
+
+
+
+	{% block "breadcrumb" %}
+		<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
+
+
+	{% endblock %}
+
+
+
+
+	{% block "toolbox" %}
+		{% if page.project_id %}
+			<div id="toolbox">
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new issue"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new requirement"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new file"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new note"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+				</span>
+			</div>
+		{% endif %}
+	{% endblock %}
+
+
+
+
+	{% block "maincontent" %}
+		<div id="createItemWhere"  class="instaFilter">
+			<h2>Make Delivery</h2>
+
+			<p class="margin24">Choose binder to make a delivery for</p>
+
+			<div class="margin24" style="margin-top: 24px;">
+				<img src="/media/layout/icons/find.png" alt="Search" title="Search"  style="margin-right: 4px;"/> <input type="text" id="feedFilter" class="instaFilterInput"/>
+			</div>
+
+			<ol class="clients">
+				{% for loop_client in client_items %}
+					<li class="instaFilterThis">
+						<h3><img src="/media/layout/icons/folder_user.png" /> {{ loop_client.name }}</h3>
+
+						<ol class="binders">
+							{% for loop_binder in loop_client.binders %}
+								<li >
+									<h3><img src="/media/layout/icons/group.png" /> {{ loop_binder.name }}</h3>
+
+									<ol class="projects">
+										{% for loop_project in loop_binder.projects %}
+											<li>
+												<a href="{% url roadmap.ledger.views.make_delivery_location client=loop_project.binder.client.slug,binder=loop_project.binder.slug,project=loop_project.slug %}">
+													<img src="/media/layout/icons/timeline_marker.png" alt="Icon for {{ item_type }}" />
+													{{ loop_project }}
+												</a>
+											</li>
+										{% endfor %}
+									</ol>
+
+								</li>
+							{% endfor %}
+						</ol>
+					</li>
+				{% endfor %}
+			</ol>
+		</div>
+	{% endblock %}

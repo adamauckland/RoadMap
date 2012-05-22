@@ -1,0 +1,38 @@
+<div id="remindMeWhen" class="popOver">
+	<div id="remindMeWhenContent">
+		<h3><img src="/media/layout/icons/bell.png"> Remind Me Later</h3>
+
+		<em>Requesting a reminder will hide the selected items in your list until the<br/>chosen day. You can only request reminders for items assigned to you.</em>
+
+		<ol>
+			<li>
+				<input type="radio" id="remindMeWhenTomorrow" name="remindMeWhenRadio" value="tomorrow"  /> <label for="remindMeWhenTomorrow">Tomorrow</label>
+			</li>
+			<li>
+				<input type="radio" id="remindMeWhenNextWeek" name="remindMeWhenRadio" value="nextweek" /> <label for="remindMeWhenNextWeek">Next Week</label>
+			</li>
+			<li>
+				<input type="radio" id="remindMeWhenNextMonth" name="remindMeWhenRadio" value="nextmonth" /> <label for="remindMeWhenNextMonth">Next Month</label>
+			</li>
+
+			<li style="margin-top: 12px;">
+				<input type="radio" id="remindMeWhenDaysRadio" name="remindMeWhenRadio" value="" checked="checked"/> In <input type="number" id="remindMeWhenDays" /> days time
+			</li>
+
+			<li style="margin-top: 12px;">
+				Reason/Comment
+			</li>
+
+			<li>
+				<textarea id="remindMeReason"></textarea>
+			</li>
+		</ol>
+
+		<div id="remindMeWhenButtons">
+			<button id="remindMeWhenCancelButton">Cancel</button> <button id="remindMeWhenUpdateButton" class="floatRight">Update</button>
+		</div>
+
+
+	</div>
+	<img id="remindMeWhenSpinner" src="/media/layout/images/indicator.white.gif" alt="Wait" />
+</div>

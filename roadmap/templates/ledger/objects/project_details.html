@@ -1,0 +1,79 @@
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+  <h3 style="margin:0; margin-bottom: 8px; padding-top:18px; float:right;  width: 245px;">Delivery Date: {% if item.deadline %}{{ item.deadline|date:"d M Y" }}{% else %}Not set{% endif %} {% if item.binder.owner = user %} <a href="/roadmap/ledger/set_deadline?project={{ item.slug }}"  class="floatRight">Change</a>{% endif %}</h3>
+
+	<div id="line-divider">
+		{% include "ledger/objects/calendar.html" %}
+
+		<div id="targets" style="border-bottom: dashed 1px #dddddd; padding-bottom: 16px; padding-left: 12px; ">
+			<span class="floatRight">+ <a href="{% url roadmap.ledger.views.new_target project_id=item.id %}">Add Milestone</a></span>
+			<h3 style="margin-bottom: 4px;">Milestones</h3>
+			<ol>
+
+			{% for loop_target in targets %}
+				<li>
+				<a title="Edit this item" href="{% url roadmap.ledger.views.edit_target target_id=loop_target.id project_id=item.id %}">
+				<!--a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug,target_name=loop_target.slug %}">-->
+				{{ loop_target.name }}</a> {% ifequal loop_target.public 1 %}{% else %} <span class="explanation">Private</span> {% endifequal %}
+				{% if loop_target.overdue %} <span class="error">Overdue</span> {% else %} {% endif %}
+				<span style="font-size: 0.8em; " class="floatRight">
+				  {% ifequal loop_target.user user %}<a title="Edit this item" href="{% url roadmap.ledger.views.edit_target target_id=loop_target.id project_id=item.id %}">{{ loop_target.deadline|date:"d M Y"}}</a>
+				  {% else %}{{ loop_target.deadline|date:"d M Y"}}
+				  {% endifequal %}
+				</span>
+				</li>
+			{% endfor %}
+			</ol>
+		</div>
+
+		{% if user.is_staff %}
+			<div id="tagCloud" style="padding-left: 12px; " class="repeatBackground">
+				<h3>Tags</h3>
+				<div>
+					{% for tag in tag_cloud %}
+						<span class="tag-{{tag.font_size}}"><a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?tags={{ tag.name|urlencode }}">{{tag.name}}</a></span>
+					{% empty %}
+						<span class="tag-1 charcoal">Nothing tagged</span>
+					{% endfor %}
+				</div>
+			</div>
+
+
+			<div id="team" class="repeatBackground" style="margin-left: 0px;">
+			<h3 style="margin-left: 12px;"><a href="{% url roadmap.ledger.views.view_binder name=item.binder.slug %}">Team</a></h3>
+
+			<ol>
+				{% for item in team %}
+					<li class="clearfix" style="width: 222px;">
+						<span style="float: left;">
+							<span class="gravatar">
+								<img src="{% avatar_url item 48 %}" />
+							</span>
+						</span>
+
+
+						<div style="float:right; text-align: right;">
+							<a href="{% url roadmap.ledger.views.profile username=item.username %}">{{ item.first_name }} {{ item.last_name }}</a><br/>
+							{% ifequal item binder.owner %}
+								<span class="userType">Owner</span>
+							{% else %}
+								<!--{% if item in reporters %}
+									<span class="userType"><img src="/media/layout/icons/Reported.png" title="Reporter" alt="Reporter icon" /> Reporter</span>
+								{% endif %}
+								{% if item in producers %}
+									<span class="userType"><img src="/media/layout/icons/Production.png" title="Producer" alt="Producer icon" /> Producer</span>
+								{% endif %}-->
+							{% endifequal %}
+						</div>
+<!--
+						<div id="trophies">
+						</div>
+-->
+					</li>
+				{% endfor %}
+			</ol>
+		</div>
+		{% endif %}
+	</div>

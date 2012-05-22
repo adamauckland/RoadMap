@@ -1,0 +1,40 @@
+/*
+Comments styling
+*/
+
+#editItem {
+	ol#comments {
+		li {
+			border-bottom: dashed 1px #f0f0f0; margin-bottom: 0em; padding-bottom: 0px; padding-top: 8px; padding-left: 0px;
+			div {
+				.speechBubbleWrapper {
+					/*background: url(/media/layout/images/content/speechBubbleTick.png) 590px bottom no-repeat;*/
+					padding-bottom: 0px;
+					.speechBubble {
+						background: #ffffff; @include borderRadius(24px, 24px, 24px, 24px); padding: 12px; @include shadow(0, 1px, 2px, #cececf); margin:0px;
+					}
+				}
+				.rightText {
+					margin-right: 42px; padding-top: 0px; text-align: right; width: 618px;
+				}
+				.commentUser {
+					position: relative; top: -4px;
+				}
+			}
+			.gravatar {
+				img {
+					float: left;
+				}
+			}
+			&.last {
+				border-bottom: 0; padding-bottom: 0em;
+			}
+			.dateTime {
+				color: #999; font-size: 0.9em; margin-left: 1em; padding-right: 1em; padding-bottom: 9px;
+			}
+			p {
+				padding-top: 0;
+			}
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}Commit Log{% endblock %}
+
+
+{% block content %}
+<div id="content-main">
+    <ul>
+      {% for commit in logs %}
+        <li>
+			<div style="color: grey;">{{ commit.date }} - {{ commit.user }}</div>
+			<p>{{ commit.summary }}</p>
+		</li>
+      {% endfor %}
+    </ul>
+</div>
+{% endblock %}

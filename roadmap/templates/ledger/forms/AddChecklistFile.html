@@ -1,0 +1,69 @@
+<html style="overflow-y:hidden;">
+	<head>
+		<link type="text/css" href="/media/layout/css/reset.css" rel="stylesheet" />
+		<link type="text/css" href="/media/layout/css/jquery.jgrowl.css" rel="stylesheet" />
+		<link type="text/css" href="/media/layout/css/base.css" rel="stylesheet" />
+		<link type="text/css" href="/media/layout/css/cupertino/jquery-ui-1.8.2.custom.css" rel="stylesheet" />
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
+		<script type="text/javascript" src="/media/layout/js/jquery-ui-1.8.2.custom.min.js"></script>
+
+		<script type="text/javascript" src="/media/layout/js/jquery.jgrowl_minimized.js"></script>
+		<script type="text/javascript" src="/media/layout/tiny_mce/tiny_mce.js"></script>
+		<script type="text/javascript" src="/media/layout/js/ledger.js"></script>
+		<link type="text/css" href="/media/layout/css/index.css" rel="stylesheet" />
+		<script type="text/javascript" src="/media/layout/js/html5uploader.js"></script>
+
+		<link type="text/css" href="/media/layout/css/override.css" rel="stylesheet" />
+		<title>{% block "title" %}{% endblock %}</title>
+		<style type="text/css">
+			input { border: solid 1px #AED0EA; }
+		</style>
+
+	</head>
+
+	<body style="background: #edefef; margin: 0; padding: 0; padding-top: 8px; ">
+				{% if file_name %}
+				<script type="text/javascript">
+					function addClick() {
+						parent.$('#addStepButton').click();
+					}
+					Roadmap.addLoader(addClick);
+				</script>
+						Click 'Add' to attach {{ file_name }}.
+				{% else %}
+
+					<!--<span id="drop" class="floatRight dropTarget">Or drag a file here</span>-->
+
+					<form method="post" id="attachFileForm" name="attachFile" enctype="multipart/form-data" action="/roadmap/ledger/add_checklist_file?item_id={{ item_id }}&file_uuid={{ file_uuid }}">
+						{% csrf_token %}
+						<label for="attachFile">Attach:</label>
+						<input type="file" name="attachFile" id="attachFileItem" class="attachFile" onchange="postFile();" style="border: none;"/>
+					</form>
+
+					<img src="/media/layout/images/indicator.white.gif" id="indicator" style="display: none;" />
+
+
+					<span id="pic_status"></span>
+					<span id="list"></span>
+
+
+					<script type="text/javascript">
+						function postFile() {
+							$('#attachFileForm').hide();
+							$('#indicator').show();
+							$('#attachFileForm').submit();
+						}
+
+						/*
+						 function dragDrop() {
+							new uploader('drop', 'pic_status', '/roadmap/ledger/add_checklist_file?item_id={{ item_id }}&file_uuid={{ file_uuid }}', 'list', function(filename) {
+								$('body').html(filename + ' attached.');
+								$('#addStepButton', parent.document).click();
+							});
+						}
+						Roadmap.addLoader(dragDrop);
+						*/
+					</script>
+				{% endif %}
+	</body>
+</html>

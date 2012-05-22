@@ -1,0 +1,96 @@
+
+
+#statusbar {
+	background-color: #202020; border-top: solid 1px #3d3d3d; border-bottom: solid 1px #000000; width: 100%;
+
+	@include textShadow(0px, -1px, 1px, #000 );
+
+	#notificationsArea {
+		a { color: $electricBlue; }
+		float: left; padding-top: 5px;
+	}
+
+	#toolbox {
+		float: right; margin: 0; padding: 0;
+		.linkButton {
+			 border-right: solid 1px #000000; padding: 0; margin: 0; padding-bottom: 8px; padding-top: 8px;
+			a {
+				border-left: solid 1px #3d3d3d; color: $orange; display: inline-block;  padding: 8px; padding-left: 24px; padding-right: 24px;
+			}
+		}
+	}
+}
+
+#lowerWrapper {
+	background-color: #2d2d2d;padding: 0; margin: 0;
+	#leftNav {
+		color: $navGray; padding: 0; margin: 0; float: left; width: 260px;
+
+		input[type='checkbox'] {
+			margin: 0; padding: 0;
+		}
+
+		a {
+			color: $navGray;
+		}
+
+		@include textShadow(0px, -1px, 1px, #000 );
+
+		ol {
+			li {
+				.sectionTop {
+					border-top: solid 1px #3d3d3d; border-bottom: solid 1px #000000; font-size: 14px; padding: 8px;
+					&:hover {
+						background-color: #292929;
+					}
+					&.project {
+						background-color: #272727;
+					}
+				}
+
+				a {
+					display: block;
+				}
+				ol {
+					background-color: #1d1d1d; padding: 8px;
+
+					li {
+						#itemListOtherItemsPage {
+							a {
+								display: inline;
+								&:hover {
+									cursor: pointer;
+								}
+							}
+						}
+					}
+
+					&#itemListOtherItems {
+						a {
+							font-size: 11px;
+						}
+					}
+				}
+				.selected {
+					a {
+						color: #fff;
+					}
+				}
+
+			}
+		}
+
+
+		.more {
+			display: inline; font-size: 9px;
+		}
+
+		.action {
+			color: $orange;
+		}
+	}
+
+	#container {
+		margin-left: 260px;
+	}
+}

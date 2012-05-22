@@ -1,0 +1,10 @@
+<!--<xmp>	
+	{{ linked_item.text|safe }}
+</xmp>-->
+	<ol>
+		{% for loop_item in extra.checklist_items %}
+			<li><input type="checkbox" class="checkbox" value="{{ loop_item.id }}" name="checklistItem" /> {{ loop_item.text }}
+			</li>
+		{% endfor %}
+	</ol>
+

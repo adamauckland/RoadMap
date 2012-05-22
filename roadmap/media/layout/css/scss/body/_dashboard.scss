@@ -1,0 +1,141 @@
+/*
+
+	Home page template
+
+*/
+#dashboardConstraint {
+ padding-right: 12px;
+}
+
+
+#dashboard {
+	ol {
+		padding-top: 0px; margin-top: 0px;
+		li {
+			background: #fafafa;
+			border-collapse: separate; @include borderRadius(16px, 16px, 16px, 16px); border-spacing: 1px;
+			margin-bottom:12px; margin-left: 12px; margin-top: 0px; margin-bottom:48px; padding: 12px; padding-top: 12px; padding-left: 0;
+			@include shadow(inset 0px, 1px, 1px, rgb(206,206,207));
+			&:hover {
+
+			}
+			.bubble {
+			 a {
+				font-size: 12px;
+			 }
+			}
+			.listHeader {
+				/*background: #fafafa;*/
+				border-bottom: none; @include borderRadius(16px, 16px, 0px, 0px); font-size: 12px; left: 0px; padding: 0px 12px 8px 12px;
+				/*@include shadow(inset 0px, 1px, 1px, rgb(206,206,207));*/
+				a {
+					color: $charcoal;
+				}
+				display: block;
+			}
+			a.binderTitle {
+				font-weight: normal;
+			}
+			ol {
+				margin-top: -4px; width: 100%;
+				li {
+					background: none; border: none; margin-top: 0; margin-bottom: 10px; padding: 0;
+					&:hover {
+						background: none; border: none;
+					}
+
+
+				}
+			}
+			span.linkButton {
+				border: solid 1px lighten($orange, 15%); background: #fff url(/media/layout/images/content/button-orange-background.png) repeat-x top; margin-left: 1em; padding: 1px 3px 0px 2px; @include buttonCorners;
+				&:hover {
+					background: #fff url(/media/layout/images/content/button-orange-background-hover.png) repeat-x top;
+				}
+			}
+
+			table {
+				width: 100%;
+				tr {
+					td {
+						margin:0px; padding:0px; padding-bottom: 4px;
+					}
+				}
+			}
+
+			&#newBinder {
+				background: none; border: none;
+			}
+		}
+	}
+}
+
+	#locations li { padding-bottom: 1em; }
+	#news { padding-top: 1em;  }
+		#news ol { }
+			#news li { padding-bottom: 1em; }
+	#pageCount { float: right; margin-top: 1em; }
+
+
+	#dashboardTable {
+	 border: solid 1px #D0D0D0; -moz-box-shadow: 0px 3px 5px #ddd; -webkit-box-shadow: 0px 3px 5px  #ddd; box-shadow: 0px 3px 5px #ddd; margin-left: 12px; width: 247px; text-align: center;
+	 th {
+		text-align: center;
+	 }
+
+	 tbody {
+
+	 tr {
+		td {
+		 border-left: dotted 1px #fff; border-top: dotted 1px #fff; position: relative; z-index: 500;
+		 &.left {
+			border-left: none;
+		 }
+		 &.today {
+		font-weight: bold;
+		 }
+		 .abs {
+		position: absolute; z-index: 506;
+		 .bottomRight {
+			 opacity: 0.5; position: relative; left: 8px; top:4px;
+			 &:hover {
+			opacity: 1;
+		 	 }
+		   }
+	 	}
+		 }
+		}
+	}
+	}
+
+
+
+	#dashboard .monthYear { background: #E4F3FE; text-align: center; }
+
+	#dashboard {
+		table {
+
+			@include borderRadius(5px, 5px, 5px, 5px); border-collapse: separate; border-spacing: 1px;
+			&#dashboardTable {
+				thead {
+					tr {
+						 border: solid 1px #AED0EA; margin: 0; padding: 0;
+						th {
+							background:url("/media/layout/development-bundle/themes/cupertino/images/ui-bg_glass_80_d7ebf9_1x400.png") repeat-x scroll 50% 50% #D7EBF9;
+							color: #2779AA; margin: 0; padding: 0.5em 1em 0.5em 1em;
+						}
+						&.hasItems {
+							background: #f6f6f6;
+						}
+					}
+				}
+				tbody {
+					tr {
+						td {
+							padding: 1em;
+						}
+					}
+				}
+			}
+		}
+	}

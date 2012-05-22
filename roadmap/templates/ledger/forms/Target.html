@@ -1,0 +1,120 @@
+
+
+{% extends "ledger/base.html" %}
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/Binder.png" />
+{% endblock %}
+
+{% block "title" %}
+
+{% endblock %}
+
+{% block "toolbox" %}
+
+{% endblock %}
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+{% block "topnav2" %}
+
+{% endblock %}
+
+{% block "breadcrumb" %}
+
+	<img src="/media/layout/icons/folder_user.png" />
+	<a href="/roadmap/ledger/binder/{{ binder.slug }}">{{ binder.client.name }}</a> <span class="arrow">&#9654;</span>
+
+	<img src="/media/layout/icons/timeline_marker.png" />
+	<a href="/roadmap/ledger/project/{{ project.binder.slug }}/{{ project.slug }}">{{ project }}</a>
+
+{% endblock %}
+
+
+
+
+
+{% block "rightcontent" %}
+	{% include "ledger/objects/project_details.html" %}
+{% endblock %}
+
+
+
+
+{% block "navigation" %}
+	<ol id="tabBar">
+		<li>
+			<ol>
+				<li>
+					<a href="{% url roadmap.ledger.views.view_client name=binder.client.slug %}">{{ binder.client.name }}</a>
+				</li>
+			</ol>
+		</li>
+
+		<li>
+			<div class="sectionTop project selected">
+				<a href="#overview">{{ item.name }}</a>
+			</div>
+		</li>
+
+
+		<li>
+			<div class="sectionTop">
+				Milestone
+			</div>
+
+
+		</li>
+
+	</ol>
+{% endblock %}
+
+
+
+
+
+
+{% block "maincontent" %}
+	<div id="details">
+	<div id="contents">
+		<div id="editItem">
+
+		<h2>
+			{% if new %}New{% else %}Edit{% endif %} Milestone
+		</h2>
+
+		{% if new %}
+		<p>
+			You are creating a new milestone. Choose a meaningful name to show in Roadmap lists. You can always change it at a later date.
+		</p>
+		{% endif %}
+
+		{{ form.field.errors }}
+
+		<form method="post" name="new_target" id="newTarget">
+			{% csrf_token %}
+			<ul>
+				{{ form.as_ul }}
+
+				<br/>
+
+				<li>
+					<input type="submit" class="submit orangeInput" name="Create" value="Update" />
+				</li>
+
+				<li class="floatLeft">
+					<a class="orangeInput info" href="{% url roadmap.ledger.views.view_project binder_name=item.binder.slug name=item.slug %}">Cancel</a>
+				</li>
+			</ul>
+		</form>
+
+		</div>
+	</div>
+	</div>
+{% endblock %}

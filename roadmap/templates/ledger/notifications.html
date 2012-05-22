@@ -1,0 +1,38 @@
+
+{% extends "ledger/base_wide.html" %}
+{% load custom %}
+{% load markup %}
+
+{% block "title" %}
+Editing {{ item.description }}
+{% endblock %}
+
+{% block "toolbox" %}
+ 
+{% endblock %}
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+{% block "maincontent" %}
+	<h2><img src="/media/layout/icons/email.png" /> Notifications</h2>
+
+	<div id="notifications">
+		<ol>
+			{% for loop_item in header_notifications %}
+				<li>
+					<p>
+						<a href="{%url roadmap.ledger.views.view_notification notification_id=loop_item.id %}">
+						{{ loop_item.text }}
+						</a>
+					</p>
+				</li>
+			{% endfor %}
+		</ol>
+	</div>
+	 
+{% endblock %}
+

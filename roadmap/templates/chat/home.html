@@ -1,0 +1,67 @@
+{% extends "ledger/base_wide.html" %}
+{% load custom %}
+{% load markup %}
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/Requirement.png" />
+{% endblock %}
+
+
+{% block "title" %}
+Editing {{ item.description }}
+{% endblock %}
+
+{% block "toolbox" %}
+	
+{% endblock %}
+
+
+{% block "heading" %}
+	
+{% endblock %}
+
+{% block "topnav2" %}
+<li><img src="/media/layout/icons/table_gear.png" alt="Back" /> <a href="{{ referrer }}">Return to list</a></li>
+{% endblock %}
+
+{% block "maincontent" %}
+
+<div id="chatBox" style="border: solid 1px black;  width: 260px;">
+	
+	<div id="chatAvailableUsers">
+		<div>Available to chat</div>
+		<ol>		
+			{% for loop_user in users %}
+				{% ifnotequal loop_user user %}
+				<li title="{{ loop_user.email }}">
+					{% show_gravatar loop_user.email 32 %}	
+					<a onclick="$('#chatAvailableUsers').hide();chatting_with={{ loop_user.id}};$('#messageBox').show();return false;">{{ loop_user.first_name }} {{ loop_user.last_name }}</a>
+				</li>
+				{% endifnotequal %}
+			{% endfor %}
+		</ol>
+	</div>
+
+	<div id="messageBox">
+		<div id="chatRetainer">
+			<div id="chatCore" ></div>
+		</div>
+		
+		<div id="chatButtons">
+			<textarea name="chatMessage" id="chatMessage" onkeydown="if(event.keyCode == 13){ $('#chatPost').click(); return false;}"></textarea>
+	
+			<button id="chatPost">Post</button>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	
+
+	
+
+	Roadmap.addLoader(PollChat);
+</script>
+
+{% endblock %}

@@ -1,0 +1,143 @@
+
+{% extends "ledger/base_wide.html" %}
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+{% block "toolbox" %}
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+
+{% endblock %}
+
+
+
+{% block "navigation" %}
+	<ol>
+		<li>
+				{% for client in clients %}
+					<ol>
+					<li>
+
+							<a href="/roadmap/ledger/client/{{ client.slug }}">{{ client.name }}</a>
+
+					</li>
+					</ol>
+				{% empty %}
+				<ol>
+					<li>
+							No clients
+					</li>
+				</ol>
+				{% endfor %}
+
+		</li>
+
+		<li>
+			<div class="sectionTop">
+				<a style="font-size:12px;" href="/roadmap/ledger/new_client" class="">+ Client</a>
+			</div>
+		</li>
+	</ol>
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+
+
+	<div style="padding-left: 24px; width: 900px; padding-top: 20px;">
+	  <h3 style="font-size: 1.5em">Update the following {{ itemcount }} item{% ifnotequal itemcount 1 %}s{% endifnotequal %}:</h3>
+	  <ol class="itemList">
+		  {% for item in items %}
+			  <li>
+				<span class="floatRight">{{ item.project }}. ({{ item.location }})</span>
+				<div>
+					"{{ item }}"
+				</div>
+			  </li>
+		  {% endfor %}
+	  </ol>
+
+	  <form action="/roadmap/ledger/move" method="post" name="moveTo" style="border-top: dashed 1px #CCCCCC;">
+		  {% csrf_token %}
+		  <input type="hidden" name="items" value="{% for loop_item in items %}{{ loop_item.id }} {% endfor %}" />
+		  <input type="hidden" name="tags" value="{{ tag_list }}" />
+		  <input type="hidden" name="back_location" value="{{ current_location.name }}" />
+		  <input type="hidden" name="back_project" value="{{ current_project.slug }}" />
+		  <input type="hidden" name="back_binder" value="{{ current_project.binder.slug }}" />
+		  <input type="hidden" name="binder_id" value="{{ current_project.binder.id }}" />
+		  <input type="hidden" name="referrer" value="{{ referrer }}" />
+		  <input type="hidden" name="return" value="{{ return }}" />
+
+		  <div class="floatRight">
+			  <h3>Project</h3>
+			  <ol class="choiceList">
+				  {% for item in project %}
+					  <li><input type="radio" name="project" id="project_{{ item.id }}" value="{{ item.id }}" {% ifequal item current_project %}checked="checked"{% endifequal %}/> <label for="project_{{ item.id }}">{{ item.name }}</label></li>
+				  {% endfor %}
+				  <li><input type="radio" name="project" value="new" /> New <input name="newProject" type="text" value="" /></li>
+			  </ol>
+		  </div>
+
+		  <h3>To Location</h3>
+		  <ol class="choiceList">
+			  {% for item in location %}
+				  <li><input type="radio" name="location" id="location_{{ item.id }}" value="{{ item.id }}" {% ifequal item current_location %}checked="checked"{% endifequal %}/> <label for="location_{{ item.id }}"> {{ item.description }}</label></li>
+			  {% endfor %}
+		  </ol>
+
+		  <div class="floatRight">
+			  <h3>To Milestone</h3>
+
+			  <ol class="choiceList">
+				<li><input type="radio" name="target" id="noChange" value="" checked="checked"/> <label for="noChange"> No Change</label></li>
+			  {% for loop_target in targets %}
+				  <li>
+					<input type="radio" name="target" id="target_{{ loop_target.id }}" value="{{ loop_target.id }}"/>
+
+					<img src="/media/layout/icons/target.png" alt="Target" title="Target"/>
+					<label for="target_{{ loop_target.id }}">
+					{{ loop_target.name }} <span style="font-size:0.8em; color: #aaa;">{{ loop_target.deadline|date:"d M Y"}}</span>
+					{% ifequal loop_target.public 1 %}{% else %}<img src="/media/layout/icons/lock.png" title="Private target" />{% endifequal %}
+					</label>
+				  </li>
+			  {% endfor %}
+			  </ol>
+
+			    <h3>Apply Tag</h3>
+
+			  <input name="tag" />
+
+		  </div>
+
+
+
+		  <h3>To User</h3>
+		  <ol class="choiceList">
+			  <li><input type="radio" name="user" id="noChange" value="" checked="checked"/> <label for="noChange"> No Change</label></li>
+			  {% for item in users %}
+				  {% if item.username != '' %}
+					  <li>
+						<input type="radio" name="user" id="user_{{ item.id }}" value="{{ item.id }}"/> <label for="user_{{ item.id }}"><img src="/media/layout/icons/user.png" alt="Image for {{ item }}" /> {{ item.first_name }} {{ item.last_name }}</label></li>
+				  {% endif %}
+			  {% endfor %}
+		  </ol>
+
+
+
+		  <div class="buttons	">
+
+			  <input class="orangeInput floatRight" type="submit" name="moveSubmit" value="Move" />
+			  <input class="orangeInput floatRight" type="submit" name="moveCancel" value="Cancel" />
+		  </div>
+	  </form>
+	</div>
+{% endblock %}

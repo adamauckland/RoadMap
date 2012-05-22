@@ -1,0 +1,120 @@
+{% extends "ledger/base_wide.html" %}
+
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/timeline_marker.png" />
+{% endblock %}
+
+
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+
+{% block "toolbox" %}
+
+  <div id="toolbox">
+
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ item.id }}"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ item.id }}"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ item.id }}"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ item.id }}"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+  {% include "ledger/objects/project_details.html" %}
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+	<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/folder_user.png" /> <a href="{% url roadmap.ledger.views.view_client name=binder.client.slug %}">{{ binder.client.name }}</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/group.png" /> <a href="{% url roadmap.ledger.views.view_binder name=binder.slug %}">{{ binder.name }}</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/timeline_marker.png"  alt="Logo for Projects" /> Binder
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+
+
+	<div id="project">
+		<span class="floatRight marginRight24">
+			<a class="orangeInput info" href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}">View my items</a>
+		</span>
+
+		<h2 style="margin-top: 0"><img src="/media/layout/icons/timeline_marker.png"  alt="Logo for Projects" /> <span>{{ item.name }} Import CSV</span></h2>
+
+		<div class="margin24">
+			<p  style="margin-bottom: 24px;">Use this form to upload a CSV of items into RoadMap.</p>
+
+			{% if not has_file %}
+				<form method="POST" enctype="multipart/form-data" name="importCsv">
+					<input type="hidden" name="file_uuid" value="{{ file_uuid }}" />
+					{% csrf_token %}
+
+					<ol>
+						<li>
+							<label>Add File</label> <input type="file" name="csv" /> <input type="submit" name="submit" value="Upload" class="submit"/>
+						</li>
+					</ol>
+				</form>
+			{% else %}
+				<p style="margin-bottom: 24px">File uploaded. <img src="/media/layout/icons/tick.png" alt="Tick" /></p>
+				<p style="margin-bottom: 24px">Please map the CSV column heading to the database field. Mapping multiple columns to the same field will concatenate the data.</p>
+
+				<form method="POST" enctype="multipart/form-data" action="{% url roadmap.ledger.views.project_import_csv_mapping client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}" name="importCsv">
+					<input type="hidden" name="file_uuid" value="{{ file_uuid }}" />
+					<input type="hidden" name="items_link" value="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}" />
+					{% csrf_token %}
+
+					<ol>
+						{% for loop_item in columns %}
+							<li>
+								<label>CSV Header: '{{ loop_item }}' maps to DB Field:</label>
+								<select name="column_{{ forloop.counter }}" >
+									{% for loop_field in field_names %}
+										<option value="{{ loop_field }}">{{ loop_field }}</option>
+									{% endfor %}
+								</select>
+							</li>
+						{% endfor %}
+					</ol>
+					<input type="submit" name="submit" value="Import" class="submit floatRight marginRight24"/>
+				</form>
+			{% endif %}
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		document.title = 'Roadmap | {{ item.name|safe }}';
+	</script>
+{% endblock %}

@@ -1,0 +1,55 @@
+
+
+
+#loginWrap {
+	background-color: #edefef; margin-left: auto; margin-right: auto; text-align:center; position: absolute; top: 25%; left: 50%;
+	#login {
+		border: solid 1px rgb(206,206,207); @include borderRadius (24px, 24px, 24px, 24px);
+		width: 240px; position: relative; top: -50%; left: -50%; padding: 32px; height: 200px;
+
+		form {  }
+		p {
+			margin-bottom: 24px;
+			&.error {
+				color: red;
+			}
+		}
+		input {  }
+		input.submit { float:right; margin-top: 15px;  }
+		.newUser {
+			border-bottom: dashed 1px #cccccc; margin-left: 8px; padding-bottom: 32px;
+			a {
+				margin-left: 44px;
+			}
+		}
+	}
+}
+
+#newUser {
+	margin-left: auto; margin-right: auto; padding: 32px; width: 360px;
+	h2 {
+		margin: 0; margin-bottom: 32px;
+	}
+	#newUserForm {
+		label {
+			float: left; width: 180px;
+		}
+		ul {
+			.errorlist {
+				color: red;
+			}
+			li {
+				clear: left; margin-bottom: 12px;
+			}
+			li:nth-child(3) {
+				padding-top: 16px;
+			}
+			li:nth-child(6) {
+				padding-top: 16px;
+			}
+		}
+		input {
+
+		}
+	}
+}

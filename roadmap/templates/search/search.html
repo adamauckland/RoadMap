@@ -1,0 +1,26 @@
+{% if page.object_list %}
+	<ol>
+		{% for result in page.object_list %}
+			{% if user in result.object.project.binder.reporters.all or user in result.object.project.binder.producers.all or user in result.object.project.binder.owner %}
+				{% if result.object.location.method != 'delete' %}
+					<li>
+						<img src="/media/layout/icons/{{ result.object.item_type }}.png" alt="Icon for {{ result.object.item_type }}" title="{{ result.object.item_type }}"/>
+						<span class="explanation">#{{ result.object.id }}</span> <a href="/item/{{ result.object.id }}">{{ result.object.description }}</a>
+						<div>
+							<img src="/media/layout/icons/{{ result.object.location.name }}.png" alt="Icon for {{ result.object.location.name }}" title="{{ result.object.location.name }}"/>
+							<span class="project">{{ result.object.project.binder.client.name }} ▶ {{ result.object.project.name }}</span>
+							<span class="tags">{{ result.object.tags }}</span>
+						</div>
+						<!--{{result.score }}-->
+					</li>
+				{% endif %}
+			{% endif %}
+
+
+		{% endfor %}
+	</ol>
+{% else %}
+	<ol>
+		<li>No results found.</li>
+	</ol>
+{% endif %}

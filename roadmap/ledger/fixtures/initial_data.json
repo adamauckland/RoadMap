@@ -1,0 +1,191 @@
+[ { "fields" : { "default" : 0,
+        "description" : "The site is down",
+        "name" : "Critical",
+        "order" : 1
+      },
+    "model" : "ledger.priority",
+    "pk" : 1
+  },
+  { "fields" : { "default" : 0,
+        "description" : "Do these first",
+        "name" : "High",
+        "order" : 2
+      },
+    "model" : "ledger.priority",
+    "pk" : 2
+  },
+  { "fields" : { "default" : 1,
+        "description" : "Normal",
+        "name" : "Normal",
+        "order" : 3
+      },
+    "model" : "ledger.priority",
+    "pk" : 3
+  },
+  { "fields" : { "default" : 0,
+        "description" : "Leave these until later",
+        "name" : "Low",
+        "order" : 4
+      },
+    "model" : "ledger.priority",
+    "pk" : 4
+  },
+  { "fields" : { "name" : "Issue" },
+    "model" : "ledger.type",
+    "pk" : 1
+  },
+  { "fields" : { "name" : "Requirement" },
+    "model" : "ledger.type",
+    "pk" : 2
+  },
+  { "fields" : { "name" : "File" },
+    "model" : "ledger.type",
+    "pk" : 3
+  },
+  { "fields" : { "name" : "Note" },
+    "model" : "ledger.type",
+    "pk" : 4
+  },
+  { "fields" : { "name" : "Email" },
+    "model" : "ledger.type",
+    "pk" : 5
+  },
+  { "fields" : { "name" : "Checklist" },
+    "model" : "ledger.type",
+    "pk" : 6
+  },
+  { "fields" : { "name" : "Internal" },
+    "model" : "ledger.client",
+    "pk" : 1
+  },
+  { "fields" : { "description" : "Incoming reports",
+        "method" : "report",
+        "name" : "Reported"
+      },
+    "model" : "ledger.location",
+    "pk" : 1
+  },
+  { "fields" : { "description" : "In production",
+        "method" : "action",
+        "name" : "Production"
+      },
+    "model" : "ledger.location",
+    "pk" : 2
+  },
+  { "fields" : { "description" : "Ready for testing",
+        "method" : "test",
+        "name" : "Testing"
+      },
+    "model" : "ledger.location",
+    "pk" : 3
+  },
+  { "fields" : { "description" : "Released to client",
+        "method" : "deliver",
+        "name" : "Delivered"
+      },
+    "model" : "ledger.location",
+    "pk" : 4
+  },
+  { "fields" : { "description" : "Deleted items",
+        "method" : "deleve",
+        "name" : "Deleted"
+      },
+    "model" : "ledger.location",
+    "pk" : 5
+  },
+  { "fields" : { "const" : "MERCURIAL_REPOSITORY_PATH",
+        "group" : 1,
+        "name" : "Repository Path"
+      },
+    "model" : "ledger.projectsetting",
+    "pk" : 1
+  },
+  { "fields" : { "const" : "MERCURIAL_CONNECTION_STRING",
+        "group" : 1,
+        "name" : "Connection String"
+      },
+    "model" : "ledger.projectsetting",
+    "pk" : 2
+  },
+  { "fields" : { "const" : "MERCURIAL_TIP_ID",
+        "group" : 1,
+        "name" : "Tip ID"
+      },
+    "model" : "ledger.projectsetting",
+    "pk" : 3
+  },
+  { "fields" : { "const" : "VIEWPREFERENCES_DEFAULT_VIEWSTATE",
+        "group" : 2,
+        "name" : "Default Viewstate"
+      },
+    "model" : "ledger.projectsetting",
+    "pk" : 4
+  },
+  { "fields" : { "const" : "MERCURIAL_REPOSITORY_PASSWORD",
+        "group" : 1,
+        "name" : "Password"
+      },
+    "model" : "ledger.projectsetting",
+    "pk" : 5
+  },
+  { "fields" : { "name" : "Mercurial",
+        "user_setting" : false
+      },
+    "model" : "ledger.projectsettinggroup",
+    "pk" : 1
+  },
+  { "fields" : { "name" : "View Preferences",
+        "user_setting" : true
+      },
+    "model" : "ledger.projectsettinggroup",
+    "pk" : 2
+  },
+  { "fields" : { "name" : "Issue" },
+    "model" : "ledger.type",
+    "pk" : 1
+  },
+  { "fields" : { "name" : "Requirement" },
+    "model" : "ledger.type",
+    "pk" : 2
+  },
+  { "fields" : { "name" : "File" },
+    "model" : "ledger.type",
+    "pk" : 3
+  },
+  { "fields" : { "name" : "Note" },
+    "model" : "ledger.type",
+    "pk" : 4
+  },
+  { "fields" : { "name" : "Email" },
+    "model" : "ledger.type",
+    "pk" : 5
+  },
+  { "fields" : { "name" : "Checklist" },
+    "model" : "ledger.type",
+    "pk" : 6
+  },
+  { "fields" : { "constant" : "ITEMSTATE_IDENTIFIED",
+        "description" : "Identified"
+      },
+    "model" : "ledger.itemstate",
+    "pk" : 1
+  },
+  { "fields" : { "constant" : "ITEMSTATE_ACTIONED",
+        "description" : "Actioned"
+      },
+    "model" : "ledger.itemstate",
+    "pk" : 2
+  },
+  { "fields" : { "constant" : "ITEMSTATE_COMPLETED",
+        "description" : "Completed"
+      },
+    "model" : "ledger.itemstate",
+    "pk" : 3
+  },
+  { "fields" : { "constant" : "ITEMSTATE_VERIFIED",
+        "description" : "Verified"
+      },
+    "model" : "ledger.itemstate",
+    "pk" : 4
+  }
+]

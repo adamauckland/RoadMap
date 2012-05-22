@@ -1,0 +1,59 @@
+/*
+
+	Binder template
+
+*/
+#binder {
+	ol {
+		li {
+			clear: both; padding: 0px 24px 0px 12px;
+			&:hover {
+
+			}
+			h3 {
+				font-size: 1.2em; margin-top: 4px;
+			}
+			a.binderTitle {
+				color: #2F2F2F; font-size: 100%;
+			}
+			ol {
+				margin-top: 4px;
+				li {
+					background: none; border: none; float: left; padding: 0; margin-right: 2em;
+					&:hover {
+						background: none; border: none;
+					}
+				}
+			}
+			&#newBinder {
+				background: none; border: none;
+			}
+		}
+	}
+}
+
+		#team {
+				/*(border-top: dashed 1px #dddddd; margin-top: 16px;*/
+				margin-left: 12px;
+				ol {
+						margin-top: 12px;
+						li {
+								background-color: #fff; border: solid 1px #ddd; clear:none; float:left; height: 64px; padding: 1em; margin-bottom: 1em; margin-left: 12px; width: 182px;
+								#trophies {
+										clear: right;
+								}
+
+								&.reporting {
+									background-color: #e1e9f8;
+								}
+
+								&.production {
+									background-color: #fdf7d3;
+								}
+
+								&.unselected {
+									background-color: #ddd;
+								}
+						}
+				}
+		}

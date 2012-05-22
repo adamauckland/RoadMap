@@ -1,0 +1,266 @@
+@import "_chat.scss";
+
+/* START header */
+header {
+	border-bottom: solid 1px #0a0a0a; height: $headerHeight;
+
+	#headerWrapper {
+		color: #fff; display: block; margin-left: auto; margin-right: auto; overflow: hidden; padding-top: 0px; padding-left: 0px;
+		#homeLink {
+			margin-left: 24px; margin-top: 12px;
+		}
+		#roadmapHome {
+			color: #696969; float:left; font-family: Impact, Charcoal, sans-serif; font-size: 42px; height: 48px; margin-top: 12px; margin-left: 12px;
+			.secondColour {
+				color: #CF7B00;
+			}
+			a {
+				color: #848484;
+			}
+		}
+		a {
+			color: $electricBlue;
+		}
+		img {
+			margin-right: 0px;
+		}
+		#site-nav {
+
+		}
+		#user-controls {
+			margin-right: 12px; margin-top: 12px;
+		}
+	}
+
+	#searchResults {
+		text-shadow: none;
+	}
+
+	#recordLocking {
+		display: none;
+		background: #440000; border-bottom: solid 1px #A2150B; color: #fff; font-size: 28px; height: 80px; position: fixed; top: 0; width: 100%;
+		@include shadow(0px, 8px, 8px, #333);
+		z-index:9999;
+
+		div {
+			margin-left: auto; margin-right: auto; width: 900px;
+			img {
+				margin-left: 30px; margin-right: 20px; margin-top: 10px; float: left;
+			}
+			div {
+				color: #FB3E00; display: inline; left: 10px; position: relative; top: 30px;
+				a {
+
+				}
+			}
+		}
+	}
+}
+
+	#navCrumbWrapper {
+		background: #202020; color: #ccc; font-size: 12px; height: 24px;
+		margin-left: 24px; margin-left: auto; margin-right: auto; padding-top: 8px; padding-bottom: 8px;
+		@include shadow(0px, 0px, 12px, rgba(0, 0, 0, 0.4)); width: 960px;
+
+		img {
+			margin-left: 8px; margin-right: 0px;
+		}
+		img:first-child {
+			margin-left: 24px;
+		}
+		img {
+			padding-right: 4px; position: relative; top: 3px;
+		}
+		a {
+			color: #888888;
+		}
+		.arrow {
+			/*color: $orange; */
+		}
+	}
+
+	#breadCrumb {
+		color: rgb(251, 158, 74); font-size: 13px; height: 92px; text-shadow: 0px -1px 0px #000;
+
+		#addItemLink {
+			cursor: pointer;
+		}
+
+		#breadcrumbWrapper {
+			background: url(../images/header/blackBinder.png) repeat-x top left scroll; border-bottom: solid 1px #343434; height: 52px; margin-left: auto; margin-right: auto; padding-left: 0px;
+			@include shadow(0px, 12px, 12px, rgba(0, 0, 0, 0.2));
+			border-left: solid 1px #454545; border-right: solid 1px #454545;border-top: solid 1px #797979;
+
+			a {
+				color: $orange;
+			}
+
+			#unseenNotification {
+				border: solid 2px $orange; display: block; margin-left: 24px; padding: 4px; @include borderRadius (12px, 12px, 12px, 12px);
+
+				&:hover {
+					background-color: #784B24;   text-decoration: none;
+				}
+			}
+
+			#followUps {
+				margin-left: 24px;
+			}
+
+			#recentlyViewed {
+				margin-left: 24px;
+			}
+
+			/* toolbox */
+			#location {
+
+			}
+			#toolbox {
+
+				float: right; height: 51px; margin-left: auto; position: relative; /*text-shadow: none;*/
+				a {
+					color: $charcoal;
+					&:hover {
+						text-decoration: none;
+					}
+				}
+
+				div {
+				   background: #000; padding: 4px;
+				}
+				.linkButton {
+					border-left: solid 1px rgba(192,192,192, 0.15); border-right: solid 1px rgba(40,40,40,0.3);
+					height: 51px; padding-bottom: 17px; padding-top: 15px;
+					position: relative; top: 8px;
+
+					&.hover {
+						 background: rgba(150,150,150,0.15); cursor: pointer;
+					}
+
+					&:first-child {
+						border-left: none;
+						&:hover {
+							background: none;
+						}
+					}
+
+					&:last-child {
+						border-right: none;
+					}
+
+					a {
+						padding-right: 24px;
+					}
+				}
+				a {
+					color: $orange; font-size: 12px; display: inline-block;
+				}
+				img {
+					margin-left: 6px;
+				}
+			}
+			span.linkButton:first-child {
+				/*margin-left: 24px;*/
+			}
+		}
+		/* /toolbox */
+	}
+
+	img {
+		position: relative; top: 3px;
+	}
+
+	img {
+		padding-right: 4px; position: relative; top: 3px;
+	}
+
+	.arrow {
+		color: $charcoal; margin-left: 8px;
+	}
+
+
+
+	/*@include shadow(0px, 12px, 12px, rgba(0, 0, 0, 0.2));  z-index: 500; */
+
+
+
+#addedFlashWrapper {
+	margin-left: auto; margin-right: auto; 
+
+	#addedFlash {
+		background-color: #eeffee; border: solid 2px #daeeda; color: #007000; font-size: 24px; padding: 24px; text-align: center; width: 960-48px;
+	}
+}
+
+
+
+
+
+
+
+
+	header {
+		a {
+			color: #FFFFFF; text-decoration: none;
+			&:hover {
+				color: #FFFFFF; text-decoration: underline;
+			}
+			&.selected {
+				color: #FB9E4A; font-weight: normal;
+			}
+			strong {
+				color: #FB9E4A; font-weight: normal;
+			}
+		}
+	}
+
+	#site-nav a { padding: 0 8px; }
+
+	#user-controls {
+		li {
+			float: left; font-size: 11px; margin-left: 16px;
+			img {
+				position: relative; top: 2px;
+			}
+			&.first {
+				margin-left: 0;
+			}
+		}
+	}
+/* END header */
+
+nav { padding-left: 8px;
+	ol { list-style: none; margin: 0; overflow: hidden; padding: 0;
+		li { display: block; float: left; margin-right: 32px;
+			img { position: relative; top: 3px;  }
+		}
+	}
+	a { text-decoration: none; }
+}
+
+#topNav {
+	background: url(/media/layout/images/header/orangeTopFade.png) repeat-x;
+}
+
+
+
+
+/*
+
+	Nav template
+
+*/
+#activeMenu {
+	background-color: #373737; border: solid 1px $charcoal; color: $orange; display: none; position: absolute; top: 44px; z-index: 99999;
+	-moz-box-shadow: 0px 3px 5px #444; -webkit-box-shadow: 0px 3px 5px  #444; box-shadow: 0px 3px 5px #444;
+	ol {
+
+		/*margin-left: 20px;*/ margin-top: 8px; margin-bottom: 8px; margin-right: 1em; width: auto;
+		li {
+			display: block; float: none; padding: 8px;
+			a {
+				color: $orange; text-shadow: none;
+			}
+		}
+	}
+}

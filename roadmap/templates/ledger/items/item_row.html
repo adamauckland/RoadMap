@@ -1,0 +1,119 @@
+{% load custom %}
+{% load markup %}
+
+
+{% ifchanged item.project %}
+	{% if page.project %}
+
+	{% else %}
+	</tbody>
+	<thead>
+		<tr>
+			<th colspan="8">
+				<a href="{% url roadmap.ledger.views.view_client name=item.project.binder.client.slug %}">{{ item.project.binder.client.name }}</a>
+				<span class="charcoal" style="padding-left: 4px; padding-right: 4px;">&#9654;</span>
+				<a href="{% url roadmap.ledger.views.view_binder name=item.project.binder.slug %}">{{ item.project.binder.name }}</a>
+				<span class="charcoal" style="padding-left: 4px; padding-right: 4px;">&#9654;</span>
+				<a href="{% url roadmap.ledger.views.view_project binder_name=item.project.binder.slug,name=item.project.slug %}">{{ item.project.name }}</a>
+			</th>
+		</tr>
+	</thead>
+
+	<tbody>
+	{% endif %}
+{% endifchanged %}
+
+{% ifchanged item.item_group %}
+	{% if item.item_group %}
+		<tr class="itemGroup">
+
+			<td colspan="8">
+				<a href="#" onclick="Roadmap.grouping.selectItems(this); return false;">{{ item.item_group }}</a>
+			</td>
+		</tr>
+	{% endif %}
+{% endifchanged %}
+
+
+ <tr class="instaFilterThis {% if item.fixed and not item.validated %} completed {% endif %} {% if item.unseen and item.assigned_to == user %} unseen {% endif %}" >
+		<td class="checkbox">
+
+			{% if limit_functionality %}
+			{% else %}
+				<input type="checkbox" name="id" value="{{ item.id }}" onchange="return(Roadmap.itemCheckboxClicked('{% url roadmap.ledger.views.toggle_item item_id=item.id %}', this));" {% if item.id|make_key in selected_items %} checked="checked" {% endif %} />
+			{% endif %}
+		</td>
+
+		<td>
+			{% if limit_functionality %}
+			{% else %}
+				<img class="previewThis" src="/media/layout/icons/page_white_magnify.png" alt="Preview" title="Preview item" />
+			{% endif %}
+		</td>
+
+		<td class="auto">
+			<span class="itemId"><a href="{% url roadmap.ledger.views.item id=item.id %}?search_id={{ search_id }}">{{ item.id }}</a></span>
+		</td>
+
+		<td class="charcoal explanation priority{{ item.priority }}" >
+			{{ item.priority }}
+		</td>
+
+
+		<td class="description">
+			{% if item.item_type.name == 'File'%}
+				<img src="/media/layout/icons/{{ item.linked_item.icon }}" width="16" height="16" alt="{{ item.item_type }}" title="{{ item.item_type }}" />
+			{% else %}
+
+			{% endif %}
+
+
+			{% if item.follow_up %}
+				{% ifequal item.assigned_to user %}
+					<img src="/media/layout/icons/flag_red.png" alt="Follow Up" title="Follow Up Required" class="floatRight"/>
+				{% endifequal %}
+			{% endif %}
+
+
+
+			<span class="floatRight">
+				{% for loop_target in item.targets.all %}
+					{% ifequal loop_target.user user %}
+						<span class="explanation " style="margin-right: 4px;">{{ loop_target.name }}</span>
+					{% endifequal %}
+				{% endfor %}
+			</span>
+
+			<a style="{% if item.unseen and item.assigned_to == user %} font-weight: bold; {% endif %}" href="{% url roadmap.ledger.views.item id=item.id %}?search_id={{ search_id }}">{{ item.description }}</a>
+
+			{% if item.reminder %}
+				<span class="reminderDate floatRight" title="You will be reminded on {{ item.reminder|date:"d M Y" }} ">
+					Reminder - {{ item.reminder|date:"d M Y" }}
+				</span>
+			{% endif %}
+
+
+			<span class="tags">
+					{{ item.tags|user_tags }}
+			</span>
+
+			<div class="charcoal" style="font-size: 90%; {% if not item.replied %}  {% endif %}">{% if item.replied and item.assigned_to == user %}<img src="/media/layout/icons/comment.png" title="New reply" />{% endif %}
+			{% if item.latest_comment.message %}&ldquo;{{ item.latest_comment.message }}&rdquo;{% endif %}</div>
+		</td>
+
+		<td class="charcoal explanation status{{ item.item_state.description }}" >
+			{{ item.item_state.description }}
+		</td>
+
+
+
+			<td >
+				<a class="charcoal" style="font-size:90%" href="{% url roadmap.ledger.views.profile username=item.assigned_to.username %}" title="{{ item.assigned_to.first_name }} {{ item.assigned_to.last_name }}">
+					<nobr>{{ item.assigned_to_short_version }}	</nobr>
+				</a>
+			</td>
+
+			<td>
+				<span class="explanation charcoal">{{ item.item_type }}</span>
+			</td>
+</tr>

@@ -1,0 +1,25 @@
+{% load custom %}
+{% load markup %}
+
+
+<div id="chatCore">
+	<div style="background-color: #fff;">
+		<span style="color: #000; float:right; margin-left: 16px; margin-right: 16px; text-align: right;">
+			<a style="color: #000;" href="{% url roadmap.ledger.views.profile username=chatting_with_user.username %}">{{ chatting_with_user.first_name }} {{ chatting_with_user.last_name }}</a>
+		</span>
+		{% show_gravatar chatting_with_user.email 32 %}
+	</div>
+	
+	<div id="chatRetainer" style="height: 300px; overflow: auto; width: 260px;">			
+		<div id="chatScroll">
+			<ol>
+				{% for message in chat_messages %}
+					<li >
+						<span  >{{ message.user.first_name }}</span><!-- <span class="dateTime">{{ message.date_time }}</span>-->
+						<p >{{ message.message }}</p>
+					</li>
+				{% endfor %}
+			</ol>
+		</div>
+	</div>
+</div>

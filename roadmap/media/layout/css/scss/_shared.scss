@@ -1,0 +1,17 @@
+@mixin shadow($horizontal, $vertical, $radius, $colour) {
+	box-shadow: $horizontal $vertical $radius $colour;
+	-webkit-box-shadow: $horizontal $vertical $radius $colour;
+	-moz-box-shadow: $horizontal $vertical $radius $colour;
+
+
+}
+
+@mixin borderRadius($top, $right, $bottom, $left) {
+	border-radius: $top $right $bottom $left;
+	-moz-border-radius: $top $right $bottom $left;
+	-webkit-border-radius: $top $right $bottom $left;
+}
+
+@mixin textShadow($horizontal, $vertical, $radius, $colour) {
+	text-shadow: $horizontal $vertical $radius $colour;
+}

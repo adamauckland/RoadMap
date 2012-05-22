@@ -1,0 +1,544 @@
+{% extends "ledger/base_wide.html" %}
+{% load custom %}
+{% load markup %}
+
+{% block "title" %}
+Active {{ page.location }}
+{% endblock %}
+
+
+
+{% block "rightcontent" %}
+
+	<div id="notesEmails" class="floatRight">
+		<span class="item">
+		{% if page.count_notes %}
+			<img src="/media/layout/icons/Note.png" alt="Note" title="Note" /> <a href="?project={{ page.project }}&notes=notes">{{ page.count_notes }} notes</a>
+		{% endif %}
+		</span>
+	</div>
+
+
+	{% load custom %}
+
+	{% if page.tags %}
+		<p>
+			Searched for:	{{ page.tags }}.
+		</p>
+	{% endif %}
+	{% if page.ignoredtags %}
+		<p>
+			Ignored: {{ page.ignoredtags }}.
+		</p>
+	{% endif %}
+
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+
+	{% if show_selected_items %}
+		<img src="/media/layout/icons/application_view_columns.png" /> Selected items
+	{% else %}
+		{% ifequal page.project "All" %}
+		<img src="/media/layout/icons/application_view_columns.png" /> My Items
+		{% endifequal %}
+
+		{% if page.project %}
+			{% ifnotequal page.project "All" %}
+				<img src="/media/layout/icons/folder_user.png" /> <a href="/roadmap/ledger/binder/{{ page.project_item.binder.slug }}" title="Go to {{ page.project_item.binder.name }} binder page.">{{ page.project_item.binder.client.name }} <!--{{ page.project_item.binder }}--></a> <span class="arrow">&#9654;</span>
+				<img src="/media/layout/icons/timeline_marker.png" /> <a href="/roadmap/ledger/project/{{ page.project_item.binder.slug }}/{{ page.project_item.slug }}" title="Go to {{ page.project_item.name }} project page.">{{ page.project_item.name }}</a>
+			{% endifnotequal %}
+		{% else %}
+			<img src="/media/layout/icons/magnifier.png" /> Search
+		{% endif %}
+
+	{% endif %}
+
+	<span style="float:right; margin-right: 24px;" id="addItemLink"><img src="/media/layout/icons/add.png" /> <a href="#">Add</a></span>
+{% endblock %}
+
+
+
+
+{% block "toolbox" %}
+	{% if page.project_id %}
+		<div id="toolbox">
+			<span class="linkButton">
+				<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new issue"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+			</span>
+
+			<span class="linkButton">
+				<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new requirement"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+			</span>
+
+			<span class="linkButton">
+				<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new file"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+			</span>
+
+			<span class="linkButton">
+				<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new note"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+			</span>
+		</div>
+	{% endif %}
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+
+<span class="floatRight marginRight24">
+	{% if not items and not search %}
+		{#  Production needs to toggle completed #}
+		{% ifequal page.location 'Production' %}
+			{% if completed_count != 0 %}
+
+			  <span style=" color: #aaa;">
+			  {% if completed %}
+				  <span>Showing completed items</span>
+			  {% else %}
+
+				  <span class="dropdownSelect"><ol style="top:1.5em;"><li>{% ifequal assigned_to "all" %}
+					  <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to=all&completed=true&target={{ target.slug }}" title="You are currently viewing items for all users">Show completed items</a>
+				  {% else %}
+					  <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to={{ user.username }}&completed=true&target={{ target.slug }}"  title="You are currently viewing items for {{ assigned_to }}">Show completed items</a>
+				  {% endifequal %}</li></ol><span>Not showing {{ completed_count }} completed items</span></span>
+
+			  {% endif %}
+
+				{% if completed %}
+				  {% ifequal assigned_to "all" %}
+					  <a style="margin-left: 8px;" href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to=all&target={{ target.slug }}" title="You are currently viewing items for all users">Hide Completed</a>
+				  {% else %}
+					  <a style="margin-left: 8px;" href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to={{ user.username }}&target={{ target.slug }}"  title="You are currently viewing items for {{ assigned_to }}">Hide Completed</a>
+				  {% endifequal %}
+				{% else %}
+
+				{% endif %}
+			  </span>
+			{% endif %}
+		{% endifequal %}
+		{# end of production items #}
+
+
+
+		{#  Testing needs to toggle completed #}
+		{% ifequal page.location 'Testing' %}
+			{% if validated_count != 0 %}
+
+			  <span style=" color: #aaa;">
+			  {% if completed %}
+				  <span>Showing validated items</span>
+			  {% else %}
+
+				  <span class="dropdownSelect"><ol style="top:1.5em;"><li>{% ifequal assigned_to "all" %}
+					  <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to=all&validated=true&target={{ target.slug }}" title="You are currently viewing items for all users">Show verified items</a>
+				  {% else %}
+					  <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to={{ user.username }}&validated=true&target={{ target.slug }}"  title="You are currently viewing items for {{ assigned_to }}">Show verified items</a>
+				  {% endifequal %}</li></ol><span>Not showing {{ validated_count }} verified items</span></span>
+
+			  {% endif %}
+
+				{% if validated %}
+				  {% ifequal assigned_to "all" %}
+					  <a style="margin-left: 8px;" href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to=all&target={{ target.slug }}" title="You are currently viewing items for all users">Hide verified</a>
+				  {% else %}
+					  <a style="margin-left: 8px;" href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to={{ user.username }}&target={{ target.slug }}"  title="You are currently viewing items for {{ assigned_to }}">Hide verified</a>
+				  {% endifequal %}
+				{% else %}
+
+				{% endif %}
+			  </span>
+			{% endif %}
+		{% endifequal %}
+		{# end of testing items #}
+
+
+	{% else %}
+
+
+		{#  Production needs to toggle completed #}
+		{% ifequal page.location 'Production' %}
+			{% if completed_count != 0 %}
+				<span style="color: #aaa;">
+				 {% if completed %}
+					 <span class="dropdownSelect"><ol style="top:1.5em;"><li>{% ifequal assigned_to "all" %}
+						 <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to=all&target={{ target.slug }}" title="You are currently viewing items for all users">Hide completed items</a>
+					 {% else %}
+						 <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to={{ user.username }}&target={{ target.slug }}"  title="You are currently viewing items for {{ assigned_to }}">Hide completed items</a>
+					 {% endifequal %}</li></ol><span>Showing completed items</span></span>
+			 {% else %}
+
+				<span class="dropdownSelect"><ol style="top:1.5em;"><li>{% ifequal assigned_to "all" %}
+					   <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to=all&completed=true&target={{ target.slug }}" title="You are currently viewing items for all users">Show Completed</a>
+				   {% else %}
+					   <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to={{ user.username }}&completed=true&target={{ target.slug }}"  title="You are currently viewing items for {{ assigned_to }}">Show Completed</a>
+				   {% endifequal %}</li></ol><span>Not showing {{ completed_count }} completed items</span></span>
+
+			   {% endif %}
+			  </span>
+			{% endif %}
+		{% endifequal %}
+		{# end of production filter #}
+
+
+
+		{#  Testing needs to toggle validated #}
+		{% ifequal page.location 'Testing' %}
+			{% if validated_count != 0 %}
+				<span style="color: #aaa;">
+				{% if validated %}
+					 <span class="dropdownSelect"><ol style="top:1.5em;"><li>{% ifequal assigned_to "all" %}
+						 <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to=all&target={{ target.slug }}" title="You are currently viewing items for all users">Hide verified items</a>
+					 {% else %}
+						 <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to={{ user.username }}&target={{ target.slug }}"  title="You are currently viewing items for {{ assigned_to }}">Hide verified items</a>
+					 {% endifequal %}</li></ol><span>Showing verified items</span></span>
+			 {% else %}
+
+				<span class="dropdownSelect"><ol style="top:1.5em;"><li>{% ifequal assigned_to "all" %}
+					   <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to=all&validated=true&target={{ target.slug }}" title="You are currently viewing items for all users">Show verified</a>
+				   {% else %}
+					   <a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&assigned_to={{ user.username }}&validated=true&target={{ target.slug }}"  title="You are currently viewing items for {{ assigned_to }}">Show verified</a>
+				   {% endifequal %}</li></ol><span>Not showing {{ validated_count }} verified items</span></span>
+
+			   {% endif %}
+			  </span>
+			{% endif %}
+		{% endifequal %}
+		{# end of testing filter #}
+
+	{% endif %}
+	</span>
+
+
+
+
+  <h2 style="margin-top: 0;">
+	<img src="/media/layout/icons/{{ page.location }}.png"  title="View items in {{ page.location }}" />
+
+	{% ifequal assigned_to "all" %}
+	  <span class="dropdownSelect"><ol><li><a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&completed={{ completed }}&assigned_to={{ user.username }}&target={{ target.slug }}" title="You are currently viewing items for all users">My items</a></li></ol><span>All Items ({{ items.count }})</span></span>
+	{% else %}
+	  <span class="dropdownSelect"><ol><li><a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&completed={{ completed }}&assigned_to=all&target={{ target.slug }}"  title="You are currently viewing items for {{ assigned_to }}">All Items</a></li></ol><span>My Items ({{ items.count }})</span></span>
+	{% endifequal %}
+
+	{% if page.location and page.location != 'All' %}
+
+	  {% if page.location != 'Delivered' %} in {% endif %}
+	  <span class="dropdownSelect"><ol>
+		  {% for loop_location in locations %}<li><a href="#">{{ loop_location.name}}</a></li>{% endfor %}
+		</ol><span>{{ page.location }}</span></span>
+	{% endif %}
+
+	{% if target %} for <span class="dropdownSelect"><ol>{% for loop_target in targets %}<li><a href="/roadmap/ledger/active?project={{ page.project_item.slug }}&binder={{ page.project_item.binder.slug }}&location={{ page.location }}&completed={{ completed }}&assigned_to={{ user.username }}&target={{ loop_target.slug }}">{{ loop_target.name }}</a></li>{% endfor %}</ol><span>{{ target.name }}</span></span>{% endif %}
+  </h2>
+
+
+
+
+  <form action="/roadmap/ledger/activepost" method="get" name="homelist" id="homeList">
+	  {% csrf_token %}
+	  <input type="hidden" name="location" value="{{ page.location }}" />
+	  <input type="hidden" name="project" value="{{ page.project_item.slug }}" />
+	  <input type="hidden" name="binder" value="{{ page.project_item.binder.slug }}" />
+
+
+	  <div id="tagBox">
+		  <img src="/media/layout/icons/find.png" alt="Search" title="Search" style="margin-right: 4px;"/> <input type="text" id="tags" class="textBox" name="tags" value="{{ page.tags }}" />
+
+		  <input type="submit" id="searchTags" class="submit" name="SearchTags" value="Filter" class="ui-state-default ui-corner-all dialog_link" />
+		  <!--<input type="submit" id="clearTags"  class="submit" name="ClearTags" value="Clear" class="ui-state-default ui-corner-all dialog_link" />-->
+
+		  <span id="selectedItems">{% if selected_items_count != 0 %}<a href="/roadmap/ledger/active?selected=selected">{{ selected_items_count }} item{{ selected_items_count|pluralize }} selected</a>{% endif %}</span>
+
+		  <span class="floatRight">
+			  {% if page.location %}
+				  {% ifequal page.location 'Reported' %}
+					  <input type="submit" id="moveTags"  class="submit"  id="moveTo" name="moveTo" value="Start Production"/>
+				  {% endifequal %}
+
+				  {% ifequal page.location 'Production' %}
+					  <input type="submit" id="moveTags"  class="submit"  id="moveTo" name="moveTo" value="Ready for Testing"/>
+				  {% endifequal %}
+
+				  {% ifequal page.location 'Testing' %}
+					  <input type="submit" id="moveTags" c class="submit"  id="moveTo" name="moveTo" value="Move to Delivered"/>
+				  {% endifequal %}
+			  {% endif %}
+
+			  {% ifequal page.location "Reported" %}
+			  {% endifequal %}
+
+			  <input type="submit" id="moveTags"  class="submit"  id="moveTo" name="moveTo" value="Move"/>
+		  </span>
+
+	  </div>
+
+	<!--<div class="locationHeader">
+		<div class="approved">Approved</div>
+	</div>-->
+
+
+
+	  <table id="activeList" class="jtable expand">
+			  {% if not items and not search %}
+			  {% else %}
+				  <thead>
+					  <tr>
+						  <th class="checkbox"><a href="/select_all_click?search_id={{ search_id }}">All</a><!--<input type="checkbox" name="all" id="all" onclick="tableSelectAll()" />--></th>
+						  <th class="auto">
+							  <a href="#" onclick="return Roadmap.activeItemsOrder('id');" {% ifequal order_by "id" %}class="selected"{% endifequal  %}>#</a>
+						  </th>
+						  <!--<th colspan="2">Status</th>-->
+						  {% ifequal page.location "All" %}
+							  <th>
+								  <a href="#" onclick="return Roadmap.activeItemsOrder('location');" {% ifequal order_by "location" %}class="selected"{% endifequal  %}>Loc</a>
+							  </th>
+						  {% endifequal %}
+						  {% ifequal page.project "All" %}
+							  <th>
+								  <a href="#" onclick="return Roadmap.activeItemsOrder('project__binder');" {% ifequal order_by "project__binder" %}class="selected"{% endifequal  %}>Binder</a>
+							  </th>
+							  <th>
+								  <a href="#" onclick="return Roadmap.activeItemsOrder('project');" {% ifequal order_by "project" %}class="selected"{% endifequal  %}>Project</a>
+							  </th>
+						  {% endifequal %}
+						  <th>
+							  <a href="#" onclick="return Roadmap.activeItemsOrder('priority');" {% ifequal order_by "priority" %}class="selected"{% endifequal  %}>Priority</a>
+						  </th>
+						  <th class="description">
+							  <a href="#" onclick="return Roadmap.activeItemsOrder('description');" {% ifequal order_by "description" %}class="selected"{% endifequal  %}>Description</a>
+						  </th>
+
+						  {% ifequal assigned_to "all" %}
+							  <th>
+								  <a href="#" onclick="return Roadmap.activeItemsOrder('assigned_to');" {% ifequal order_by "assigned_to" %}class="selected"{% endifequal  %}>Assigned</a>
+							  </th>
+						  {% endifequal %}
+						  <!--<th>Tags</th>-->
+					  </tr>
+				  </thead>
+			  {% endif %}
+
+			  {% if not items and not search %}
+				  <tfoot>
+					  <tr>
+						  <td colspan="1">
+
+
+						  </td>
+					  </tr>
+				  </tfoot>
+			  {% else %}
+				  <tfoot>
+					  <tr>
+
+						  <td colspan="5">&nbsp;
+
+
+						  </td>
+					  </tr>
+				  </tfoot>
+			  {% endif %}
+
+
+
+
+			  <tbody>
+				  {% if not items and not search %}
+					  <tr>
+						  <td  style="padding-left:450px; padding-top: 100px; padding-bottom: 100px;">
+							  No items
+						  </td>
+					  </tr>
+				  {% endif %}
+
+				  {% for item in items %}
+					  {# if item.fixed and item.validated #}
+					  {% if False %}
+
+					  {% else %}
+					  <tr class="{% if item.fixed and not item.validated %} completed {% endif %}" >
+							  <td class="checkbox"><input type="checkbox" name="id" value="{{ item.id }}" onchange="$.get('{% url roadmap.ledger.views.toggle_item item_id=item.id %}', function(data) { $('#selectedItems').html(data); });" {% if item.id|make_key in selected_items %} checked="checked" {% endif %} /></td>
+							  <td class="auto">
+									  <a href="{% url roadmap.ledger.views.item id=item.id %}?search_id={{ search_id }}">{{ item.id }}</a>
+							  </td>
+							  {% ifequal page.location "All" %}
+								  <td>
+									  <img src="/media/layout/icons/{{ item.location }}.png" alt="{{ item.location }}" title="{{ item.location }}" />
+								  </td>
+							  {% endifequal %}
+							  {% ifequal page.project "All" %}
+								  <td>
+									  <a href="/roadmap/ledger/binder/{{ item.project.binder.slug }}">{{ item.project.binder }}</a>
+								  </td>
+								  <td>
+									  <a href="/roadmap/ledger/project/{{ item.project.binder.slug }}/{{ item.project.slug }}">{{ item.project }}</a>
+								  </td>
+							  {% endifequal %}
+							  <td>{{ item.priority }}</td>
+							  <td class="description">
+								{% if item.item_type.name == 'File'%}
+								  <img src="/media/layout/icons/{{ item.linked_item.icon }}" width="16" height="16" alt="{{ item.item_type }}" title="{{ item.item_type }}" />
+								{% else %}
+								  <img src="/media/layout/icons/{{ item.item_type }}.png" width="16" height="16" alt="{{ item.item_type }}" title="{{ item.item_type }}" />
+							  {% endif %}
+
+
+								  {% if item.follow_up %}
+									{% ifequal item.assigned_to user %}
+									  <img src="/media/layout/icons/flag_red.png" alt="Follow Up" title="Follow Up Required" class="floatRight"/>
+									{% endifequal %}
+								  {% endif %}
+
+
+								  {% if item.item_type.name == "Issue" or item.item_type.name == "Requirement" %}
+									  {% if item.fixed and not item.validated %}
+										  <img src="/media/layout/icons/tick.png" alt="Completed" title="Completed" class="floatRight"/>
+									  {% endif %}
+
+									  {% if item.fixed and item.validated %}
+										  <span class="floatRight">
+											  <img src="/media/layout/icons/tick.png" alt="Completed" title="Completed" />
+											  <img src="/media/layout/icons/emoticon_smile.png" alt="Validated" title="Validated" />
+										  </span>
+									  {% endif %}
+
+									  {% if not item.fixed and item.validated %}
+										  <img src="/media/layout/icons/cross.png" alt="Failed" title="Failed" class="floatRight"/>
+									  {% endif %}
+								  {% endif %}
+
+								<span class="floatRight">
+								  {% for loop_target in item.targets.all %}
+									{% ifequal loop_target.user user %}
+									  <img src="/media/layout/icons/target.png" alt="Target" title="Target"/> <span style="color: #aaa; margin-right: 4px;">{{ loop_target.name }}</span>
+									{% endifequal %}
+								  {% endfor %}
+								</span>
+
+
+								  <a href="{% url roadmap.ledger.views.item id=item.id %}?search_id={{ search_id }}">{{ item.description }}</a>
+								  <span class="tags">
+										  {{ item.tags|user_tags }}
+								  </span>
+							  </td>
+
+							  {% ifequal assigned_to "all" %}
+								  <td><a href="{% url roadmap.ledger.views.profile username=item.assigned_to.username %}">{{ item.assigned_to.first_name }} {{ item.assigned_to.last_name }}</a></td>
+							  {% endifequal %}
+					  </tr>
+					  {% endif %}
+				  {% endfor %}
+
+
+
+
+
+				  {% if search %}
+					  {% for item in search %}
+						  <tr>
+								  <td class="checkbox"><input type="checkbox" name="id" value="{{ item.id }}" /></td>
+								  <td class="auto"><a href="{% url roadmap.ledger.views.item id=item.id %}">{{ item.id }}</a></td>
+								  <td colspan="2">
+
+								  {% if item.item_type.name == "Issue" or item.item_type.name == "Requirement" %}
+									  {% if item.fixed and not item.validated %}
+										  <img src="/media/layout/icons/tick.png" alt="Completed" title="Completed" class="floatRight"/>
+									  {% endif %}
+
+									  {% if item.fixed and item.validated %}
+										  <span class="floatRight">
+											  <img src="/media/layout/icons/tick.png" alt="Completed" title="Completed" />
+											  <img src="/media/layout/icons/emoticon_smile.png" alt="Validated" title="Validated" />
+										  </span>
+									  {% endif %}
+
+									  {% if not item.fixed and item.validated %}
+										  <img src="/media/layout/icons/cross.png" alt="Failed" title="Failed" class="floatRight"/>
+									  {% endif %}
+								  {% endif %}
+							  </td>
+
+							  {# ifequal page.location "All" #}
+							  <td>
+								  <img src="/media/layout/icons/{{ item.location }}.png" alt="{{ item.location }}" title="{{ item.location }}" />
+							  </td>
+							  {# endifequal #}
+
+							  {% ifequal page.project "All" %}
+							  <td>
+								  <a href="/roadmap/ledger/binder/{{ item.project.binder.slug }}">{{ item.project.binder }}</a>
+							  </td>
+							  <td>
+								  <a href="/roadmap/ledger/project/{{ item.project.binder.slug }}{{ item.project.slug }}">{{ item.project }}</a>
+							  </td>
+							  {% endifequal %}
+							  <td>{{ item.priority }}</td>
+							  <td class="description">
+								  <a href="{% url roadmap.ledger.views.item id=item.id %}">{{ item.description }}</a>
+								  <span class="floatRight">{{ item.tags|user_tags }}
+								  </span>
+							  </td>
+
+							  <td><a href="{% url roadmap.ledger.views.profile username=item.assigned_to.username %}">{{ item.assigned_to.first_name }} {{ item.assigned_to.last_name }}</a></td>
+						  </tr>
+					  {% endfor %}
+				  {% endif %}
+			  </tbody>
+	  </table>
+  </form>
+
+
+
+
+  {% load tagging_tags %}
+  {% tags_for_model ledger.Item as item_tags %}
+
+  <script type="text/javascript">
+
+		var availableTags =  [ {% for item in item_tags %}"{{ item }}", {% endfor %} ];
+
+		function tableThings() {
+			$(".jtable th").each(function() {
+			$(this).addClass("ui-state-default");
+			$('#SearchTags').focus();
+		 });
+
+		$(".jtable td").each(function(){
+
+		 $(this).addClass("ui-widget-content");
+
+		 });
+
+		$(".jtable tr td.checkbox input").click(function() {
+
+		});
+
+		$(".jtable tr td.checkbox").click(function() {
+		  var value = $(this).find("input[type='checkbox']").attr("checked") ? false : true;
+		});
+
+		$(".jtable tr td.description").click(function() {
+			window.location = $(this).find('a').attr('href');
+		});
+
+	}
+
+	Roadmap.addLoader(tableThings);
+
+	function tableSelectAll() {
+	  $('input[type=checkbox]').each(function(index, element) {
+		if($(element).attr('id') != 'all') {
+		  $(element).click();
+		}
+	  });
+	}
+
+	</script>
+
+
+{% endblock %}

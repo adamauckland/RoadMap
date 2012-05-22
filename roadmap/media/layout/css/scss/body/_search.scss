@@ -1,0 +1,44 @@
+#searchLauncher {
+	cursor: pointer;
+}
+
+#searchbox {
+	float: left; padding: 8px; padding-bottom: 9px;
+
+	#searchStart {
+		background: 229px #fff no-repeat; border: solid 1px #ccc; width: 243px; @include borderRadius(12px, 12px, 12px, 12px);
+		&:focus {
+			border: solid 1px #3badf9;
+		}
+		&.working {
+			background: #fff url('/media/layout/images/indicator.white.gif')   229px no-repeat;
+		}
+
+	}
+}
+
+#searchWrapper {
+	position: absolute; top: 106px; width: 600px; z-index: 99999;
+
+	#searchResults {
+		background-color: black; border: none; color: black; display: none; left: -361px; position: relative;  z-index: 99999;
+		a { color: $orange; }
+		ol {
+			li {
+				background-color: #fff; border: solid 1px $lightBlue; border-bottom: none; display: block; /*margin-bottom: 16px; */ margin-right: 0px; padding: 4px; width: 600px;
+				&.selected {
+					background-color: $orange;
+					a {
+						color: black;
+					}
+				}
+				.project {
+					color: #777; padding-left: 8px;
+				}
+				.tags {
+					color: $darkBlue;
+				}
+			}
+		}
+	}
+}

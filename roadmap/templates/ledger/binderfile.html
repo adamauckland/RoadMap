@@ -1,0 +1,332 @@
+{% extends "ledger/base.html" %}
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+{% block "toolbox" %}
+
+{% endblock %}
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+{% block "rightcontent" %}
+  <div id="line-divider">
+
+	<div style="margin-top: 44px">
+	{% include "ledger/objects/calendar.html" %}
+	</div>
+
+
+	<h3 style="margin-left: 12px;">Tags</h3>
+	<div id="tagCloud" style="padding-left: 12px;">
+		<div>
+			{% for tag in tag_cloud %}
+				<span class="tag-{{tag.font_size}}"><a href="/roadmap/ledger/active?location=All&binder={{binder.slug }}&tags={{ tag.name|urlencode }}&SearchTags=Search">{{tag.name}}</a></span>
+			{% endfor %}
+		</div>
+	</div>
+
+
+	<div id="team">
+		<div style="margin-bottom: 1em; padding-right: 12px; margin-left: 12px;">
+			{% if binder.owner = user %}
+				<div style="clear: right;">
+					You own this binder.
+					<a href="#" class="changeLink" onclick="Roadmap.slideInOut('#reassignOwner', this, 'Reassign', 'Hide'); return false;">Reassign</a>
+					<br/>
+				</div>
+			{% else %}
+
+				<div style="clear: right;">
+					<span style="float:right;"><a href="{% url roadmap.ledger.views.profile username=binder.owner.username %}">{{ binder.owner.first_name }} {{ binder.owner.last_name }}</a></span>
+					<h3>Owner</h3>
+				</div>
+			{% endif %}
+		</div>
+
+
+		<h3 style="margin-bottom: 8px; margin-left: 12px;">Team</h3>
+
+		{% if binder.owner = user %}
+			<div id="reassignOwner" title="Reassign">
+				<ol class="userList" id="reassignUserList">
+					{% for loop_item in users %}
+						 {% if loop_item != user %}
+							<li>
+								<form name="addToTeam_{{ loop_item.id }}" method="post" action="/roadmap/ledger/owner_to_binder">
+										{% csrf_token %}
+									<span style="float: left;">
+										<span class="gravatar">
+												<img src="{% avatar_url loop_item 48 %}" />
+										</span>
+									</span>
+
+									<div style="float:right;">
+										{% if loop_item.first_name %}<a href="{% url roadmap.ledger.views.profile username=loop_item.username %}">{{ loop_item.first_name }} {{ loop_item.last_name }}</a>{% else %}{{ loop_item.email }}{% endif %}
+										<br/>
+										<input type="hidden" name="user_id" value="{{ loop_item.id }}" /><br/>
+										<input type="hidden" name="binder_id" value="{{ binder.id }}" />
+									</div>
+
+									 <div style="clear: right; text-align: right;">
+										<input type="submit" name="submit" value="Reassign" onclick="return(reassignOwner(this, {{ loop_item.id }}, {{ binder.id }}));"/>
+									 </div>
+								</form>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ol>
+			</div>
+		{% endif %}
+
+
+		<ol id="teamList">
+			{% for item in team %}
+				<li class="clearfix">
+					<span style="float: left;">
+						<span class="gravatar">
+								<img src="{% avatar_url item 48 %}" />
+						</span>
+					</span>
+
+					<div style="float:right; text-align: right;">
+						<a href="{% url roadmap.ledger.views.profile username=item.username %}">{{ item.first_name }} {{ item.last_name }}</a><br/>
+						{% ifequal item binder.owner %}
+							<span class="userType"><img src="/media/layout/icons/user_gray.png" title="Owner" alt="Owner"/> Owner</span>
+						{% else %}
+						  {% if item in reporters %}
+							  <span class="userType"><img src="/media/layout/icons/Reported.png" title="Reporter" alt="Reporter icon" /> Reporter</span>
+						  {% endif %}
+						  {% if item in producers %}
+							  <span class="userType"><img src="/media/layout/icons/Production.png" title="Producer" alt="Producer icon" /> Producer</span>
+						  {% endif %}
+						{% endifequal %}
+					</div>
+
+
+					{% if binder.owner = user %}
+						{% if item.id %}
+							<div style="clear:left;">
+								<a href="" onclick="return(removeFromTeam(this, {{ item.id }}, {{ binder.id }}));">
+								Remove
+								</a>
+							</div>
+						{% endif %}
+					{% endif %}
+
+				</li>
+			{% endfor %}
+		</ol>
+
+
+		{% if binder.owner = user %}
+			<div>
+				<a href="#" class="changeLink" onclick="Roadmap.slideInOut('#addToTeam', this, 'Add to team', 'Hide'); return false;">Add to team</a>
+				<br/>
+			</div>
+
+
+			<div id="addToTeam" title="Add to team">
+				<ol class="choiceList" id="userList">
+					{% for loop_item in users %}
+						{% if loop_item not in team %}
+						<li class="clearfix">
+							<form name="addToTeam_{{ loop_item.id }}" method="post" action="/roadmap/ledger/user_to_binder">
+									{% csrf_token %}
+								<span style="float: left;">
+									<span class="gravatar">
+											<img src="{% avatar_url loop_item.author 48 %}" />
+									</span>
+								</span>
+									<input type="hidden" name="user_id" value="{{ loop_item.id }}" />
+									<input type="hidden" name="binder_id" value="{{ binder.id }}" />
+
+									<!--<a href="" onclick="return(addToTeam(this, {{ loop_item.id }}, {{ binder.id }}));">-->
+
+										<div style="float:right;">
+											{% if loop_item.first_name %}<a href="{% url roadmap.ledger.views.profile username=loop_item.username %}">{{ loop_item.first_name }} {{ loop_item.last_name }}</a>{% else %}{{ loop_item.email }}{% endif %}<br/>
+												<input type="checkbox" name="reporter" class="reporter" value="checked"/> Reporter <br/>
+												<input type="checkbox" name="producer" class="producer" value="checked"/> Producer <br/>
+
+										</div>
+
+										<div style="clear:right; text-align: right">
+											<input type="submit" name="submit" value="Add" onclick="return(addToTeam(this, {{ loop_item.id }}, {{ binder.id }}));"/>
+										</div>
+								</form>
+						</li>
+						{% endif %}
+					{% endfor %}
+
+					<li>
+						<form name="inviteToTeam" method="post" action="/roadmap/ledger/user_to_binder">
+							<div>Invite new member as</div>
+
+							<input type="checkbox" name="reporter" class="reporter" value="checked"/> Reporter <br/>
+							<input type="checkbox" name="producer" class="producer" value="checked"/> Producer <br/>
+
+							<label for="email">Email address</label>
+							<input type="input" id="email" name="email" />
+
+							<div style="clear:right; text-align: right">
+								<input type="submit" name="submit" value="Invite" onclick="return(addToTeam(this, 0, {{ binder.id }}));"/>
+							</div>
+						</form>
+					</li>
+				</ol>
+			</div>
+		{% endif %}
+	</div>
+
+  </div>
+
+	<!--
+	<div class="segmentWrap">
+		<div id="news">
+
+			<ol>
+				{% for item in feed %}
+					<li style="border-bottom: solid 1px #eee;padding-bottom: 0.5em;	margin-bottom: 1em;">
+						<div style="color: #999999; font-size: 90%; padding-bottom: 0;">
+							{{ item.date_time }}
+						</div>
+
+						<p style="margin-top:0; ">
+							{{ item.description|safe|capfirst }}
+						</p>
+					</li>
+				{% endfor %}
+
+				{% if not feed %}
+					<li>No updates</li>
+				{% endif %}
+			</ol>
+		</div>
+	</div>
+	-->
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+	<img src="/media/layout/icons/house.png" alt="Return to home" title="Home" /> <a href="/roadmap/ledger" class="home {% ifequal headernav 'home'%} selected {% endifequal %}">Home</a> <!--<span class="arrow">&#9654;</span>-->
+	<!--<img src="/media/layout/icons/brick.png" /> <a href="{% url roadmap.ledger.views.view_binder name=binder.slug %}">{{ binder.name }}</a>-->
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+	<div id="binder">
+		<h2 style="margin-top:0;"><img src="/media/layout/icons/world.png" width="32" height="32"/> {{ binder.name }}</h2>
+
+		<h3 style="margin-left: 12px;">Client: {{ binder.client.name }}
+		</h3>
+
+			<ol>
+				{% for loop_project in projects %}
+					<li>
+						<h3 style="padding-bottom: 8px;">
+							<!--<img src="/media/layout/icons/timeline_marker.png" alt="Logo for Projects"  style="position: relative; top: 2px;"/>  -->
+							<span class="floatRight">{% if loop_project.project.deadline %}{{ loop_project.project.deadline|date:"d M Y" }}{% else %}{% endif %} </span>
+							<img src="/media/layout/icons/timeline_marker.png" alt="Logo for Projects" /> <a href="/roadmap/ledger/project/{{ binder.slug }}/{{ loop_project.project.slug }}">{{ loop_project.project.name }}</a>
+						</h3>
+
+						{% if loop_project = binder.default_project %}
+						<span>Default</span>
+						{% endif %}
+
+
+						
+						<div style="clear: both;"></div>
+					</li>
+				{% endfor %}
+			</ol>
+
+
+	</div>
+
+	<script type="text/javascript">
+		function setupPopups() {
+
+				$('#addToTeam').hide();
+				$('#reassignOwner').hide()
+			}
+
+		function addToTeam(element, userId, binderId) {
+			var emailAddress = '';
+			try {
+				emailAddress = $(element).parent().parent().children('#email').val();
+			} catch (e)
+			{
+
+			}
+
+			//alert($(element).parent().parent().children('div .producer:checked').val());
+
+			$.post('/roadmap/ledger/user_to_binder',
+				{
+					user_id : userId,
+					email_address : emailAddress,
+					binder_id : binderId,
+					reporter : $(element).parent().parent().find('div .reporter:checked').val() ? 'checked' : '',
+					producer : $(element).parent().parent().find('div .producer:checked').val() ? 'checked' : '',
+					action : 'add'
+				},
+
+				function(data) {
+					if(data == 'success') {
+						window.location.reload();
+						return false;
+						var addElement = $(element).parent().parent();
+						addElement.fadeOut(100, function() {
+							$('#teamList').append(addElement);
+							addElement.fadeIn(100);
+						});
+					}
+				}
+			);
+			return false;
+		}
+
+		function reassignOwner(element, userId, binderId) {
+			$.post('/roadmap/ledger/owner_to_binder',
+				{
+					user_id : userId,
+					binder_id: binderId
+				},
+				function(data) {
+					window.location.href=window.location.href;
+				}
+			);
+			return false;
+		}
+
+		function removeFromTeam(element, userId, binderId) {
+			$.post('/roadmap/ledger/user_to_binder',
+				{ user_id : userId, binder_id : binderId, action : 'remove'},
+
+				function(data) {
+					if(data == 'success') {
+						window.location.reload();
+						return false;
+						var addElement = $(element).parent();
+						addElement.fadeOut(100, function() {
+							$('#userList').append(addElement);
+							addElement.fadeIn(100);
+						});
+					}
+				}
+			);
+			return false;
+		}
+
+		Roadmap.addLoader(setupPopups);
+	</script>
+{% endblock %}

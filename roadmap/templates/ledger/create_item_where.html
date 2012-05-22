@@ -1,0 +1,83 @@
+{% extends "ledger/base_wide.html" %}
+{% load custom %}
+{% load markup %}
+
+{% block "title" %}
+Active {{ page.location }}
+{% endblock %}
+
+
+
+
+
+{% block "breadcrumb" %}
+	<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a>
+{% endblock %}
+
+
+
+
+{% block "toolbox" %}
+<div id="toolbox">
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue' %}"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Requirement' %}"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File' %}"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note' %}"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+	<div id="createItemWhere"  class="instaFilter">
+		<h2>Create {{ item_type }}</h2>
+
+		<p class="margin24">
+			You are adding a new {{ item_type }}. Which project should it be added to?
+		<p>
+
+		<div class="margin24" style="margin-top: 24px;">
+			<img src="/media/layout/icons/find.png" alt="Search" title="Search"  style="margin-right: 4px;"/> <input type="text" id="feedFilter" class="instaFilterInput"/>
+		</div>
+
+		<ol class="clients">
+			{% for loop_client in client_items %}
+				<li class="instaFilterThis">
+					<h3><img src="/media/layout/icons/folder_user.png" /> {{ loop_client.name }}</h3>
+
+					<ol class="binders">
+						{% for loop_binder in loop_client.binders %}
+							<li >
+								<h3><img src="/media/layout/icons/group.png" /> {{ loop_binder.name }}</h3>
+
+								<ol class="projects">
+									{% for loop_project in loop_binder.projects %}
+										<li>
+											<a href="{% url roadmap.ledger.views.new_item item_type=item_type %}?project={{ loop_project.id }}">
+												<img src="/media/layout/icons/timeline_marker.png" alt="Icon for {{ item_type }}" />
+												{{ loop_project }}
+											</a>
+										</li>
+									{% endfor %}
+								</ol>
+
+							</li>
+						{% endfor %}
+					</ol>
+				</li>
+			{% endfor %}
+		</ol>
+	</div>
+{% endblock %}

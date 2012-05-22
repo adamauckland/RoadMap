@@ -1,0 +1,390 @@
+{% extends "ledger/base.html" %}
+
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/timeline_marker.png" />
+{% endblock %}
+
+
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+
+{% block "toolbox" %}
+
+  <div id="toolbox">
+
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ item.id }}">+ Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ item.id }}">+ Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ item.id }}">+ File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ item.id }}">+ Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+  {% include "ledger/objects/project_details.html" %}
+{% endblock %}
+
+
+
+{% block "navigation" %}
+	<ol id="tabBar">
+		<li>
+			<ol>
+				<li>
+					<a href="{% url roadmap.ledger.views.view_client name=binder.client.slug %}">{{ binder.client.name }}</a>
+				</li>
+			</ol>
+		</li>
+
+		<li>
+			<div class="sectionTop project  {% if template_section == 'overview' %} selected {% endif %}">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/overview">{{ item.name }}</a>
+			</div>
+		</li>
+
+
+		<li>
+			<div class="sectionTop">
+				<a id="viewDefaultItems" href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?{{ view_settings }}">
+					Items
+				</a>
+			</div>
+
+			{% if user_filters.count > 1 %}
+				<ol>
+					{% for loop_filter in user_filters %}
+						<li>
+							<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?searchId={{ loop_filter.search_id }}">{{ loop_filter.name }}</a>
+						</li>
+					{% endfor %}
+				</ol>
+			{% endif %}
+		</li>
+
+		<li>
+			<div class="sectionTop  {% if template_section == 'notes' %} selected {% endif %}">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/notes">Notes</a>
+			</div>
+		</li>
+		<li>
+			<div class="sectionTop  {% if template_section == 'emails' %} selected {% endif %}">
+			  <a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/emails">Communication</a>
+			</div>
+		</li>
+
+		<li>
+			<div class="sectionTop  {% if template_section == 'files' %} selected {% endif %}">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/files">File Library</a>
+			</div>
+		</li>
+
+		<li class="last  {% if template_section == 'deliverynotes' %} selected {% endif %}">
+			<div class="sectionTop">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/deliverynotes">Delivery Notes</a>
+			</div>
+		</li>
+	</ol>
+{% endblock %}
+
+
+
+
+
+
+{% block "breadcrumb" %}
+
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+
+
+	<!--<span style="margin-left: 24px; color: #aaa; font-size: 10px; position: relative; top: -8px;">Binder</span>-->
+	<div id="project">
+
+		<h2 style="margin-top: 0"> <span>{{ item.name }}  {% if template_section == "deliverynotes" %}Delivery Notes {% else %}{{ template_section|capfirst }}{% endif %}</span></h2>
+	  <div id="details">
+
+
+
+	{% if template_section == 'overview' %}
+		<div class="tabContent" id="overview">
+		  {% if follow_ups %}
+			<div style="border-bottom: dashed 1px #ddd; margin-bottom: 24px; padding-bottom: 16px; margin-left:12px;">
+			  <h3>
+				<img src="/media/layout/icons/flag_red.png" alt="Icon for follow up"> The following items require your attention
+			  </h3>
+
+			  <ul>
+				{% for loop_follow_up in follow_ups %}
+				  <li>
+					<!--<img src="/media/layout/icons/{{ loop_follow_up.item_type }}.png" alt="Logo for {{ loop_follow_up.item_type }}" /> --><a href="{% url roadmap.ledger.views.item id=loop_follow_up.id %}">{{ loop_follow_up.description }}</a>
+				  </li>
+
+				{% endfor %}
+			  </ul>
+			</div>
+		  {% endif %}
+
+
+			<div style="margin-left: 12px;">
+				<table>
+					<thead>
+						<tr>
+							<th>Status</th>
+							<th style="text-align: center">
+								Identified
+								<span class="floatRight" style="color: #ddd;">▶</span>
+							</th>
+							<th style="text-align: center">
+								Actioned
+								<span class="floatRight" style="color: #ddd;">▶</span>
+							</th>
+							<th style="text-align: center">
+								Completed
+								<span class="floatRight" style="color: #ddd;">▶</span>
+							</th>
+							<th style="text-align: center">
+								Verified
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for loop_item in row.items %}
+							<tr>
+								<th>
+									{{ loop_item.location.description }} {{ loop_item.all_count }}</th>
+
+
+								{% for loop_state in loop_item.items%}
+								<td style="text-align: center" class="charcoal">
+									{{ loop_state}}
+								</td>
+								{% endfor %}
+
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+
+			</div>
+
+
+<!--
+			{% if user.is_staff %}
+			<div style="padding-top: 16px; margin-left: 250px; ">
+				<img src="/media/layout/icons/cog.png" alt="Cog"/>
+				<a href="{% url roadmap.ledger.views.view_project_breakdown client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}">
+					Advanced Binder Controls
+				</a>
+			</div>
+		{% endif %}
+		--->
+
+
+			<div class="instaFilter">
+				<h3 style="clear:left; padding-top: 2em; padding-left: 12px;">
+					<span class="floatRight">
+						<input type="text" id="feedFilter" class="instaFilterInput" placeholder="Filter updates "/>
+					</span>
+					{{ updates_header }}</h3>
+
+				<ol style=" padding-left: 12px;" id="feed">
+					{% for item in feed %}
+						<li style="border-bottom: solid 1px #eee;padding-bottom: 0.5em;	margin-bottom: 1.5em;" class="instaFilterThis">
+
+							<div class="floatRight" style="margin-left: 16px;">
+								<span class="gravatar">
+										<img src="{% avatar_url item.author 32 %}" />
+								</span>
+							</div>
+
+							<p style="margin-top:0; " >
+								{{ item.description|safe|capfirst }}
+							</p>
+
+							<div style="color: #999999; font-size: 80%; padding-bottom: 0;">
+								 <span style="padding-right:12px;">#{{ item.item.id }}</span>{{ item.date_time }}
+							</div>
+
+						</li>
+					{% endfor %}
+
+					{% if not feed %}
+						<li>No updates</li>
+					{% endif %}
+				</ol>
+			</div>
+		</div>
+	{% endif %}
+
+
+	{% if template_section == 'files' %}
+		<div id="files" class="tabContent margin12">
+			{% if files %}
+
+			  <ol id="files">
+				{% for item in files %}
+				  <li>
+
+					{% if item.file %}
+
+					  <span class="linkButton charcoal" style="float:right">
+						{% if item.item.get_comments %}{{ item.item.get_comments.count }} comment{{ item.item.get_comments|pluralize }}{% endif%}
+
+
+					  </span>
+					{% else %}
+					  <span style="float:right">
+						<img src="/media/layout/icons/Error.png" alt="Missing File" title="Missing File" />
+						<span>This file is missing</span>
+					  </span>
+					{% endif %}
+
+						<p style="padding-bottom:12px;">
+						{{ item.item.description }}
+						</p>
+
+					<div>
+						<a class="floatRight orangeInput info" href="{% url roadmap.ledger.views.item id=item.item.id %}">Properties</a>
+
+						<a class="orangeInput" href="/media/documents/{{ item.file }}">Download File</a>
+					 </div>
+
+
+				  </li>
+				{% endfor %}
+			  </ol>
+			{% else %}
+				<p>There are no files</p>
+
+			{% endif %}
+		</div>
+
+
+
+
+	{% endif %}
+
+
+
+
+	{% if template_section == 'notes' %}
+		<div id="notes" class="tabContent margin12">
+			{% if notes %}
+
+				<ol id="notes">
+					{% for item in notes %}
+						<li class="note">
+							<span class="linkButton" style="float:right">
+								<a href="{% url roadmap.ledger.views.item id=item.item.id %}">Edit</a>
+							</span>
+
+							<h3>
+								<a href="#" class="showButton" onclick="$(this).parent('h3').parent('li').children('div').slideDown(300);$(this).parent('h3').children('a.hideButton').show();$(this).hide();return false;">+ {{ item.item.description }}</a>
+								<a href="#" class="hideButton" onclick="$(this).parent('h3').parent('li').children('div').slideUp(300);$(this).parent('h3').children('a.showButton').show();$(this).hide();return false;" style="display: none;">- {{ item.item.description }}</a>
+							</h3>
+
+							<div style="display:none;">
+								{{ item.text|safe }}
+							</div>
+
+						</li>
+					{% endfor %}
+				</ol>
+			{% else %}
+				<p>There are no notes</p>
+			{% endif %}
+		</div>
+	{% endif %}
+
+
+
+
+	{% if template_section == 'emails' %}
+		<div id="emails" class="tabContent margin12">
+		{% if emails %}
+
+			<ol id="notes">
+				{% for item in emails %}
+					<li>
+						<h3><a href="{% url roadmap.ledger.views.item id=item.item.id %}">{{ item.item.description }}</a></h3>
+						<pre>{{ item.body }}</pre>
+					</li>
+				{% endfor %}
+			</ol>
+		{% else %}
+			<p>There are no emails</p>
+		{% endif %}
+		</div>
+	{% endif %}
+
+
+	{% if template_section == 'deliverynotes' %}
+		<div id="deliverynotes" class="tabContent margin12">
+		  {% if delivery_notes %}
+			  <ol id="notes">
+				  {% for item in delivery_notes %}
+					  <li class="note">
+						  <span class="linkButton" style="float:right">
+							  <a href="{% url roadmap.ledger.views.item id=item.id %}">Edit</a>
+							  <!--<a href="#" class="showButton" onclick="$(this).parent('span').parent('li').children('div').slideDown(300);$(this).parent('span').children('a.hideButton').show();$(this).hide();return false;">Show</a>
+							  <a href="#" class="hideButton" onclick="$(this).parent('span').parent('li').children('div').slideUp(300);$(this).parent('span').children('a.showButton').show();$(this).hide();return false;" style="display: none;">Hide</a>-->
+						  </span>
+
+						  <h3>
+							  <!--<img src="/media/layout/icons/note.png" alt="Delivery Notes" title="Deliery Notes" />-->
+							  <a href="#" class="showButton" onclick="$(this).parent('h3').parent('li').children('div').slideDown(300);$(this).parent('h3').children('a.hideButton').show();$(this).hide();return false;">+ {{ item.description }}</a>
+								  <a href="#" class="hideButton" onclick="$(this).parent('h3').parent('li').children('div').slideUp(300);$(this).parent('h3').children('a.showButton').show();$(this).hide();return false;" style="display: none;">- {{ item.description }}</a>
+							  <!--<a href="/item/{{ item.id }}">{{ item.description }}</a> -->({{ item.type }})
+						  </h3>
+
+						  <div style="display:none;">
+							  <code>{{ item.text }}</code>
+						  </div>
+					  </li>
+				  {% endfor %}
+			  </ol>
+		  {% else %}
+			  <p>There are no delivery notes</p>
+		  {% endif %}
+		</div>
+
+	{% endif %}
+
+	  </div>
+	</div>
+
+	<script type="text/javascript">
+		document.title = 'Roadmap | {{ item.name|safe }}';
+	</script>
+{% endblock %}

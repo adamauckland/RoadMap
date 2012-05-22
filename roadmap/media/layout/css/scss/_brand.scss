@@ -1,0 +1,146 @@
+$charcoal: #696969; /* 444444;*/
+$orange: #FB9E4A;
+$electricBlue: rgb(59, 173, 249);
+$ok-colour: #FB9E4A;
+$blue: #2779AA;
+$lightBlue:  #0875ba; /*  electric blue  #39ADF9; */  /*#0875ba; *//*#7CA9CA;*/
+$darkBlue: #174E6E;
+$lines: #e3e3e3;
+$labelBackground: #ffffff; /* lighten($lightBlue, 27%);*/ /* #FFF0EA;  */
+$labelBackgroundHighlight: $labelBackground;/* #FBF7E0;											*/
+$navGray: #888;
+
+/* colours */
+$headerGradientTop: #373737;
+$headerGradientBottom: #3f3f3f;
+$headerHeight: 76px;
+
+
+
+$error-colour: #ff0000;
+$warning-colour: #ff0000;
+$info-colour: $lightBlue;
+$border-colour: $lightBlue;
+$black-colour: #333333;
+
+.charcoal { color: $charcoal; }
+
+$buttonRadius: 16px;
+.margin24 { margin-left: 24px; }
+.marginRight24 { margin-right: 24px; }
+.margin12 { margin-left: 12px; }
+.marginRight12 { margin-right: 12px; }
+.explanation { color: lighten($charcoal, 20%); font-size: 11px; }
+
+.error { color: #dd0000; }
+
+@mixin buttonCorners {
+	border-radius: $buttonRadius $buttonRadius $buttonRadius $buttonRadius;
+	-moz-border-radius: $buttonRadius $buttonRadius $buttonRadius $buttonRadius;
+	-webkit-border-radius: $buttonRadius $buttonRadius $buttonRadius $buttonRadius;
+	border-collapse: separate;
+	border-spacing: 1px;
+}
+
+
+@mixin border($colour) {
+
+}
+
+@mixin rounded-corners($radius) {
+    border-radius: $radius; -moz-border-radius: $radius; -webkit-border-radius: $radius;
+}
+
+@mixin colour-gradient($colour) {
+    @include border($colour);
+    background-color: $colour;
+    background: -moz-linear-gradient(top, lighten($colour, 10%) 10%, darken($colour, 7%) 90%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.1, lighten($colour, 10%)), color-stop(0.9, darken($colour, 7%)));
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#{lighten($colour, 10%)}', endColorstr='#{darken($colour, 7%)}');
+}
+
+@mixin button-style() {
+    border: none;
+	display: inline-block;
+	padding: 3px 9px 4px;
+	color: #fff;
+	text-decoration: none;
+
+	@include rounded-corners(5px);
+
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer;
+
+    @include colour-gradient($ok-colour);
+
+    font-size: 12px;
+    font-weight: normal;
+}
+
+/* Usage */
+input.submit, button, .orangeInput {
+	@include button-style();
+
+	&.error { @include colour-gradient($error-colour); }
+	&.warning { @include colour-gradient($warning-colour); }
+	&.info { @include colour-gradient($info-colour); }
+	&.black { @include colour-gradient($black-colour); }
+
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+/* Hover colour change for "click-me"-ness */
+input.submit:hover { @include colour-gradient(darken($ok-colour, 5%)); }
+input.error:hover { @include colour-gradient(darken($error-colour, 5%)) };
+input.warning:hover { @include colour-gradient(darken($warning-colour, 5%)); }
+input.info:hover { @include colour-gradient(lighten($info-colour, 5%)); }
+
+a.submit:hover { @include colour-gradient(darken($ok-colour, 5%)); }
+a.error:hover { @include colour-gradient(darken($error-colour, 5%)) };
+a.warning:hover { @include colour-gradient(darken($warning-colour, 5%)); }
+a.info:hover { @include colour-gradient(lighten($info-colour, 5%)); }
+
+.priorityLow { }
+.priorityMedium { }
+.priorityHigh {	color: #f57016; }
+.priorityUrgent { color: #fa383a; }
+
+.statusVerified {  }
+.statusCompleted {   }
+.statusActioned {  }
+.statusIdentified { }
+
+
+
+
+/* Make it depress on click */
+input.submit:active {top: 1px;}
+
+/* Grey it out when input element is disabled, remove hover colour change and remove click depress */
+input.submit[disabled="disabled"], input.submit[disabled], input.disabled {
+		color: $border-colour;
+		@include colour-gradient(grayscale($ok-colour));
+
+		&:hover { @include colour-gradient(grayscale($ok-colour)); }
+		&:active { top: 0; }
+}
+
+.popOver {
+		background-color: white;
+		z-index: 99999;
+		padding-top: 4px;
+		padding-right: 4px;
+		padding-bottom: 4px;
+		padding-left: 4px;
+		border: 1px solid #ccc;
+		display: block;
+		position: absolute;
+		@include shadow(0px, 5px, 10px, #aaa);
+}

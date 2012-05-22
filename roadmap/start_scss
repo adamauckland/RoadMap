@@ -1,0 +1,2 @@
+#!/bin/bash
+/var/lib/gems/1.9.1/bin/sass -t compact --debug-info  --watch media/layout/css/scss/:media/layout/css

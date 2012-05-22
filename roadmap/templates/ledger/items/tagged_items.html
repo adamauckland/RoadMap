@@ -1,0 +1,131 @@
+{% extends "ledger/base_wide.html" %}
+{% load custom %}
+{% load markup %}
+
+{% block "title" %}
+Active {{ page.location }}
+{% endblock %}
+
+
+
+
+
+{% block "breadcrumb" %}
+	<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/application_view_list.png"  title="Items" /> Items
+
+{% endblock %}
+
+
+
+
+
+{% block "navigation" %}
+	<ol>
+		<li>
+				{% for client in clients %}
+					<ol>
+					<li>
+
+							<a href="/roadmap/ledger/client/{{ client.slug }}">{{ client.name }}</a>
+
+					</li>
+					</ol>
+				{% empty %}
+				<ol>
+					<li>
+							No clients
+					</li>
+				</ol>
+				{% endfor %}
+
+		</li>
+
+		<li>
+			<div class="sectionTop">
+				<a href="/roadmap/ledger/new_client" class="">+ Client</a>
+			</div>
+		</li>
+	</ol>
+{% endblock %}
+
+
+
+
+
+{% block "toolbox" %}
+  <div id="toolbox">
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue' %}" title="Add new issue">+ Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Requirement' %}" title="Add new requirement">+ Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File' %}" title="Add new file">+ File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note' %}" title="Add new note">+ Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+	<h2 style="padding-top: 24px;">
+	  {{ h2text }}
+	</h2>
+
+	<form action="" method="get" name="homelist" id="homeList" >
+		{% csrf_token %}
+
+	   <div id="tagBox">
+		  <img src="/media/layout/icons/find.png" alt="Search" title="Search"  style="margin-right: 4px;"/> <input type="text" id="searchTags" name="tags" class="" value="{{ tags }}" />
+
+			<input type="submit" class="submit"  name="Submit" value="Search"/>
+
+		</div>
+
+	    <table id="activeList" class="jtable expand">
+		<thead>
+			<tr>
+				<th class="checkbox" style="text-align: center; "><a href="/select_all_click?search_id={{ search_id }}">All</a></th>
+				<th></th>
+				<th class="auto"  >
+					<a href="#" onclick="return Roadmap.activeItemsOrder('id');" {% ifequal order_by "id" %}class="selected"{% endifequal  %}>#</a>
+				</th>
+
+				<th class="priority">
+					<a href="#" onclick="return Roadmap.activeItemsOrder('priority');" {% ifequal order_by "priority" %}class="selected"{% endifequal  %}>Priority</a>
+				</th>
+
+				<th class="description">
+					<a href="#" onclick="return Roadmap.activeItemsOrder('description');" {% ifequal order_by "description" %}class="selected"{% endifequal  %}>Description</a>
+				</th>
+
+				{% ifequal assigned_to "all" %}
+					<th>
+						<a href="#" onclick="return Roadmap.activeItemsOrder('assigned_to');" {% ifequal order_by "assigned_to" %}class="selected"{% endifequal  %}>Assigned</a>
+					</th>
+				{% endifequal %}
+
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for item in items %}
+				{% include "ledger/items/item_row.html" %}
+			{% endfor %}
+
+
+
+
+			</tbody>
+	  </table>
+	</form>
+{% endblock %}

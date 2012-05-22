@@ -1,0 +1,336 @@
+{% extends "ledger/base_wide.html" %}
+{% load custom %}
+
+
+
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/Note.png" />
+{% endblock %}
+
+
+
+
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+
+
+
+{% block "toolbox" %}
+	
+{% endblock %}
+
+
+
+
+{% block "heading" %}
+	
+{% endblock %}
+
+
+
+
+{% block "topnav2" %}
+{% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+<div id="sideBar">
+	<div id="detailsPanel" class="smoothBack">
+		<ol>
+			{% if item.date_time %}
+				<li>
+					<img src="/media/layout/icons/clock.png" alt="Clock" />
+					{{ item.date_time|date:"d M Y" }} at {{ item.date_time|date:"H:i" }}
+				</li>
+			{% endif %}
+		
+			{% if item.project %}
+				<li>
+					<a href="#" class="changeLink" onclick="Roadmap.slideInOut('#moveToProject', this, 'Change', 'Hide'); return false;">Change</a>
+					
+					<img src="/media/layout/icons/timeline_marker.png" alt="Timeline marker" />
+					<span id="contentProject">{{ item.project }}</span>
+					
+					<div id="moveToProject" title="Change Project">
+						<ol class="choiceList">
+							{% for loop_item in project %}
+								<li><img src="/media/layout/icons/timeline_marker.png" alt="Timeline marker" /> 
+									<a href="" onclick="return(updateProject({{ item.id }}, {{ loop_item.id }}));">{{ loop_item.name }}</a>
+								</li>
+							{% endfor %}
+								<li>
+									<img src="/media/layout/icons/timeline_marker.png" alt="Timeline marker" />
+									<input name="newProject" type="text" value="" id="newProject"/> <a href="" onclick="return(updateProject({{ item.id }}, 'new'));">Add</a>
+								</li>
+						</ol>
+					</div>
+				</li>
+			{% endif %}
+			
+			<li>
+				<!--{{ linked_item_form.priority }}--> <img src="/media/layout/icons/priority_{{ item.priority }}.png" alt="{{ item.priority }}" /> {{ item.priority }} priority
+			</li>
+			
+			<li>
+				<!--{% show_gravatar item.assigned_to.email 20 %}-->
+				<a href="#" class="changeLink" onclick="Roadmap.slideInOut('#moveToOwner', this, 'Change', 'Hide'); return false;">Change</a>
+				
+				<img src="/media/layout/icons/User.png" alt="User" />
+				<span id="contentAssigned">{{ item.assigned_to.first_name }} {{ item.assigned_to.last_name }}</span>
+				
+				<div id="moveToOwner" title="Assign Owner">
+					<ol class="choiceList">
+						{% for loop_item in users %}
+							<li>
+								{% show_gravatar loop_item.email 48 %}	
+								
+								<a href="" onclick="return(updateOwner({{ item.id }}, {{ loop_item.id }}));">
+									{{ loop_item.first_name }} {{ loop_item.last_name }}
+								</a>
+							</li>
+						{% endfor %}
+					</ol>
+				</div>
+			</li>
+			
+			<li>
+				<a href="#" class="changeLink" onclick="Roadmap.slideInOut('#moveToLocation', this, 'Change', 'Hide'); return false;">Change</a>
+				
+				<span id="contentLocation"><img src="/media/layout/icons/{{ item.location }}.png" alt="{{ item.location }}" /> In {{ item.location }}</span>
+				
+				<div id="moveToLocation" title="Change Location">
+					<ol class="choiceList">
+						{% for loop_item in location %}
+							<li>
+								<img src="/media/layout/icons/{{ loop_item }}.png" alt="Image for {{ loop_item }}" /> <a href="" onclick="return(updateLocation({{ item.id }}, {{ loop_item.id }}));">{{ loop_item.name }}</a>
+							</li>
+						{% endfor %}
+					</ol>
+				</div>
+			</li>
+			
+			{% if item.state = 0 %}
+				{% if item.item_type.name == 'Issue' or item.item_type.name == 'Requirement' %}
+					{% if item.location.name == 'Production' %}
+						<li id="markFixed">
+							{% if item.fixed and not item.validated %}
+								<img src="/media/layout/icons/tick.png" alt="Tick" /> Completed
+							{% else %}
+								<button onclick="return markCompleted();">Completed</button>
+							{% endif %}
+						</li>
+					{% endif %}
+					
+					{% if item.location.name == 'Testing' %}
+						<li id="markFixed">
+							{% if item.fixed and not item.validated %}
+								<button onclick="return markFailed();">Failed</button>
+								<button onclick="return markVerified();">Verified</button>
+							{% else %}
+								<button onclick="return markCompleted();">Completed</button>
+							{% endif %}
+						</li>
+					{% endif %}
+					
+				{% endif %}
+			{% endif %}
+			
+		</ol>
+	</div>
+	
+	<div style=" color: #666666; margin-bottom: 4px;margin-top: 1.5em;">
+		<label for="tags" id="tagsLabel">Tags</label>
+	</div>
+	<div>
+		<textarea name="tags" id="tags" style="width: 258px; height:5em; ">{{ item.tags }}</textarea>
+	</div>
+</div>
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+<div id="details">
+	<h2>
+		<img src="/media/layout/icons/world.png" /> <a href="/roadmap/ledger/binder/{{ item.project.binder.slug }}">{{ item.project.binder }}</a> <span class="arrow">&#9654;</span>
+		<img src="/media/layout/icons/timeline_marker.png" alt="Logo for Projects" /> <a href="/roadmap/ledger/project/{{ item.project.binder.slug }}/{{ item.project.slug }}">{{ item.project }}</a> <span class="arrow">&#9654;</span>
+		<!--
+		<img src="/media/layout/icons/{{ item.location }}.png" /> <a href="/roadmap/ledger/active?binder={{ item.project.binder.slug }}&project={{ item.project.slug }}&location={{ item.location }}">{{ item.location }}</a>  <span class="arrow">&#9654;</span>
+		-->
+		<img src="/media/layout/icons/{{ item.item_type }}.png" /> {{ item.item_type }} 
+	</h2>
+
+	<div id="contents">
+		<div id="editItem">
+		
+		<h2>{{ item.description }}</h2>
+			
+		<form action="/roadmap/ledger/item/{{ item.id }}" method="post" name="itemForm" enctype="multipart/form-data" >
+		<input type="hidden" name="referrer" value="{{ referrer }}" />
+				
+		{{ linked_item_form.field.errors }}
+		{% csrf_token %}
+		
+		<ul>
+			{% if item.state = 1 %}
+				{{ linked_item_form.subject.errors }}
+				<li><label for="id_subject">Subject</label></li>
+				<li>
+					{{ linked_item_form.subject }}
+				</li>
+				
+				{{ linked_item_form.text.errors }}
+				
+			{% endif %}
+				<li>{{ linked_item.email_from }}</li>
+			
+			<!--<li><label for="id_text">Notes</label></li>-->
+					<li>
+						{{ extra.email_body }}
+					</li>
+			
+			{% if extra.comments %}
+			<li>
+				<ol id="comments">
+				{% for comment in extra.comments %}
+					<li>
+						<div>
+							<!--<span class="floatRight">-->
+							<span class="floatRight">
+								{% show_gravatar comment.user.email 48 %}
+							</span>
+						
+							<span class="name">
+								<a href="{% url roadmap.ledger.views.profile username=comment.user.username %}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a>
+								<span class="dateTime">{{ comment.date_time|date:"d M Y" }} at {{ comment.date_time|date:"H:i" }}</span>
+							</span>
+							 
+							<p>
+							{{ comment.message }}
+							</p>
+						</div>
+						
+					</li>
+				{% endfor %}
+				</ol>
+			</li>
+			{% endif %}
+			 
+			<input type="hidden" name="location" value="{{ item.location.id }}" />
+			<input type="hidden" name="project" value="{{ item.project.id }}" />
+			<input type="hidden" name="owner" value="{{ item.assigned_to.id }}" />
+			 
+		{% if item.state = 0 %}
+		
+		<input type="hidden" name="subject" value="{{ item.description }}" />
+		{% endif %}
+		<li>
+		<input class="orangeInput submit" type="submit" name="update" value="Update" />
+		</li>
+	</form>
+
+	</div>
+</div>
+</div>
+	 
+	
+	{% load tagging_tags %}
+	{% tags_for_model ledger.Item as item_tags %}
+	
+		<script type="text/javascript">
+			$('#tabs').tabs();
+			
+			var availableTags =  [ {% for item in item_tags %}"{{ item }}", {% endfor %} ];
+			
+			Roadmap.addLoader(function() {
+				$('#tags').bind('blur', function() {
+					$.post(
+						'/roadmap/ledger/update_tags',
+						{
+							item_id: {{ item.id }},
+							tags: $('#tags').val()
+						},
+						function(data) {
+
+						}
+					);
+				});
+				}
+			);
+			
+			
+			function setupPopups() {
+				$("#moveToOwner").hide();
+				$("#moveToLocation").hide();
+				$("#moveToProject").hide();
+			}
+			
+			function addComment() {
+				var comments_text = $('#id_comments').val();
+				$.post(
+					'/roadmap/ledger/item_details_comment',
+					{ item_id: {{ item.id }}, comments: comments_text },
+					function(data) {
+						var referrer = '{{ referrer }}';
+						if(referrer == 'None') {
+							referrer= '/roadmap/ledger/';
+						}
+						window.location.href = referrer;
+					}
+				);
+				return false;
+			}
+			
+			function updateLocation(item_id, location_id) {
+				$("#moveToLocation").dialog('close');
+				$.post(
+					'/roadmap/ledger/item_details_location',
+					{ item_id: item_id, location_id: location_id },
+					function(data) {
+						$('#contentLocation').html(data);
+					}
+				);
+				return false;
+			}
+			
+			function updateOwner(item_id, owner_id) {
+				$("#moveToOwner").dialog('close');
+				$.post(
+					'/roadmap/ledger/item_details_owner',
+					{ item_id: item_id, owner_id: owner_id },
+					function(data) {
+						$('#contentAssigned').html(data);
+				});
+				return false;
+			}
+			
+			function updateProject(item_id, project_id, new_project) {
+				$("#moveToProject").dialog('close');
+				$.post(
+					'/roadmap/ledger/item_details_project',
+					{ item_id: item_id, project_id: project_id, new_project: $('#newProject').val() },
+					function(data) {
+						$("#contentProject").html(data);
+				});
+				return false;
+			}
+			
+			function markCompleted() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_completed',
+					{ item_id: item_id },
+					function(data) {
+						$('#markFixed').html(data);
+				});
+				return false;
+			}
+			
+			Roadmap.addLoader(setupPopups);
+		</script>
+{% endblock %}
+

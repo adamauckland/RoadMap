@@ -1,0 +1,130 @@
+{% include "ledger/scaffold/head.html" %}
+<body>
+	<div id="bodyWrap">
+		{% include "ledger/scaffold/header.html" %}
+		{% include "ledger/scaffold/statusbar.html" %}
+
+		<div id="statusbar" class="clearfix">
+
+
+			<div id="searchbox">
+				<!-- search-->
+				<input type="text" id="searchStart" />
+				<!--<img src="/media/layout/icons/magnifier.png" alt="Search"/> <a href="" id="searchLauncher">Search</a>-->
+
+				<div id="searchWrapper">
+						<div id="searchResults">&nbsp;</div>
+				</div>
+			</div>
+
+			{% include "ledger/scaffold/notifications.html" %}
+
+			{% block "toolbox" %}
+			{% endblock %}
+		</div>
+
+
+<!--
+			<span id="breadcrumb">
+			</span>
+
+			<div id="navCrumbWrapper">
+				{% block "breadcrumb" %}
+
+				{% endblock %}
+
+				{% if search_url %}
+					<div class="floatRight" style="margin-right: 12px;">
+
+						{% if new_item %}
+
+						{% else %}
+							{% if search_id %}
+								<a href="/roadmap/ledger/back_next?direction=-1&current_id={{ item.id }}&search_id={{ search_id }}"><img src="/media/layout/icons/control_rewind_blue.png" alt="Previous" title="Previous Item" /></a>{{ search_found }}/{{ search_count }}<a href="/roadmap/ledger/back_next?direction=1&current_id={{ item.id }}&search_id={{ search_id }}"><img src="/media/layout/icons/control_fastforward_blue.png" alt="Next Item" title="Next Item"  style="margin-left: 2px;"/></a>
+							{% endif %}
+						{% endif %}
+					</div>
+				{% endif %}
+			</div>
+-->
+
+		<div id="lowerWrapper" class="clearfix">
+			<div id="leftNav">
+				{% block "navigation" %}
+				{% endblock %}
+			</div>
+
+
+			<div id="container">
+			{% if added_flash_number %}
+				<div id="addedFlashWrapper">
+					<div id="addedFlash">
+						Item added as #<a href="{% url roadmap.ledger.views.item id=added_flash_number %}">{{ added_flash_number }}</a>
+					</div>
+				</div>
+			{% endif %}
+
+			<div id="latestUpdatesCollapse" style="top: 0px;">
+				<table id="activeList" class="jtable expand">
+					<tbody>
+						{% for item in item_states_list %}
+							{% include "ledger/items/item_row.html" with limit_functionality='True' %}
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+
+
+			{% block "topnav" %}
+
+			{% endblock %}
+
+			{% block "heading" %}
+			{% endblock %}
+
+
+				<div id="wrapper" class="wideWrapper">
+					<div id="content">
+					<div id="main-content" class="wide">
+						{% block "flash" %}
+							{% if flash %}
+								<div id="flash">
+									{% for key, value in flash.items %}
+										<div class="ui-widget">
+											<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 1em;">
+												<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+												{{ value|safe }}
+											</div>
+										</div>
+									{% endfor %}
+								</div>
+							{% endif %}
+						{% endblock %}
+
+						{% block "maincontent" %}
+						{% endblock %}
+
+					</div>
+
+
+				</div>
+
+				</div>
+				{% include "ledger/scaffold/footer.html" %}
+			</div> <!-- end of #container -->
+		</div>
+
+		{% if debug %}
+			<div> debug mode </div>
+				<ol>
+					{% for loop_item in sql_queries %}
+						<li>
+							{{ loop_item.time }} - {{ loop_item.sql }}
+						</li>
+					{% endfor %}
+				</ol>
+			{% endif %}
+	</div>
+	</body>
+</html>

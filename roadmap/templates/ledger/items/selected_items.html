@@ -1,0 +1,91 @@
+{% extends "ledger/base_wide.html" %}
+{% load custom %}
+{% load markup %}
+
+{% block "title" %}
+Active {{ page.location }}
+{% endblock %}
+
+
+
+
+
+{% block "breadcrumb" %}
+	<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/calendar_view_month.png"  title="Items" /> Items
+
+{% endblock %}
+
+
+
+
+{% block "toolbox" %}
+  <div id="toolbox">
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue' %}"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Requirement' %}"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File' %}"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note' %}"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+	<h2 style="margin-top: 0;">
+	  <img src="/media/layout/icons/calendar_view_month.png"  title="Items" />
+	  {{ h2text }}
+	</h2>
+
+	<form action="/roadmap/ledger/activepost?return=items" method="get" name="homelist" id="homeList" class="instaFilter">
+		{% csrf_token %}
+
+		<div id="selectedItems" style="{% if selected_items_count != 0 %}display:block;{% endif %}">
+			{% if selected_items_count != 0 %}<a href="{% url roadmap.ledger.views.selected_items %}">{{ selected_items_count }} item{{ selected_items_count|pluralize }} selected</a>
+			  <input type="submit" id="clearTags"  class="submit" name="ClearTags" value="Clear" class=" dialog_link" />
+			  <input type="submit" id="moveTags" class="submit marginRight24" id="moveTo" name="moveTo" value="Edit"/>
+				<button id="groupItems" onclick="return Roadmap.grouping.addToGroup();">
+					<img src="/media/layout/icons/folder_page.png" />Add to Group</button>
+				<button id="remindItems" onclick="return Roadmap.reminders.addToReminder();">
+				<img src="/media/layout/icons/bell.png" /> Remind Me Later
+			  </button>
+		  {% endif %}
+
+			<span class="floatRight">
+
+			</span>
+		</div>
+
+	   <div id="tagBox">
+		  <img src="/media/layout/icons/find.png" alt="Search" title="Search"  style="margin-right: 4px;"/> <input type="text" id="instantFilter" class="instaFilterInput" />
+		</div>
+
+	    <table id="activeList" class="jtable expand">
+
+
+		<tbody>
+			{% for item in items %}
+				{% include "ledger/items/item_row.html" %}
+			{% endfor %}
+
+
+
+
+			</tbody>
+	  </table>
+	</form>
+
+	{% include "ledger/items/item_groups.html" %}
+	{% include "ledger/items/remind_me_when.html" %}
+{% endblock %}

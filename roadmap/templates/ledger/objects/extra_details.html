@@ -1,0 +1,387 @@
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+<div id="sideBar">
+	<div id="line-divider" style="height: 507.2px;">
+		<div id="detailsPanel" class="smoothBack">
+
+			<ol>
+				<li class="first">
+					<h3>{{ item.item_type }}</h3>
+				</li>
+
+				<li class="second popupMenuContainer">
+					<a href="#" class="changeLink popupMenuClick">Change</a>
+
+					<span id="contentPriority">
+						{{ item.priority }} priority
+					</span>
+
+					<div id="moveToPriority" title="Change Priority" class="popOver popupMenu" style="display: none;">
+						<ol class="priorityList">
+							{% for loop_item in priorities %}
+								<li>
+									<a href="" onclick="return(updatePriority({{ item.id }}, {{ loop_item.id }}));">{{ loop_item.name }}</a>
+								</li>
+							{% endfor %}
+						</ol>
+					</div>
+				</li>
+
+
+
+				<li class="popupMenuContainer">
+					<a href="#" class="changeLink popupMenuClick">Change</a>
+
+					Assigned to
+					<span id="contentAssigned">{{ item.assigned_to.first_name }} {{ item.assigned_to.last_name }}</span>
+
+					<div id="moveToOwner" title="Assign Owner" class="popOver instaFilter popupMenu" style="display: none;">
+
+						<input type="input" class="instaFilterInput" />
+
+						<ol class="choiceList">
+							{% for loop_item in users %}
+								{% if loop_item.username %}
+
+								<li class="instaFilterThis">
+									<span class="gravatar">
+											<img src="{% avatar_url loop_item 48 %}" />
+									</span>
+
+									<a href="" onclick="return(updateOwner({{ item.id }}, {{ loop_item.id }}));">
+										{{ loop_item.first_name }} {{ loop_item.last_name }}
+									</a>
+								</li>
+								{% endif %}
+							{% endfor %}
+						</ol>
+					</div>
+				</li>
+
+
+
+				{% if item.follow_up %}
+					<li>
+						<a href="#" class="changeLink" onclick="Roadmap.requestFollowUp({{ item.id }}, 'false', this); $(this).parent().hide(); return false;">Clear</a>
+
+						<span class="followUp">This item requires following up</span>
+					</li>
+				{% endif %}
+
+				<li class="first popupMenuContainer">
+					<a href="#" class="changeLink popupMenuClick">Change</a>
+
+					<span id="contentLocation">{{ item.location }}</span>
+
+					<div id="moveToLocation" title="Change Location" class="popOver popupMenu" style="display:none;">
+						<ol class="choiceList">
+							{% for loop_item in locations %}
+								<li>
+									<a href="" onclick="return(updateLocation({{ item.id }}, {{ loop_item.id }}));">{{ loop_item.description }}</a>
+								</li>
+							{% endfor %}
+						</ol>
+					</div>
+				</li>
+					{% if item.state = 1 %}
+					<li >
+
+
+						{% if item.item_state.constant == "ITEMSTATE_IDENTIFIED" %}
+							<button style="float:right;"  onclick="return markActioned();">Action Immediately</button>
+						{% endif %}
+
+						<div class="clearfix">{{ item.item_state.description }}</div>
+					</li>
+				{% endif %}
+				{% if item.state = 0 %}
+					<li >
+
+						<span class="floatRight">
+						{% if item.item_state.constant == "ITEMSTATE_IDENTIFIED" %}
+							<button onclick="return markActioned();">Action Immediately</button>
+						{% endif %}
+
+						{% if item.item_state.constant == "ITEMSTATE_ACTIONED" %}
+							<button onclick="return markIdentified();">Halt Work</button>
+							<button onclick="return markCompleted();">Completed</button>
+						{% endif %}
+
+						{% if item.item_state.constant == "ITEMSTATE_COMPLETED" %}
+							<button onclick="return markFailed();">Failed</button>
+							<button onclick="return markVerified();">Verified</button>
+						{% endif %}
+
+						{% if item.item_state.constant == "ITEMSTATE_VERIFIED" %}
+							<button onclick="return markActioned();">Reopen</button>
+						{% endif %}
+
+						</span>
+
+						<div class="clearfix">{{ item.item_state.description }}</div>
+					</li>
+
+
+
+
+				{% endif %}
+
+			</ol>
+		</div>
+
+
+
+		<div id="timeDetailsPanel" class="smoothBack" style="margin-top:16px;">
+			{% include "ledger/objects/time.html" %}
+		</div>
+
+
+		<div style=" color: #666666; margin-bottom: 4px;margin-top: 16px; margin-left:15px;">
+			<label for="tags" id="tagsLabel">Tags</label>
+		</div>
+
+		<div>
+			<textarea name="tags" id="tags" style="width: 243px; height:55px;  margin-left:15px;">{{ item.tags }}</textarea>
+		</div>
+
+		<div style=" color: #666666; margin-bottom: 4px;margin-top: 8px; margin-left:15px;">
+			<label for="linkedItems" id="linkedItemsLabel">Attached Items</label>
+			<a class="floatRight" href="#" onclick="return Roadmap.addLinkedItemPopup({{ item.id }});">Add</a>
+		</div>
+
+		<div  style="margin-bottom: 4px; margin-left:15px;">
+			<ol>
+				{% for loop_linked_item in item.associated_items.all %}
+					<li>
+						{% ifequal loop_linked_item.item_type.name "Issue" %}(DUP) #{{loop_linked_item.id}} {% endifequal %}<a href="{% url roadmap.ledger.views.item loop_linked_item.id %}" >{{ loop_linked_item.description }}</a>
+					</li>
+				{% empty %}
+					<li class="explanation">No attached items</li>
+				{% endfor %}
+			</ol>
+		</div>
+
+
+
+		{% if related_items %}
+		<h3 style=" margin-bottom: 0; margin-left:15px;">Similar</h3>
+
+		<div  style="margin-bottom: 4px; margin-left:15px;">
+			<ol>
+			{% for loop_item in related_items %}
+				<li>
+					<a href="{% url roadmap.ledger.views.item id=loop_item.id %}">{{ loop_item.description }}</a>
+				</li>
+			{% endfor %}
+			</ol>
+		</div>
+		{% endif %}
+
+
+	</div>
+
+
+
+<script type="text/javascript">
+			{% load tagging_tags %}
+			{% tags_for_model ledger.Item as item_tags %}
+
+
+			var availableTags =  [ {% for item in item_tags %}"{{ item }}", {% endfor %} ];
+
+
+			$('#tags').bind('blur', function() {
+
+				$.post(
+					'/roadmap/ledger/update_tags',
+					{
+						item_id: {{ item.id }},
+						tags: $('#tags').val()
+					},
+					function(data) {
+
+					}
+				);
+			});
+
+
+
+			function updateLocationNoAnimation(item_id, location_id) {
+				$.post(
+					'/roadmap/ledger/item_details_location',
+					{ item_id: item_id, location_id: location_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+
+					}
+				);
+				return false;
+			}
+
+			function updateLocation(item_id, location_id) {
+				Roadmap.slideInOut("#moveToLocation", $('#moveToLocation').parent().children('.changeLink') ,'Change', 'Hide');
+
+				$.post(
+					'/roadmap/ledger/item_details_location',
+					{ item_id: item_id, location_id: location_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+
+					}
+				);
+				return false;
+			}
+
+			function updateOwner(item_id, owner_id) {
+				if($('#moveToOwner').is(':visible')) {
+					Roadmap.slideInOut("#moveToOwner", $('#moveToOwner').parent().children('.changeLink') ,'Change', 'Hide');
+				}
+
+				updateOwnerData(item_id, owner_id);
+				return false;
+			}
+
+			function updateOwnerData(item_id, owner_id) {
+				$.post(
+					'/roadmap/ledger/item_details_owner',
+					{ item_id: item_id, owner_id: owner_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+
+					}
+				);
+				return false;
+			}
+
+			function updatePriority(item_id, owner_id) {
+				Roadmap.slideInOut("#moveToPriority", $('#moveToPriority').parent().children('.changeLink') ,'Change', 'Hide');
+
+				updatePriorityData(item_id, owner_id);
+				return false;
+			}
+
+			function updatePriorityData(item_id, priority_id) {
+				$.post(
+					'/roadmap/ledger/item_details_priority',
+					{ item_id: item_id, priority_id: priority_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+					}
+				);
+				return false;
+			}
+
+			function addLinkedItem(item_id, linked_item_id) {
+				$.post('/roadmap/ledger/item_link_item',
+				{
+					item_id: item_id,
+					linked_item_id: linked_item_id
+				}, function(data) {
+					$('#sideBar').replaceWith($(data));
+					$('#addLinkedItemPopup').remove();
+				});
+				return false;
+			}
+
+			function updateProject(item_id, project_id, new_project) {
+				Roadmap.slideInOut("#moveToProject", $('#moveToProject').parent().children('.changeLink') ,'Change', 'Hide');
+				$.post(
+					'/roadmap/ledger/item_details_project',
+					{ item_id: item_id, project_id: project_id, new_project: $('#newProject').val() },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+
+				});
+				return false;
+			}
+
+			function markCompleted() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_completed',
+					{ item_id: item_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+				});
+				return false;
+			}
+
+			function markActioned() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_actioned',
+					{ item_id: item_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+				});
+				return false;
+			}
+
+			function markFailed() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_failed',
+					{ item_id: item_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+				});
+				return false;
+			}
+
+			function markVerified() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_verified',
+					{ item_id: item_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+				});
+				return false;
+			}
+
+			function markIdentified() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_identified',
+					{ item_id: item_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+				});
+				return false;
+			}
+
+			function markReopened() {
+				var item_id = {{ item.id }};
+				$.post(
+					'/roadmap/ledger/item_details_mark_reopened',
+					{ item_id: item_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+				});
+				return false;
+			}
+
+			function updateTarget(item_id, target_id) {
+				Roadmap.slideInOut("#moveToTarget", $('#moveToTarget').parent().children('.changeLink') ,'Set', 'Hide');
+
+				updateTargetData(item_id, target_id);
+				return false;
+			}
+
+			function updateTargetData(item_id, target_id) {
+				$.post(
+					'/roadmap/ledger/item_details_target',
+					{ item_id: item_id, target_id: target_id },
+					function(data) {
+						$('#sideBar').replaceWith($(data));
+				});
+				return false;
+			}
+
+
+Roadmap.popupMenuInitialise();
+Roadmap.setupInstaFilter();
+</script>
+</div>

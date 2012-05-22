@@ -1,0 +1,11 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+NAME:Roadmap
+X-WR-CALNAME:Roadmap
+{% for item in feed %}BEGIN:VEVENT
+URL;VALUE=URI:http://mactactic.com/detail/{{ item.name }}/
+SUMMARY:{{ item.description }}
+DTSTART:{{ item.date_time|date:"Ymd"}}T000000Z
+DTEND:{{ item.data_time|date:"Ymd"}}T000000Z
+END:VEVENT
+{% endfor %}END:VCALENDAR

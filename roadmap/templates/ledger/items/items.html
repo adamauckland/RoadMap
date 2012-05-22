@@ -1,0 +1,316 @@
+	{% extends "ledger/base_wide.html" %}
+	{% load custom %}
+	{% load markup %}
+
+	{% block "title" %}
+	Active {{ page.location }}
+	{% endblock %}
+
+
+
+
+
+	{% block "breadcrumb" %}
+
+	{% endblock %}
+
+
+
+
+	{% block "toolbox" %}
+		{% if page.project_id %}
+			<div id="toolbox">
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new issue">+ Issue</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new requirement">+ Requirement</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new file">+ File</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new note">+ Note</a>
+				</span>
+			</div>
+		{% endif %}
+	{% endblock %}
+
+
+
+
+{% block "navigation" %}
+	<ol>
+		<li>
+			<ol>
+				<li>
+					<a href="{% url roadmap.ledger.views.view_client name=page.project_item.binder.client.slug %}">{{ page.project_item.binder.client.name }}</a>
+				</li>
+			</ol>
+		</li>
+
+		<li>
+			<div class="sectionTop project">
+			<a href="/roadmap/ledger/project/{{ page.project_item.binder.slug }}/{{ page.project_item.slug }}" title="Go to {{ page.project_item.name }} project page.">{{ page.project_item.name }}</a>
+			</div>
+		</li>
+
+
+		<li>
+			<div class="sectionTop ">
+			  <a id="viewDefaultItems" href="{% url roadmap.ledger.views.items client_name=page.project_item.binder.client.slug,binder_name=page.project_item.binder.slug,project_name=page.project_item.slug %}?{{ view_settings }}">
+
+				Items
+				</a>
+			</div>
+			<ol>
+				{% for loop_filter in user_filters %}
+					{% if loop_filter.search_id == search_id %}
+						<form name="filterItems" method="post">
+							{% csrf_token %}
+							<li  class="selected" >
+								{% if not loop_filter.default  %}
+								<a class="floatRight explanation" href="#" onclick="$('#filterEditProperties').show(); return false;">Properties</a>
+								{% endif %}
+								<a href="{% url roadmap.ledger.views.items client_name=page.project_item.binder.client.slug,binder_name=page.project_item.binder.slug,project_name=page.project_item.slug %}?searchId={{ loop_filter.search_id }}">{{ loop_filter.name }} ({{ page.itemcount }})</a>
+							</li>
+							<li>
+
+								<input type="hidden" name="filter_search_id" value="{{ loop_filter.search_id }}" />
+
+
+								<ol>
+									{% if not loop_filter.default  %}
+										<div id="filterEditProperties" style="{% if loop_filter.name != 'New View' %} display: none;{% endif %}">
+											
+											<li>
+												<label>Name:</label> <input type="text" name="filterName" value="{{ loop_filter.name }}" />
+											</li>
+											<li>&nbsp;</li>
+											<li>
+												<input type="checkbox" name="deleteThisFilter" id="deleteThisFilter"/> <label for="deleteThisFilter">Delete This View</label>
+											</li>
+											<li>
+											<hr/>
+											</li>
+										</div>
+									{% endif %}
+
+
+									<li class="hiddenStateTitle">
+										<a href="#">Showing All Status...</a>
+									</li>
+									{% for loop_state in item_states %}
+									<li class="hiddenState">
+										<input type="checkbox" name="its" id="item_states_{{ loop_state.id }}" value="{{ loop_state.id }}" {% if loop_state in item_states_list2 %} checked="checked" {% endif %}/>
+										<label for="item_states_{{ loop_state.id }}">{{ loop_state.description }}</label>
+									</li>
+									{% endfor %}
+
+									<li>
+									&nbsp;
+									</li>
+
+									<li class="hiddenUserTitle">
+										<a href="#">Showing All Users...</a>
+									</li>
+
+									{% for loop_user in page.project_item.binder.team.all %}
+										 <li class="hiddenUser">
+											<input type="checkbox" name="at" value="{{ loop_user.id }}" id="user_{{loop_user.username}}" {% if loop_user in assigned_to_list %} checked="checked" {% endif %}/>
+											<label for="user_{{loop_user.username }}">{{ loop_user.first_name }} {{ loop_user.last_name }}
+											</label>
+										 </li>
+									 {% endfor %}
+
+
+									<li>
+										&nbsp;
+									</li>
+
+									{% if locations %}
+										<li class="hiddenLocationTitle">
+											<a href="#">Showing All Locations...</a>
+										</li>
+										{% for loop_location in locations %}
+										<li class="hiddenLocation">
+											<input type="checkbox" name="il" id="item_location_{{ loop_location.id }}" value="{{ loop_location.id }}" {% if loop_location in location_list %} checked="checked" {% endif %}/>
+											<label for="item_location_{{ loop_location.id }}">{{ loop_location.description }}</label>
+										</li>
+										{% endfor %}
+										<li>
+											&nbsp;
+										</li>
+									{% endif %}
+
+
+									{% if targets %}
+										<li class="hiddenTargetTitle">
+											<a href="#">No Milestone Filtering...</a>
+										</li>
+
+										<li  class="hiddenTarget">
+											<input type="radio" name="ita" id="item_target_0" value="0" {% if not item_target %} checked="checked" {% endif %}/>
+											<label for="item_target_0">No Filtering</label>
+										</li>
+										{% if targets %}
+											{% for loop_target in targets %}
+											<li  class="hiddenTarget">
+
+												<input type="radio" name="ita" id="item_target_{{ loop_target.id }}" value="{{ loop_target.id }}" {% ifequal loop_target.id item_target %} checked="checked" {% endifequal %}/>
+												<label for="item_target_{{ loop_target.id }}">{{ loop_target.name }}</label>
+											</li>
+											{% endfor %}
+											<li>
+												&nbsp;
+											</li>
+										{% endif %}
+									{% endif %}
+
+									<li>
+										<input type="search" name="tags" id="tags" placeholder="Search By Tag" value="{{ search_data.tags }}"/>
+										<li>
+												&nbsp;
+											</li>
+									</li>
+
+
+									<li>
+										<input type="checkbox" name="filterReminders" id="filterReminders" {% if not hide_reminders %} checked="checked" {% endif %}/>
+										<label for="filterReminders">Show Reminders
+											{% if hidden_reminders and hide_reminders %}
+												<em>({{ hidden_reminders.count }} hidden)</em>
+											{% endif %}
+										</label>
+									</li>
+									<li>
+										&nbsp;
+									</li>
+									<li style="text-align: right">
+										<input type="submit" class="orangeInput" value="Update" />
+									</li>
+								</ol>
+							</li>
+						</form>
+					</li>
+					{% else %}
+						<li>
+							<a href="{% url roadmap.ledger.views.items client_name=page.project_item.binder.client.slug,binder_name=page.project_item.binder.slug,project_name=page.project_item.slug %}?searchId={{ loop_filter.search_id }}">{{ loop_filter.name }}</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+				<li>
+					<a href="{% url roadmap.ledger.views.new_project_filter project_id=page.project_item.id %}">+ New View</a>
+				</li>
+			</ol>
+		</li>
+
+		<li>
+			<div class="sectionTop">
+				<a href="/roadmap/ledger/project/{{ page.project_item.binder.slug }}/{{ page.project_item.slug }}/notes">Notes</a>
+			</div>
+		</li>
+		<li>
+			<div class="sectionTop">
+			  <a href="/roadmap/ledger/project/{{ page.project_item.binder.slug }}/{{ page.project_item.slug }}/emails">Communication</a>
+			</div>
+		</li>
+
+		<li>
+			<div class="sectionTop">
+				<a href="/roadmap/ledger/project/{{ page.project_item.binder.slug }}/{{ page.project_item.slug }}/files">File Library</a>
+			</div>
+		</li>
+
+		<li class="last">
+			<div class="sectionTop">
+				<a href="/roadmap/ledger/project/{{ page.project_item.binder.slug }}/{{ page.project_item.slug }}/deliverynotes">Delivery Notes</a>
+			</div>
+		</li>
+	</ol>
+
+
+{% endblock %}
+
+
+
+	{% block "maincontent" %}
+
+		<div id="previewWrap">
+			<div id="previewContent">
+				<div id="innerContent">
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<form action="/roadmap/ledger/activepost?return=items" method="get" name="homelist" id="homeList" class="instaFilter">
+
+			{% csrf_token %}
+			<input type="hidden" name="location" value="{{ page.location }}" />
+			<input type="hidden" name="project" value="{{ page.project_item.slug }}" />
+			<input type="hidden" name="binder" value="{{ page.project_item.binder.slug }}" />
+
+
+
+			<div id="selectedItems" style="{% if selected_items_count != 0 %}display:block;{% endif %}">
+				{% include "ledger/items/selected_items_bar.html" %}
+			</div>
+
+		   <div id="tagBox">
+			<h2 style="margin-left: 0px; margin-bottom: 12px;">	{{ page.project_item.name }}</h2>
+				<input type="search" id="instantFilter" class="instaFilterInput" placeholder="Filter list" />
+
+			</div>
+
+		  {% include "ledger/items/items_list.html" %}
+		</form>
+
+	{% include "ledger/items/item_groups.html" %}
+	{% include "ledger/items/remind_me_when.html" %}
+
+	{% load tagging_tags %}
+	{% tags_for_model ledger.Item as item_tags %}
+
+  <script type="text/javascript">
+
+		document.title = 'Roadmap | {{ page.project_item }} items';
+
+		var availableTags =  [ {% for item in item_tags %}"{{ item }}", {% endfor %} ];
+
+		function tableThings() {
+			$(".jtable th").each(function() {
+			$(this).addClass("ui-state-default");
+			$('#SearchTags').focus();
+		 });
+
+
+		$(".jtable tr td.checkbox").click(function() {
+		  var value = $(this).find("input[type='checkbox']").attr("checked") ? false : true;
+		});
+
+		$(".jtable tr td.description").click(function() {
+			window.location = $(this).find('a').attr('href');
+		});
+
+	}
+
+	Roadmap.addLoader(tableThings);
+
+	function tableSelectAll() {
+	  $('input[type=checkbox]').each(function(index, element) {
+		if($(element).attr('id') != 'all') {
+		  $(element).click();
+		}
+	  });
+	}
+
+	</script>
+
+
+{% endblock %}

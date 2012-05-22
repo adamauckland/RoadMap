@@ -1,0 +1,79 @@
+<ol id="scheduling" onclick="$('#updateSchedule').show();" >
+	<li class="first">
+		<a href="{% url roadmap.ledger.views.ownership item_id=item.id %}?search_id={{ search_id }}" style="font-size: 0.8em; padding-top:0px;" class="floatRight">View history</a>
+
+		<h3>Schedule</h3>
+
+	</li>
+	{% if item.date_time %}
+		<li class="second">
+			<span class="floatRight" style="padding-top: 2px;"><span style="color: #000;">{{ item.date_time|date:"H:i" }}</span> on <span style="color: #000;">{{ item.date_time|date:"d M Y" }}</span></span>
+
+			Created
+
+		</li>
+	{% endif %}
+
+	<li class="first">
+		<span style="color: #000;" class="floatRight">
+			{% for loop_item in item.targets.all %}
+				{% if loop_item.public = 1 %}
+
+						{{ loop_item.name }}
+
+				{% endif %}
+
+				{% if loop_item.public = 0 %}
+					{% ifequal loop_item.user user %}
+						{{ loop_item.name }}
+					{% endifequal %}
+				{% endif %}
+			{% endfor %}
+		</span>
+		Milestone
+
+		<a href="#" class="changeLink" style="float:right;" onclick="Roadmap.slideInOut('#moveToTarget', this, 'Set', 'Hide'); return false;">set</a>
+
+		<div id="moveToTarget" title="Add to Milestone" style="display: none;">
+			<ol class="choiceList">
+				<li><a href="#" onclick="return(updateTarget({{ item.id }}, 0));">Clear Project</a></li>
+				{% for loop_item in targets %}
+
+					<li>
+						<a href="#" onclick="return(updateTarget({{ item.id }}, {{ loop_item.id }}));">
+							{{ loop_item.name }} {{ loop_item.deadline|date:"d M Y" }}
+						</a>
+					</li>
+				{% endfor %}
+			</ol>
+		</div>
+	</li>
+
+	{# if user in item.project.binder.producers.all #}
+		<li class="second">
+			<span class="floatRight" >
+				{% ifequal user item.assigned_to %}
+					<input type="text" id="timeEstimated" value="{{ item.hours_estimated }}" maxlength="4" size="4"/>
+				{% else %}
+					{{ item.hours_estimated }}
+				{% endifequal %} hours
+			</span>
+			Hours Estimated
+		</li>
+		<li>
+			<span class="floatRight">
+				{% ifequal user item.assigned_to %}
+					<input type="text" id="timeTotal" value="{{ item.hours_total }}"/ maxlength="4" size="4" value="{{ item.hours_total }}">
+				{% else %}
+					{{ item.hours_total }}
+				{% endifequal %} hours
+			</span>Hours Worked
+		</li>
+
+		{% ifequal user item.assigned_to %}
+		<li id="updateSchedule" style="display:none;" class="clearfix">
+			<button class="floatRight orangeButton" onclick="$.post('/roadmap/ledger/estimates', {'item_id': {{ item.id }}, 'estimated': $('#timeEstimated').val(), 'total': $('#timeTotal').val() }, function(data) { $('#timeDetailsPanel').html(data); } )">Update</button>
+		</li>
+		{% endifequal %}
+	{# endif #}
+</ol>

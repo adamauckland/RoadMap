@@ -1,0 +1,15 @@
+
+	#chatAvailableUsers { background-color: #000; border: none; color: white; height: auto;  top:48px; padding: 4px; position: absolute; z-index: 99999; }
+	#chatAvailableUsers { -moz-box-shadow: 0px 3px 10px #555; -webkit-box-shadow: 0px 3px 10px  #555; box-shadow: 0px 3px 10px #555; }
+		#chatAvailableUsers ol { color: white; }
+			#chatAvailableUsers ol li { color: white;  }
+				#chatAvailableUsers ol li a { color: white; cursor: pointer; }
+					#chatAvailableUsers ol li img { background-color: white;  }
+
+	#messageBox { background-color: #000; color: white; height: auto; top: 48px; padding: 1px; position: absolute; z-index: 99999; }
+	#messageBox {  -moz-box-shadow: 0px 3px 10px #555; -webkit-box-shadow: 0px 3px 10px  #555; box-shadow: 0px 3px 10px #555; }
+		#messageBox #chatRetainer { background-color: #000; height: 300px; overflow: auto; width: 260px; }
+			#messageBox #chatRetainer #chatCore { color: white; font-size: 90%; padding: 3px; }
+		#messageBox #chatButtons { }
+			#messageBox #chatButtons textarea { font-size: 100%; height: 45px; margin: 0; margin-top: 2px; width: 196px;  }
+			#messageBox #chatButtons #chatPost {  border: solid 1px #FB9E4A; float: right; height: 45px; margin-top: 2px; width: 56px; }

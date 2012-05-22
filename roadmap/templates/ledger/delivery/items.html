@@ -1,0 +1,74 @@
+	{% extends "ledger/base_wide.html" %}
+	{% load custom %}
+	{% load markup %}
+
+	{% block "title" %}
+	Active {{ page.location }}
+	{% endblock %}
+
+
+
+
+
+	{% block "breadcrumb" %}
+		<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
+		<img src="/media/layout/icons/folder_user.png" /> <a href="{% url roadmap.ledger.views.view_client name=project_item.binder.client.slug %}">{{ project_item.binder.client.name }}</a> <span class="arrow">&#9654;</span>
+		<img src="/media/layout/icons/group.png" /> <a href="{% url roadmap.ledger.views.view_binder name=project_item.binder.slug %}">{{ project_item.binder.name }}</a> <span class="arrow">&#9654;</span>
+		<img src="/media/layout/icons/timeline_marker.png" /> <a href="/roadmap/ledger/project/{{ project_item.binder.slug }}/{{ project_item.slug }}" title="Go to {{ project_item.name }} project ">{{ project_item.name }}</a> <span class="arrow">&#9654;</span>
+		<img src="/media/layout/icons/application_view_list.png"  title="Items" /> Delivery
+	{% endblock %}
+
+
+
+
+	{% block "toolbox" %}
+		{% if page.project_id %}
+			<div id="toolbox">
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new issue"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new requirement"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new file"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+				</span>
+
+				<span class="linkButton">
+					<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ page.project_id }}&search_id={{ search_id }}" title="Add new note"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+				</span>
+			</div>
+		{% endif %}
+	{% endblock %}
+
+
+
+
+	{% block "maincontent" %}
+		<div id="previewWrap">
+			<div id="previewContent">
+				<div id="innerContent">
+				</div>
+			</div>
+		</div>
+
+		<div id="createItemWhere"  class="instaFilter">
+			<h2>Make Delivery to {{ destination_location.name }}</h2>
+
+			<p class="margin24">Select the items you wish to deliver then click <em>Done</em>. You will be taken to your delivery notes.</p>
+
+			<form name="homelist" id="homeList" action="{%url roadmap.ledger.views.make_delivery_notes client=client, binder=binder, project=project, location=location %}" method="post">
+				{% csrf_token %}
+
+				<div id="tagBox">
+					<img src="/media/layout/icons/find.png" alt="Search" title="Search"  style="margin-right: 4px;"/> <input type="text" id="instantFilter" class="instaFilterInput" />
+				</div>
+
+				{% include "ledger/items/items_list.html" %}
+
+				<input class="submit floatRight marginRight24" type="submit" name="Submit" value="Done" />
+			</form>
+		</div>
+	{% endblock %}

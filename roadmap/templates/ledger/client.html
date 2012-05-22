@@ -1,0 +1,129 @@
+{% extends "ledger/base.html" %}
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+{% block "toolbox" %}
+  <div id="toolbox">
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue',client_name=client.slug %}">+ Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Requirement',client_name=client.slug %}">+  Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File',client_name=client.slug %}">+ File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note',client_name=client.slug %}">+ Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+
+
+{% block "navigation" %}
+	<ol>
+		<li>
+			<ol>
+				<li class="selected">
+					<a href="{% url roadmap.ledger.views.view_client name=client.slug %}">{{ client.name }}</a>
+				</li>
+			</ol>
+		</li>
+
+
+		{% for binder in client.binders %}
+			{% for project in binder.projects %}
+
+				<li>
+					<div class="sectionTop project">
+						<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ project.slug }}">{{ project.name }}</a>
+					</div>
+				</li>
+
+			{% endfor %}
+		{% endfor %}
+	</ol>
+{% endblock %}
+
+
+
+
+
+{% block "breadcrumb" %}
+	<a href="/">Home</a> <span class="arrow">&#9654;</span>
+	Client
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+	<div id="client">
+
+		<h2 style="margin-top:0;">{{ client.name }}</h2>
+
+		<p id="teamExplanation">
+			Group projects together using folders. Folders provide the security - a project can only be viewed by users assigned to the folder.
+
+
+		</p>
+
+		{% if user.is_staff %}
+			<span class="floatRight marginRight24">
+				<a href="{% url roadmap.ledger.views.new_binder client_id=client.id %}">+ New Project Folder</a>
+			</span>
+
+			<h3>Project Folders</h3>
+
+			<ol id="teamList" class="margin24">
+				{% for binder in client.binders %}
+					<li>
+						<span class="groupTitle ">
+							<a class="charcoal" href="/roadmap/ledger/binder/{{ binder.slug }}">{{ binder.name }}</a>
+						</span>
+
+						{% for project in binder.projects %}
+							<ol class="">
+								<li>
+									<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ project.slug }}">{{ project.name }}</a>
+								</li>
+							</ol>
+						{% endfor %}
+					</li>
+				{% endfor %}
+			</ol>
+		{% endif %}
+	</div>
+
+
+	<script type="text/javascript">
+		document.title = 'Roadmap | {{ client.name|safe }}';
+	</script>
+{% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+  <div id="line-divider">
+
+	<div style="margin-top: 44px">
+	{% include "ledger/objects/calendar.html" %}
+	</div>
+
+	
+  </div>
+{% endblock %}

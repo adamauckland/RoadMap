@@ -1,0 +1,37 @@
+
+{% extends "ledger/base_wide.html" %}
+{% load custom %}
+{% load markup %}
+
+{% block "title" %}
+Active {{ page.location }}
+{% endblock %}
+
+
+
+
+
+{% block "breadcrumb" %}
+	<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/application_osx_terminal.png"/> Shell
+
+{% endblock %}
+
+
+
+
+
+{% block "maincontent" %}
+	<h2><img src="/media/layout/icons/application_osx_terminal.png" alt="Terminal" /> From here you can break RoadMap</h2>
+
+	<form action="" method="post" name="commands">
+		{% csrf_token %}
+
+		<textarea name="command" style="background-color: black; color: #FB9E4A; width:954px; height:300px; font-family: 'Courier new'">{{ command }}</textarea>
+
+		<input type="submit" name="submit" value="Run" class="submit" />
+	</form>
+
+
+	<xmp>{{ output|safe }}</xmp>
+{% endblock %}

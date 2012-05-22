@@ -1,0 +1,57 @@
+
+
+{% extends "ledger/base_wide.html" %}
+{% load custom %}
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/Binder.png" />
+{% endblock %}
+
+{% block "title" %}
+
+{% endblock %}
+
+{% block "toolbox" %}
+	
+{% endblock %}
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+{% block "topnav2" %}
+
+{% endblock %}
+
+{% block "maincontent" %}
+	<div id="newBinder">
+		<h2>
+			<img src="/media/layout/icons/world.png" /> New Binder
+		</h2>
+		
+		<p>
+			You are creating a new binder. Choose a meaningful name to show in Roadmap lists. You can always change it at a later date.
+		</p>
+		
+		{{ form.field.errors }}
+	
+		<form method="post" name="new_binder" id="newBinder">
+			{% csrf_token %}
+			<ul>
+				{{ form.as_ul }}
+				
+				<br/>
+				
+				<li class="floatRight">
+					<input type="submit" name="Create" value="Create" />
+				</li>
+				
+				<li class="floatLeft">
+					<a href="{% url roadmap.ledger.views.home %}">Cancel</a>
+				</li>
+			</ul>
+		</form>
+	</div>
+{% endblock %}
+

@@ -1,0 +1,122 @@
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+
+
+
+<header>
+		<div id="recordLocking">
+			<div>
+				
+				<div>
+					This item has been updated. Please <a href="#" onclick="window.location.href=window.location.href">refresh</a> the details.
+				</div>
+			</div>
+		</div>
+
+
+		<div id="headerWrapper">
+			<span id="homeLink">
+				<div id="roadmapHome">
+					<a href="/"><img src="/media/layout/images/logo.png" alt="RoadMap logo"/></a>
+				</div>
+			</span>
+
+			<nav id="site-nav" class="float-left">
+				<ol>
+					{% if header_notifications %}
+						<li>
+
+							<a href="/" class="notification {% ifequal headernav 'active'%} selected {% endifequal %}">{{ header_notifications.count }} notification{% ifequal header_notifications.count 1 %}{% else %}s{% endifequal %}</a>
+							<!-- {% url roadmap.ledger.views.notifications %} -->
+						</li>
+					{% endif %}
+
+					{% for item in recent_searches %}
+					<li> <a href="{{ item }}">Recent</a></li>
+					{% endfor %}
+				</ol>
+			</nav>
+
+			{% if user.username %}
+			<ol id="user-controls" class="float-right">
+				<!-- active -->
+					<!--<li class="first">
+
+						<a  id="activeMenuItem" href="/roadmap/ledger/active" class="active {% ifequal headernav 'active'%} selected {% endifequal %}">Quick Navigate</a>
+
+						<div id="activeMenu">
+							<ol>
+
+								{% if recently_viewed_items_count > 0  %}
+									<li>
+										<img src="/media/layout/icons/calendar_view_month.png" title="Recently viewed items" />
+										<a href="{% url roadmap.ledger.views.recently_viewed_items %}">Recently Viewed Items
+										</a>
+									</li>
+								{% endif %}
+
+								{% for loop_item in active_items %}
+									<li style="{% ifchanged loop_item.client_name %} border-top: solid 1px #444; {% endifchanged %}">
+										<img src="/media/layout/icons/timeline_marker.png" alt="Logo for Projects" />
+										<a href="/roadmap/ledger/binder/{{ loop_item.binder}}?&amp;project={{ loop_item.project }}&amp;location={{ loop_item.location.name }}"  >
+												{{ loop_item.client_name }}
+										</a> <span class="arrow">&#9654;</span>
+										<a href="/roadmap/ledger/project/{{ loop_item.binder}}/{{ loop_item.project }}">
+												{{ loop_item.project_name }}
+										</a> <span class="arrow">&#9654;</span>
+
+										<a href="{% url roadmap.ledger.views.items client_name=loop_item.client,binder_name=loop_item.binder,project_name=loop_item.project %}?{{ loop_item.view_settings }}"  >
+												My Items
+										</a>
+									</li>
+								{% endfor %}
+							</ol>
+						</div>
+
+					</li>-->
+
+
+					<li>
+
+							<a href="{% url roadmap.ledger.views.profile username=user.username %}"  >{{ user.first_name }} {{ user.last_name }}{% ifequal user.first_name "" %}{% ifequal user.last_name "" %}NONAME{% endifequal %}{% endifequal %}</a>
+					</li>
+
+
+					<li>
+
+							<a href="/sign-out">Sign out</a>
+					</li>
+
+
+				</ol>
+			{% endif %}
+
+
+				<!--<a href="#" id="userName" style="margin-left: 32px;"><img src="/media/layout/icons/comments.png" title="Chat" /></a>-->
+
+				<!--<div id="chatBox">-->
+					<div id="chatAvailableUsers" style="{% ifnotequal chat_status "1" %}display:none;{% endifnotequal %}">
+						<div>Available to chat</div>
+						<ol>
+							{% for loop_user in global_users %}
+								{% ifnotequal loop_user global_user %}
+										{% if loop_user.username %}
+										<li title="{{ loop_user.email }}">
+											<span style="float:right; margin-left: 16px; margin-right: 16px; text-align: right;">
+												<a href="{% url roadmap.ledger.views.profile username=loop_user.username %}">{{ loop_user.first_name }} {{ loop_user.last_name }}</a>
+												<br/><a onclick="return(Chat.chatSwitch({{ loop_user.id }}))">Chat</a>
+											</span>
+											{% show_gravatar loop_user.email 32 %}
+
+
+										</li>
+										{% endif %}
+								{% endifnotequal %}
+							{% endfor %}
+						</ol>
+					</div>
+
+		</div>
+</header>

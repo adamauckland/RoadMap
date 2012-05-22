@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="shortcut icon" href="/media/layout/icons/favicon.ico" />
+	<link rel="apple-touch-icon" href="/media/layout/icons/apple-touch-icon.png"/>
+
+	<link rel="stylesheet" href="/media/layout/css/reset.css" />
+	<link rel="stylesheet" href="/media/layout/css/jquery.jgrowl.css" />
+	<link rel="stylesheet" href="/media/layout/css/index.css" />
+	<link rel="stylesheet" href="/media/layout/css/visualize.css" />
+	<link rel="stylesheet" href="/media/layout/css/visualize-light.css" />
+	 
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="/media/layout/js/jquery.jgrowl_minimized.js"></script>
+	<script type="text/javascript" src="/media/layout/js/jquery-ui-1.8.2.custom.min.js"></script>
+	<script type="text/javascript" src="/media/layout/js/visualize.jQuery.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/media/layout/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript" src="/media/layout/js/chat.js"></script>
+	<script type="text/javascript" src="/media/layout/js/ledger.js"></script>
+	<script type="text/javascript" src="/media/layout/js/jquery.center.js"></script>
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="/media/layout/js/html5uploader.js"></script>
+
+	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+	{% load markup %}
+	<title>Roadmap {% block "title" %}{% endblock %}</title>
+
+	{% include "ledger/scaffold/javascript.html" %}
+
+	{% block "head" %}
+
+	{% endblock %}
+
+</head>

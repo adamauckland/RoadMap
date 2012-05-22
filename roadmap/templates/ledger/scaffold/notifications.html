@@ -1,0 +1,27 @@
+<div id="notificationsArea">
+
+	{% if replies > 0 %}
+	<!--	<span style="padding-left: 24px;">
+			<img src="/media/layout/icons/comment.png" title="You have {{ replies }} replies" /> {{ replies }}
+		</span>-->
+	{% endif %}
+
+	{% if unseen > 0 %}
+		<span style="position: relative; top: 4px; padding-left: 8px;">
+			<a href="{% url roadmap.ledger.views.my_items %}" id="unseenNotification" title="You have {{ unseen }} update{{ unseen|pluralize }}" >
+				 {{ unseen }} Update{{ unseen|pluralize }}
+			</a>
+		</span>
+	{% endif %}
+
+	{% if follow_up_count > 0 %}
+		<span id="followUps" style="position: relative; top: 4px; padding-left: 24px;">
+			<a href="{% url roadmap.ledger.views.my_items %}"  title="You have {{ follow_up_count }} request{{ follow_up_count|pluralize }} for attention" >
+
+				You have {{ follow_up_count }} item to follow up
+			</a>
+		</span>
+	{% endif %}
+
+
+</div>

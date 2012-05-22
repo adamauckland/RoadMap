@@ -1,0 +1,135 @@
+
+
+#editItem {   }
+#editItem {
+ form {
+  border-left: dotted 1px $lines;
+ }
+}
+#editItem .errorlist { color: #ff1111; margin-left: 16px;}
+	#editItem h2 { margin-top: 0px; /* padding-left: 18px;*/ }
+	#editItem h3 { margin-bottom: 1em; margin-top: 2em; }
+	#editItem li {
+		margin-bottom: 0px;
+		&.input {
+			margin-bottom: 12px;
+		}
+		&#commentHook, &.dashedTop {
+
+		}
+
+	}
+	/*F5EEE5*/
+
+		#editItem li label { color: $charcoal; display: block; margin-top: 8px; padding-left: 12px; }
+		#editItem li input[type='text'] {
+			background-color: $labelBackground; border: none; @include borderRadius (4px, 4px, 4px, 4px); padding: 6px 6px 6px 12px; width: 643px;
+ 		 @include shadow(inset 0px, 1px, 1px, rgb(206,206,207));
+			&:focus { background-color: $labelBackgroundHighlight; }
+		}
+		#editItem li input.checkbox { width: 1em; }
+		#editItem li input.submit { background-color: #fef8f5; border: solid 1px $orange; float: right; width: 150px; }
+		#editItem textarea {
+			background-color: $labelBackground; border: none; @include borderRadius (4px, 4px, 4px, 4px); padding: 6px 6px 6px 12px; width: 643px;
+			@include shadow(inset 0px, 1px, 1px, rgb(206,206,207));
+
+			&:focus {
+			 background-color: $labelBackgroundHighlight;
+			}
+		}
+
+
+	#editItem #addStepHelper label { display: inline; float: left; width: 6em; }
+	#editItem #addStepHelper input.text { display: inline;   }
+		#editItem .addStepExpand { width: 660px; }
+		#editItem .addCommentsExpand { /*width: 679px;*/ }
+		#editItem #addStepHelper .addStepExpand { display: none; }
+			#editItem #addStepHelper .addStepExpand iframe { background: #fff; border: none; width: 200px; }
+		#editItem #checkList li { list-style: circle; list-style-position: inside; padding-left: 12px; padding-right: 12px; }
+
+
+
+	#detailsPanel, #timeDetailsPanel {
+		border: solid 1px #bcbcbc; -moz-box-shadow: 0px 3px 5px #ddd; -webkit-box-shadow: 0px 3px 5px  #ddd; box-shadow: 0px 3px 5px #ddd;
+		margin-left: 14px; width: 248px;
+		ol {
+			li {
+				padding: 8px;
+				&.first {
+					border-bottom: solid 1px #E6e6e6;
+				}
+				&.second {
+					border-top: solid 1px #FFFFFF;
+				}
+				h3 {
+					color: #000; margin-top: 4px;
+				}
+				img {
+					position: relative; top: 2px;
+				}
+				input {
+					border: solid 1px $lightBlue;
+				}
+
+				&.instaFilterSelected {
+					background: $orange;
+				}
+			}
+		}
+	}
+
+
+
+
+/*
+ Gradients and shine
+*/
+
+
+#container {
+	background: rgb(237, 239, 239) url("/media/layout/images/content/playingAreaTopBackground.png") top repeat-x; overflow: visible;  @include shadow(0px, 24px, 12px, rgba(0, 0, 0, 0.4));
+}
+
+#wrapper {
+ background: url('/media/layout/images/content/sidebarLowerBackground.png') 685px repeat-y;
+ min-height: 400px; padding-bottom: 0px; width: 960px;
+
+ &.wideWrapper {
+	background: none; width: auto;
+ }
+}
+
+#content {
+
+ /*min-height: 500px;*/
+}
+
+ 
+	.content { padding: 24px 0; }
+	.wide { padding: 0px 0; }
+	#main-content {
+		&.content {
+			width: 685px; /*700px;*/
+		}
+		&.wide{
+
+		}
+	}
+
+	#sub-content {
+		padding-right: 16px; width: 259px;
+
+		background: url('/media/layout/images/content/playingAreaTopBackground.png') top repeat-x;
+
+	 #line-divider {
+	  background: url('/media/layout/images/content/sidebarTopBackground.png') 1px top no-repeat; clear: right;
+
+		.repeatBackground {
+		 background: url('/media/layout/images/content/sidebarMiddleBackground.png') left repeat-y;
+		}
+	 }
+	}
+
+	#lower-content {
+	 background: url('/media/layout/images/content/sidebarBottomBackground.png') left top no-repeat; clear: right; height: 260px; margin-top: 400px; padding-bottom: 0px; width: 274px;
+	}

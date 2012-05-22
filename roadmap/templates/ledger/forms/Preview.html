@@ -1,0 +1,74 @@
+<div>
+	<span class="floatRight">
+		<a href="#" class="charcoal" onclick="Roadmap.hidePreview(); return false;">close</a>
+	</span>
+
+	<p class="charcoal">
+		{{ item.date_time|date:"H:i" }} on {{ item.date_time|date:"d M Y" }}
+	</p>
+	<p>
+		<span class="explanation">{{ item.item_type }}</span> {{ item.description }}{% ifequal item.description ''%}New {{ item.item_type }}{% endifequal %}
+	</p>
+
+	{% ifequal item.item_type.name "Issue" %}
+		<p>
+			{{ linked_item_form.url.value }}
+		</p>
+		<p>
+			<ol id="objectives">
+			{% for loop_item in checklist_items %}
+				<li class="hoverParent ">
+					<span class="loopItem">{{ loop_item.text|safe }}</span>
+
+					{% if loop_item.filename %}
+					<a href="/media/attachments/{{ loop_item.id }}/{{ loop_item.filename }}">{{ loop_item.filename }}</a>
+					{% endif %}
+
+				</li>
+			{% endfor %}
+			</ol>
+		</p>
+	{% endifequal %}
+
+
+
+
+	{% ifequal item.item_type.name "Requirement" %}
+		<p>
+			<ol id="objectives">
+				{% for loop_item in checklist_items %}
+					<li class="hoverParent ">
+						<span class="loopItem">{{ loop_item.text|safe }}</span>
+
+						{% if loop_item.filename %}
+						<a href="/media/attachments/{{ loop_item.id }}/{{ loop_item.filename }}">{{ loop_item.filename }}</a>
+						{% endif %}
+
+				</li>
+			{% endfor %}
+			</ol>
+		</p>
+		<p>
+			{{ linked_item_form.text.value }}
+		</p>
+	{% endifequal %}
+
+
+
+
+	{% if item.comments %}
+		<div id="comments">
+		{% for comment in item.comments %}
+			<div class="comment">
+				<div>
+					<span class="username">{{ comment.user.first_name }} {{ comment.user.last_name }} </span>
+					<span class="date">{{ comment.date_time|date:"d M Y" }} at {{ comment.date_time|date:"H:i" }}</span>
+				</div>
+				<div>
+					{{ comment.message|safe|linebreaksbr  }}
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+	{% endif %}
+</div>

@@ -1,0 +1,266 @@
+{% extends "ledger/base.html" %}
+{% load custom %}
+{% load markup %}
+
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/Issue.png" />
+{% endblock %}
+
+
+
+
+{% block "title" %}{{ item.description }}{% endblock %}
+
+
+
+
+{% block "toolbox" %}
+
+	<div id="toolbox">
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new issue">+ Issue</a>
+		</span>
+
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new requirement">+ Requirement</a>
+		</span>
+
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new file">+ File</a>
+		</span>
+
+		<span class="linkButton">
+			<a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ item.project.id }}&search_id={{ search_id }}" title="Add new note">+ Note</a>
+		</span>
+	</div>
+{% endblock %}
+
+
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+
+
+
+{% block "navigation" %}
+	{% include "ledger/objects/item_navigation.html" %}
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+
+	{% if search_url %}
+		<img src="/media/layout/icons/application_view_list.png" alt="Items" title="Items" /> <a href="{{ search_url }}">Items</a> <span class="arrow">&#9654;</span>
+	{% else %}
+		<img src="/media/layout/icons/application_view_list.png" alt="Items" title="Items" /> <a href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?{{ view_settings }}">Items</a> <span class="arrow">&#9654;</span>
+	{% endif %}
+
+
+{% endblock %}
+
+
+
+
+{% block "topnav2" %}
+<li><img src="/media/layout/icons/table_gear.png" alt="Back" /> <a href="{{ referrer }}">Return to list</a></li>
+{% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+	<span class="floatRight" style="margin-right: 0px;">
+
+		{% if search_url %}
+
+
+				{% if new_item %}
+
+				{% else %}
+					{% if search_id %}
+						<a href="/roadmap/ledger/back_next?direction=-1&current_id={{ item.id }}&search_id={{ search_id }}">&#9664;</a>{{ search_found }}/{{ search_count }}<a href="/roadmap/ledger/back_next?direction=1&current_id={{ item.id }}&search_id={{ search_id }}">&#9654;</a>
+					{% endif %}
+				{% endif %}
+
+		{% endif %}
+
+	</span>
+
+	<h2 style="margin:0; margin-bottom: 24px;padding-left:15px;">
+		#{{ item.id }}
+	</h2>
+
+
+
+	{% include "ledger/objects/extra_details.html" %}
+{% endblock %}
+
+
+
+
+
+{% block "maincontent" %}
+<div id="details">
+
+	<!-- now add the content -->
+	<div id="contents">
+		<div id="editItem">
+			<h2>
+				{{ item.description }}{% ifequal item.description ''%}New Issue{% endifequal %}
+			</h2>
+
+			<form  class="clearfix" action="/roadmap/ledger/item/{{ item.id }}" method="post" name="itemForm" enctype="multipart/form-data" >
+				<input type="hidden" name="search_id" value="{{ search_id }}" />
+				<input type="hidden" name="referrer" value="{{ referrer }}" />
+				<input type="hidden" name="file_uuid" value="{{ file_uuid }}" />
+
+				{{ linked_item_form.field.errors }}
+				{% csrf_token %}
+
+				<ul>
+					{# if item.state = 1 #}
+						{{ linked_item_form.subject.errors }}
+						<li><label for="id_subject">Brief outline of the problem:</label></li>
+						<li class="input">
+							{{ linked_item_form.subject }}
+						</li>
+						{{ linked_item_form.url.errors }}
+						<li><label for="id_url">Url:</label></li>
+						<li class="input">
+							{{ linked_item_form.url }}
+						</li>
+					{# endif #}
+
+					{% if item.state = 0 %}
+						<!--<input type="hidden" name="subject" value="{{ item.description }}" />
+						<li>{{ linked_item.url }}</li>-->
+					{% endif %}
+
+					<li id="checkList">
+						{% include "ledger/forms/Issue/Steps.html" %}
+					</li>
+
+					<li id="addStepHelper" class="input">
+						<input type="text" class="text" name="addstep" id="addStep" onfocus="$('#editItem #addStepHelper .addStepExpand').show();" onkeydown="if(event.keyCode == 13){ $('#addStepButton').click(); return false;}" />
+
+						<div class="addStepExpand">
+
+							<button class="floatRight ui-state-default  dialog_link submit" type="button" id="addStepButton" onclick="Roadmap.addChecklistItem({{ item.id }}, '{{ file_uuid }}', $('#addStep').val(), 'Issue');">Add</button>
+
+							<div id="attachFileiFrameWrapper">
+								<iframe id="attachFileiFrame" src="/roadmap/ledger/add_checklist_file?item_id={{ item.id }}&file_uuid={{ file_uuid }}" style="width: 500px; height: 50px; "></iframe>
+							</div>
+						</div>
+					</li>
+
+					{% include "ledger/forms/comments.html" %}
+
+					{# if item.state = 1 #}
+						<input type="hidden" name="location" value="{{ item.location.id }}" />
+						<input type="hidden" name="project" value="{{ item.project.id }}" />
+						<input type="hidden" name="owner" value="{{ item.assigned_to.id }}" />
+						<input type="hidden" name="priority" value="{{ item.priority.id }}" />
+
+					{# endif #}
+
+					<li>
+						<label>Add a comment:</label>
+					</li>
+
+					<li class="input clearfix" style="margin-bottom:0px; ">
+						{{ linked_item_form.comments }}
+
+						{% if item.state = 0 %}
+							<div class="addCommentsExpand floatRight">
+								<button id="addComment" class="orangeInput submit" style="display:none;" name="addComment" onclick="return(addComments());">Add Comment</button>
+
+							</div>
+						{% endif %}
+						</li>
+
+						{% if item.state = 0 %}
+						<li style="height:22px">
+							<img src="/media/layout/images/content/lowerGradient.png" style="width:660px; margin-bottom: 6px;"/>
+						</li>
+
+						<li class=" dashedTop">
+							<label for="id_delivery_notes">Delivery notes <span class="explanation floatRight">Shown on the <a href="/roadmap/ledger/project/{{ item.project.binder.slug }}/{{ item.project.slug }}">project page</a></span></label>
+						</li>
+
+
+						<li class="input">
+							{{ linked_item_form.delivery_notes }}
+						</li>
+
+						{% endif %}
+
+					<li class="addStepExpand" style="margin-top: 12px;">
+						<input class="orangeInput floatRight submit" type="submit" name="update" value="Done" />
+					</li>
+				{% if item.state = 0 %}
+				</ul>
+			</form>
+			<ul>
+				{% endif %}
+
+					{# if extra.buttons_update #}
+					{# endif #}
+				</ul>
+
+				{% if item.state = 1 %}
+			</form>
+				{% endif %}
+			</div>
+	</div>
+</div>
+
+
+		<script type="text/javascript">
+			document.title = '#{{ item.id }} ' + $('#id_subject').val();
+
+			$('#tabs').tabs();
+
+			function addComments() {
+				var comments_text = $('#id_comments').val();
+				$.post(
+					'/roadmap/ledger/item_details_comment',
+					{
+						item_id: {{ item.id }},
+						file_uuid: '{{ file_uuid }}',
+						comments: comments_text
+					},
+					function(data) {
+						$('#commentHook').html(data);
+						$('#id_comments').val('')
+						Roadmap.hoverButtons($('#comments'));
+					}
+				);
+				return false;
+			}
+
+
+
+
+			function setupPopups() {
+				$('#id_comments').bind('focus', function(data) {
+				  $('#addComment').show();
+				});
+				$('#id_comments').bind('blur', function(data) {
+				  if($('#id_comments').val() == '') {
+					$('#addComment').hide();
+				  }
+				});
+
+			}
+
+			Roadmap.addLoader(setupPopups);
+
+		</script>
+{% endblock %}

@@ -1,0 +1,61 @@
+<div>
+	<ol id="addLinkedItemsTabs">
+		<li id="attachNewFile"><a href="">Attach New File</a></li>
+		<li id="attachFile"><a href="">Attach Existing File</a></li>
+		<li id="attachNote"><a href="">Attach Existing Note</a></li>
+		<li id="duplicateItem"><a href="">Mark Duplicate Item</a></li>
+	</ol>
+
+	<div id="linkedItemsTabs">
+		<div class="tab_attachNewFile tab">
+			<form style="margin: 12px;" class="clearfix" action="/roadmap/ledger/attach_new_file" method="post" name="newItemForm" enctype="multipart/form-data" >
+				{% csrf_token %}
+				<input type="hidden" name="item_id" value="{{ item.id }}" />
+				<input type="file" name="file"  onchange="document.newItemForm.submit();"/>
+				<!--<input type="submit" name="submitButton" value="Upload" />-->
+			</form>
+		</div>
+
+		<div class="tab_attachFile tab">
+			<div class="instaFilter" >
+				<img src="/media/layout/icons/find.png" alt="Search" title="Search" style="margin-right: 4px;"/> <input class="instaFilterInput" />
+
+				<ol >
+					{% for loop_item in file_items %}
+						<li class="instaFilterThis">
+							<img src="/media/layout/icons/{{ loop_item.item_type }}.png"  /> #{{ loop_item.id }} <a href="{% url roadmap.ledger.views.item_link_item item=item.id,linked_item=loop_item.id %}" onclick="return addLinkedItem({{item.id }}, {{ loop_item.id }});" > {{ loop_item.description }}</a>
+						</li>
+					{% endfor %}
+				</ol>
+			</div>
+		</div>
+
+		<div class="tab_attachNote tab">
+			<div class="instaFilter" >
+				<img src="/media/layout/icons/find.png" alt="Search" title="Search" style="margin-right: 4px;"/> <input class="instaFilterInput" />
+
+				<ol >
+					{% for loop_item in note_items %}
+						<li class="instaFilterThis">
+							<img src="/media/layout/icons/{{ loop_item.item_type }}.png"  /> #{{ loop_item.id }} <a href="{% url roadmap.ledger.views.item_link_item item=item.id,linked_item=loop_item.id %}"  onclick="return addLinkedItem({{item.id }}, {{ loop_item.id }});" > {{ loop_item.description }}</a>
+						</li>
+					{% endfor %}
+				</ol>
+			</div>
+		</div>
+
+		<div class="tab_duplicateItem tab">
+			<div class="instaFilter" >
+				<img src="/media/layout/icons/find.png" alt="Search" title="Search" style="margin-right: 4px;"/> <input class="instaFilterInput" />
+
+				<ol >
+					{% for loop_item in items %}
+						<li class="instaFilterThis">
+							<img src="/media/layout/icons/{{ loop_item.item_type }}.png"  /> #{{ loop_item.id }} <a href="{% url roadmap.ledger.views.item_link_item item=item.id,linked_item=loop_item.id %}"  onclick="return addLinkedItem({{item.id }}, {{ loop_item.id }});" > {{ loop_item.description }}</a>
+						</li>
+					{% endfor %}
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>

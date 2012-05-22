@@ -1,0 +1,300 @@
+{% extends "ledger/base.html" %}
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+{% block "toolbox" %}
+<div id="toolbox">
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue',client_name=binder.client.slug,binder_name=binder.slug %}">+ Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Requirement',client_name=binder.client.slug,binder_name=binder.slug %}">+ Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File',client_name=binder.client.slug,binder_name=binder.slug %}">+ File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note',client_name=binder.client.slug,binder_name=binder.slug %}">+ Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+
+
+{% block "navigation" %}
+	<ol>
+		<li>
+			<ol>
+				<li class="selected">
+					<a href="{% url roadmap.ledger.views.view_client name=binder.client.slug %}">{{ binder.client.name }}</a>
+				</li>
+			</ol>
+		</li>
+
+
+
+			{% for project in binder.projects %}
+
+				<li>
+					<div class="sectionTop project">
+						<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ project.slug }}">{{ project.name }}</a>
+					</div>
+				</li>
+
+
+			{% endfor %}
+
+	</ol>
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+
+
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+	<div id="binder">
+
+		<h2 style="margin-top:0;">
+			{{ binder.name }}</h2>
+
+		<p class="margin24">This is your project folder where you can decide what users have permission to view the projects within.</p>
+		<p class="margin24"><strong>Limited users</strong> can only view items assigned to them or that they have commented on previously.</p>
+		<p class="margin24"><strong>Full users</strong> have unrestricted access.</p>
+
+
+		<h3 class="margin24">Projects
+			{% if user.is_staff %}
+				<span class="floatRight marginRight24">
+					<a href="{% url roadmap.ledger.views.new_project binder.id %}">+ New Project</a>
+				</span>
+			{% endif %}
+		</h3>
+
+
+		<ol style="margin-left: 12px;">
+			{% for loop_project in projects %}
+				<li>
+					<h3>
+
+						<span class="floatRight">{% if loop_project.project.deadline %}{{ loop_project.project.deadline|date:"d M Y" }}{% else %}{% endif %} </span>
+						<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ loop_project.project.slug }}">{{ loop_project.project.name }}</a>
+					</h3>
+
+					{% if loop_project = binder.default_project %}
+					<span>Default</span>
+					{% endif %}
+
+					<div style="clear: both;"></div>
+				</li>
+			{% empty %}
+				<li>
+					This folder does not contain any projects yet. Start by <a href="{% url roadmap.ledger.views.new_project binder.id %}">adding a project</a>.
+				</li>
+			{% endfor %}
+		</ol>
+
+		{% if user.is_staff %}
+			<div style="border-top: dashed 1px #ccc; margin-top:24px;">
+					<h3 class="margin24" style="margin-top: 24px;">Security</h3>
+					<p class="margin24" style="margin-bottom: 12px;">Only users added to this folder will be able to access the projects.</p>
+
+					<div id="team" class="instaFilter">
+						<span style="margin-left:12px;  margin-bottom: 4px;">
+							<span style="margin-right: 4px;" class="charcoal">Filter: </span> <input type="text" class="instaFilterInput" value=""/>
+						</span>
+
+						<form name="addToTeam_{{ loop_item.id }}" method="post" action="/roadmap/ledger/user_to_binder">
+						{% csrf_token %}
+							<ol class=" choiceList" id="userList" >
+								{% for loop_item in users %}
+									{% include "ledger/binder_team_item.html" %}
+								{% endfor %}
+							</ol>
+						</form>
+					</div>
+			</div>
+		{% endif %}
+
+	</div>
+
+	<script type="text/javascript">
+		document.title = 'Roadmap | {{ binder.name|safe }}';
+
+		function setupPopups() {
+
+				$('#addToTeam').hide();
+				$('#reassignOwner').hide()
+			}
+
+		function addUserToTeam(element, userId, binderId, reporter, producer, actionName) {
+			var emailAddress = '';
+			try {
+				emailAddress = $(element).parent().parent().children('#email').val();
+			} catch (e)
+			{
+
+			}
+
+			//alert($(element).parent().parent().children('div .producer:checked').val());
+			$.post('/roadmap/ledger/user_to_binder',
+				{
+					user_id : userId,
+					email_address : emailAddress,
+					binder_id : binderId,
+					reporter : reporter,
+					producer : producer,
+					actionName : actionName
+				},
+
+				function(data) {
+					//$(element).parent().parent().html(data);
+					$('li#user' + userId).replaceWith(data);
+
+					/*if(data == 'success') {
+						window.location.reload();
+						return false;
+						var addElement = $(element).parent().parent();
+						addElement.fadeOut(100, function() {
+							$('#teamList').append(addElement);
+							addElement.fadeIn(100);
+						});
+					}*/
+				}
+			);
+			return false;
+		}
+
+		function reassignOwner(element, userId, binderId) {
+			$.post('/roadmap/ledger/owner_to_binder',
+				{
+					user_id : userId,
+					binder_id: binderId
+				},
+				function(data) {
+					window.location.href=window.location.href;
+				}
+			);
+			return false;
+		}
+
+		function removeFromTeam(element, userId, binderId) {
+			$.post('/roadmap/ledger/user_to_binder',
+				{ user_id : userId, binder_id : binderId, action : 'remove'},
+
+				function(data) {
+					if(data == 'success') {
+						window.location.reload();
+						return false;
+						var addElement = $(element).parent();
+						addElement.fadeOut(100, function() {
+							$('#userList').append(addElement);
+							addElement.fadeIn(100);
+						});
+					}
+				}
+			);
+			return false;
+		}
+
+		Roadmap.addLoader(setupPopups);
+	</script>
+{% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+  <div id="line-divider">
+
+	<div style="margin-top: 44px">
+	{% include "ledger/objects/calendar.html" %}
+	</div>
+
+
+	<h3 style="margin-left: 12px;">Tags</h3>
+	<div id="tagCloud" style="padding-left: 12px;">
+		<div>
+			{% for tag in tag_cloud %}
+				<span class="tag-{{tag.font_size}}"><a href="/roadmap/ledger/active?location=All&binder={{binder.slug }}&tags={{ tag.name|urlencode }}&SearchTags=Search">{{tag.name}}</a></span>
+			{% endfor %}
+		</div>
+	</div>
+
+
+	<div id="team">
+		<div style="margin-bottom: 1em; padding-right: 12px;  padding-top: 12px;">
+			{% if binder.owner = user %}
+				<div class="charcoal" style="clear: right; font-size:11px; ">
+					You own this folder.
+					<a href="#" class="changeLink" onclick="Roadmap.slideInOut('#reassignOwner', this, 'Reassign', 'Hide'); return false;">Reassign</a>
+					<br/>
+				</div>
+			{% else %}
+
+				<div style="clear: right;">
+					<span style="float:right;"><a href="{% url roadmap.ledger.views.profile username=binder.owner.username %}">{{ binder.owner.first_name }} {{ binder.owner.last_name }}</a></span>
+					<h3>Owner</h3>
+				</div>
+			{% endif %}
+		</div>
+
+
+		{% if binder.owner = user  or user in producers %}
+			<div id="reassignOwner" title="Reassign">
+				<ol class="userList" id="reassignUserList">
+					{% for loop_item in users %}
+						 {% if loop_item != user %}
+							<li>
+								<form name="addToTeam_{{ loop_item.id }}" method="post" action="/roadmap/ledger/owner_to_binder">
+										{% csrf_token %}
+									<span style="float: left;">
+										<span class="gravatar">
+												<img src="{% avatar_url loop_item 48 %}" />
+										</span>
+									</span>
+
+									<div style="float:right;">
+										{% if loop_item.first_name %}<a href="{% url roadmap.ledger.views.profile username=loop_item.username %}">{{ loop_item.first_name }} {{ loop_item.last_name }}</a>{% else %}{{ loop_item.email }}{% endif %}
+										<br/>
+										<input type="hidden" name="user_id" value="{{ loop_item.id }}" /><br/>
+										<input type="hidden" name="binder_id" value="{{ binder.id }}" />
+									</div>
+
+									 <div style="clear: right; text-align: right;">
+										<input type="submit" name="submit" class="orangeInput" value="Reassign" onclick="return(reassignOwner(this, {{ loop_item.id }}, {{ binder.id }}));"/>
+									 </div>
+								</form>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ol>
+			</div>
+		{% endif %}
+
+	</div>
+
+  </div>
+
+
+{% endblock %}

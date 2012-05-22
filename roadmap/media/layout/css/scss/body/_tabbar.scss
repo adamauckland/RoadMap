@@ -1,0 +1,41 @@
+/*
+
+	Tab bar
+
+*/
+/*$tabBorder: #EAE4AD;*/
+/*$tabBackground: #F7F7E1;*/
+$tabBorder: $lines;
+$tabBackground: #fff;
+$gradientBottom: #eaeaea;
+$gradientBottomLight: #edefef;
+
+#tabWrap {
+ margin-top: 24px; margin-bottom: 16px; padding: 0;
+	ol#tabBar {
+		li {
+			background: -moz-linear-gradient(top, #fff 0%, $gradientBottom 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,$gradientBottom)); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='$gradientBottom',GradientType=0 );
+			/*background: url("/media/layout/images/content/search-background.png") repeat-x bottom; */border-left: solid 1px #fff; border-right: solid 1px #eee; border-bottom: solid 1px #ebebeb;
+			display: block; float: left; margin-top: 4px; padding: 8px; padding-top: 4px; text-align: center; width: 119px;
+			img { position: relative; top: 2px; }
+
+			&.first { border-left: solid 1px #eee; }
+			&.last { border-right: solid 1px #eaeaea; }
+			&.selected {
+			 background: -moz-linear-gradient(top, $gradientBottomLight 0%, #ffffff 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$gradientBottomLight), color-stop(100%,#ffffff)); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$gradientBottomLight', endColorstr='#ffffff',GradientType=0 );
+			 border-bottom: solid 1px #fff; border-left: solid 1px #fff; border-right: solid 1px #eee; border-top: solid 0px $tabBorder; margin-top: 0; padding-top: 8px;
+			}
+			&.first.selected {  border-left: solid 1px #eee;}
+		}
+	}
+}
+
+.tabContent {
+  /*border-left: solid 1px $tabBorder; border-top: solid 1px #fff; border-bottom: solid 1px #fff;*/
+  clear: left; min-height: 300px; padding: 12px; padding-right: 12px; padding-top: 0px; padding-left: 8px; width: 663px;
+}
+
+#sub-content {
+	/*padding-top: 56px;*/
+	background: url("/media/layout/images/content/playingAreaTopBackground.png") top repeat-x;
+}

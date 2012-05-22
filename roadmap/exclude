@@ -1,0 +1,13 @@
+- database/
+- settings.py
+- settings.pyc
+- media/
++ media/layout
++ media/layout/css
+- .sass-cache
+- profile
+- .hg
+- design
+- .*
+- ledger/fixtures/
+- *.pyc

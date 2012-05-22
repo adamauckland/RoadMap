@@ -1,0 +1,42 @@
+{% extends "ledger/base_wide.html" %}
+	{% load custom %}
+	{% load markup %}
+
+	{% block "title" %}
+	Active {{ page.location }}
+	{% endblock %}
+
+
+
+
+
+	{% block "breadcrumb" %}
+		<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> 
+	{% endblock %}
+
+
+{% block "toolbox" %}
+  <div id="toolbox">
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue' %}"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Requirement' %}"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File' %}"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note' %}"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+{% block "maincontent" %}
+ 
+	<h2>Page does not exist</h2>
+{% endblock %}

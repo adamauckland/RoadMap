@@ -1,0 +1,4 @@
+#!/bin/bash
+export DJANGO_SETTINGS_MODULE=roadmap.settings
+export PYTHONPATH=~/Web/roadmap/:~/Web/roadmap/roadmap/
+/var/www/envs/roadmap_python_2.6_django/bin/sphinx-build ../roadmap/docs/ ../roadmap/docs/html/

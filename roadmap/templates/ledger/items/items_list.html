@@ -1,0 +1,76 @@
+{% load custom %}
+{% load markup %}
+
+<table id="activeList" class="jtable expand">
+	<thead>
+		<tr>
+			<th class="checkbox" style="text-align: center; "><a href="/select_all_click?search_id={{ search_id }}">All</a></th>
+			<th><!-- preview icon --></th>
+			<th class="auto"  >
+				<a href="#" onclick="return Roadmap.activeItemsOrder('id');" {% ifequal order_by "id" %}class="selected"{% endifequal  %}>#</a>
+			</th>
+
+
+			<th class="priority">
+				<a href="#" onclick="return Roadmap.activeItemsOrder('priority');" {% ifequal order_by "priority" %}class="selected"{% endifequal  %}>Priority</a>
+			</th>
+
+			<th class="description">
+				<a href="#" onclick="return Roadmap.activeItemsOrder('description');" {% ifequal order_by "description" %}class="selected"{% endifequal  %}>Description</a>
+			</th>
+
+			<th>
+				<a href="#" onclick="return Roadmap.activeItemsOrder('item_state');" {% ifequal order_by "item_state" %}class="selected"{% endifequal  %}>Status</a>
+			</th>
+
+				<th>
+					<a href="#" onclick="return Roadmap.activeItemsOrder('assigned_to');" {% ifequal order_by "assigned_to" %}class="selected"{% endifequal  %}>Assigned</a>
+				</th>
+
+
+			<th>
+				<a href="#" onclick="return Roadmap.activeItemsOrder('item_type__order');" {% ifequal order_by "item_type__order" %}class="selected"{% endifequal  %}>Type</a>
+			</th>
+
+
+
+		</tr>
+	</thead>
+
+	{% for loop_location in location_list %}
+		<tbody>
+
+
+
+		<tr class="locationChanged">
+			<td colspan="8">
+
+				{{ loop_location.description }} <span class="explanation"> ({{ loop_location.item_count }})</span>
+
+				{% if location.name = 'Reported' %}<span class="explanation margin24">Items not yet actioned</span>{% endif %}
+
+			</td>
+		</tr>
+	</tbody>
+
+	<tbody id="location{{ loop_location.name }}">
+		{% if not loop_location.items  %}
+			<tr class="">
+				<td colspan="1">&nbsp;</td>
+				<td colspan="7"  class="charcoal">
+					No items
+				</td>
+			</tr>
+		{% endif %}
+
+		{% for item in loop_location.items %}
+			  <!-- location headings -->
+			{% ifchanged item.location %}
+
+			{% endifchanged %}
+
+			{% include "ledger/items/item_row.html" %}
+		 {% endfor %}
+		</tbody>
+	{% endfor %}
+</table>

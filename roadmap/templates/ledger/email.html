@@ -1,0 +1,29 @@
+
+
+{% extends "ledger/base.html" %}
+
+{% block "toolbox" %}
+	<div id="toolbox">
+		<span class="floatRight">
+			<a class="ui-state-default ui-corner-all dialog_link" href="/roadmap/ledger/move/{{ item.id }}?binder={{ item.project.binder_id }}"><span class="ui-icon ui-icon-circle-triangle-e"></span>Move</a>
+			<a class="ui-state-default ui-corner-all dialog_link" href="/roadmap/ledger/move"><span class="ui-icon ui-icon-circle-triangle-e"></span>Develop</a>
+		</span>
+		<a class="ui-state-default ui-corner-all dialog_link" href="/roadmap/ledger/active"><span class="ui-icon ui-icon-back"></span>Back</a>
+	</div>
+{% endblock %}
+
+
+{% block "heading" %}
+{% endblock %}
+
+
+{% block "maincontent" %}
+	{% for email in emails %}
+		<div>
+			<h2>{{ email.email_from}} &gt; {{ email.email_to }}</h2>
+			<h3>{{ email.subject }}</h3>
+			<div>{{ email.email_date}}</div>
+			<p>{{ email.html|safe }}</p>
+		</div>
+	{% endfor %}
+{% endblock %}

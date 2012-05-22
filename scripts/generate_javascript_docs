@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ~/Applications/jsdoc-toolkit
+rm -rf ./out
+java -jar jsrun.jar app/run.js ~/Web/roadmap/roadmap/media/layout/js/ledger.js -t=templates/jsdoc -p -v -als

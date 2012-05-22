@@ -1,0 +1,39 @@
+{% load custom %}
+{% load markup %}
+{% include "ledger/scaffold/head.html" %}
+<body>
+	<!-- custom styles for the signin page -->
+	<style type="text/css">
+		html{
+			background: #EDEFEF url("/media/layout/images/content/playingAreaTopBackground.png") top repeat-x;
+		}
+		body {
+			background: #EDEFEF 
+		}
+	</style>
+
+
+	<div id="newUser">
+		<h2>
+			Sign Up
+		</h2>
+
+
+		{{ form.field.errors }}
+
+		<form method="post" name="new_user" id="newUserForm">
+			{% csrf_token %}
+			<ul>
+				{{ form.as_ul }}
+
+				<br/>
+
+				<li class="floatRight">
+					<input type="submit" class="submit" name="Create" value="Create" />
+				</li>
+
+			</ul>
+		</form>
+	</div>
+</body>
+</html>

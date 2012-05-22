@@ -1,0 +1,17 @@
+/*
+
+	Base HTML styles
+
+*/
+body {
+	background: url(../images/header/backgroundTexture.png) ; line-height: 1.5em; margin: 1.5em;
+}
+body.login { background: none; }
+h2 { color: #2779AA; font-size: 1.2em; margin-top: 0px; margin-bottom: 1em; }
+h2 img { position: relative; top: 2px; z-index: 30; }
+h3 { margin-top: 12px; font-size: 11px; font-weight: normal; margin-bottom: 8px; }
+p { /*margin-bottom: 1em;*/ }
+a {
+ color: #2779AA; text-decoration: none;
+ &:hover { text-decoration: underline; }
+}

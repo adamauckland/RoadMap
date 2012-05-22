@@ -1,0 +1,127 @@
+{% extends "ledger/base.html" %}
+
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/timeline_marker.png" />
+{% endblock %}
+
+
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+
+{% block "toolbox" %}
+
+  <div id="toolbox">
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ item.id }}"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ item.id }}"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ item.id }}"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ item.id }}"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+  {% include "ledger/objects/project_details.html" %}
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+	<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/folder_user.png" /> <a href="{% url roadmap.ledger.views.view_client name=binder.client.slug %}">{{ binder.client.name }}</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/group.png" /> <a href="{% url roadmap.ledger.views.view_binder name=binder.slug %}">{{ binder.name }}</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/timeline_marker.png" /> <a href="/roadmap/ledger/project/{{ item.binder.slug }}/{{ item.slug }}" title="Go to {{ item.name }} project page.">{{ item.name }}</a> <span class="arrow">&#9654;</span>
+	<img src="/media/layout/icons/cog.png" alt="Cog"/> Advanced
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+
+
+	<div id="project">
+		<!--<span class="floatRight">
+			<a class="orangeInput info" href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}">
+				<img src="/media/layout/icons/application_view_list.png"  alt="Logo for List" />
+				View my items
+			</a>
+		</span>-->
+		<h2 style="margin-top: 0">
+			<img src="/media/layout/icons/cog.png" alt="Cog"/> <span>{{ item.name }} Advanced</span>
+		</h2>
+
+		<!--<p class="margin24">
+			<a href="/roadmap/ledger/project/{{ item.binder.slug }}/{{ item.slug }}" title="Go to {{ item.name }} page.">&lt; Back to binder page</a>
+		</p>-->
+
+		<p class="margin24" style="margin-top: 12px;">Items completed or verified</p>
+
+		<div id="details" class="margin24" style="background: transparent;">
+			<div id="overview">
+				<table>
+					<thead>
+					  <tr style="background: white;">
+						  <td>Group</td>
+						  <td>Production</td>
+						  <td>Testing</td>
+					  </tr>
+					</thead>
+					{% for loop_item, loop_value in unique_groups.items %}
+						{% if loop_value.production or loop_value.testing %}
+							<tr>
+								<th>
+									{{ loop_value.name }}
+								</th>
+								<td style="text-align: center; {% if loop_value.production = 100 %} background-color:#b1dd8d;{% endif %}">
+									{% if loop_value.production %}{{ loop_value.production }}%{% endif %}
+								</td>
+								<td style="text-align: center; {% if loop_value.testing = 100 %} background-color: #b1dd8d;{% endif %}">
+									{% if loop_value.testing %}{{ loop_value.testing }}%{% endif %}
+								</td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+
+		<div style="padding-top: 24px;" class="margin24">
+			<!--<a class="orangeInput info" href="url roadmap.ledger.views.make_delivery_index client_name=binder.client.slug, binder_name=binder.slug, project_name=item.slug">Deliver items</a>-->
+			<a class="orangeInput" href="/make_delivery_location/{{ binder.client.slug }}/{{ binder.slug }}/{{ item.slug }}">Deliver Items</a>
+
+			<a class="orangeInput margin24" href="{% url roadmap.ledger.views.project_import_csv client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}">Import Items</a>
+		</div>
+	</div>
+
+
+
+	<script type="text/javascript">
+		document.title = 'Roadmap | {{ item.name|safe }}';
+	</script>
+{% endblock %}

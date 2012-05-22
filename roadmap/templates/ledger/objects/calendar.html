@@ -1,0 +1,41 @@
+<table id="dashboardTable" class="smoothBack">
+	<caption></caption>
+	<thead>
+		<tr>
+			<td colspan="7" class="monthYear">
+				<a href="?month={{ calendar_output.todays_month }}&year={{ calendar_output.past_year }}">&lt;&lt;&nbsp;</a>
+				<a href="?month={{ calendar_output.previous_month }}&year={{ calendar_output.previous_year }}">&lt;</a>
+				{{ calendar_output.month_name }} {{ calendar_output.todays_year }}
+				<a href="?month={{ calendar_output.next_month }}&year={{ calendar_output.next_year }}">&gt;&nbsp;</a>
+				<a href="?month={{ calendar_output.todays_month }}&year={{ calendar_output.future_year }}">&gt;&gt;</a>
+			</td>
+		</tr>
+		<tr>
+			<th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th><th>S</th>
+		</tr>
+	</thead>
+
+	<tbody>
+			{% if calendar_output.weeks %}
+			{% for week_item in calendar_output.weeks %}
+				<tr>
+					{% for day_item in week_item %}
+						<td class="{{ day_item.ccs_class }} {% if forloop.first %}left{% endif %}">{% if day_item.targets %}
+								  <span class="abs">
+									<span class="bottomRight">
+									  <a href="{% url roadmap.ledger.views.items client_name=day_item.targets.0.project.binder.client.slug,binder_name=day_item.targets.0.project.binder.slug,project_name=day_item.targets.0.project.slug,target_name=day_item.targets.0.slug %}">
+										<img src="/media/layout/icons/{% if day_item.overdue %}exclamation{% else %}target{% endif %}.png" alt="Target" title="{% if day_item.overdue %}OVERDUE{% endif %} Milestones: {% for loop_target in day_item.targets %}{{ loop_target.project.binder.name }} &#9654; {{ loop_target.project.name }} &#9654; {{ loop_target.name }} {% endfor %}"/>
+									  </a>
+									</span>
+								  </span>
+								{% endif %}{% ifequal day_item.value 0 %}{% else %}{% if day_item.slug  %}<a href="?month={{ calendar_output.todays_month }}&year={{ calendar_output.todays_year }}&day={{ day_item.value }}">{{ day_item.value }}</a>{% else %}{{ day_item.value }}{% endif %}
+
+
+							{% endifequal %}
+						</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+		{% endif %}
+	</tbody>
+</table>

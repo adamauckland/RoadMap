@@ -1,0 +1,25 @@
+/*
+ dropdown select items.
+*/
+.dropdownSelect {
+	position: relative;
+	span {
+		img {
+		  float: none;
+			position: relative;
+			top: 5px;
+		}
+		&:hover {
+			cursor: pointer; outline: dashed 1px $lines;
+		}
+	}
+	ol {
+		background-color: #edefef; display: none; position: absolute; top:32px; width: auto; z-index: 99999;
+		li {
+			cursor: pointer; font-size: 16px; padding-left: 4px; padding-top: 4px;
+			&:hover {
+				color: $blue;
+			}
+		}
+	}
+}

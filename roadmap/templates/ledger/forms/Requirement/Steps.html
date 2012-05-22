@@ -1,0 +1,29 @@
+<div>
+	<label>Objectives</label>
+		<ol id="objectives">
+		{% for loop_item in checklist_items %}
+			<li class="hoverParent ">
+				<span class="hoverButtons floatRight">
+				  <img src="/media/layout/icons/pencil.png" alt="Icon of pencil" title="Edit"  onclick="Roadmap.checklistClick({{ item.id }}, {{ loop_item.id }}, '{{ item.item_type }}', $(this).parent().parent().children('.loopItem'));" style="cursor: pointer;"/>
+
+				  <a href="/roadmap/ledger/promote_objective?item_id={{ item.id }}&amp;objective_id={{ loop_item.id }}&amp;objective_type={{ item.item_type }}">
+					<img src="/media/layout/icons/new.png" alt="Icon of new" title="Make this item a new requirement" style="cursor: pointer;margin-right: 8px;" />
+				  </a>
+
+				  <img src="/media/layout/icons/bin_empty.png" alt="Icon of rubbish bin" title="Delete" onclick="Roadmap.deleteObjective({{ item.id }}, {{ loop_item.id }}, '{{ item.item_type }}', this);" style="cursor: pointer;" />
+
+
+				</span>
+
+
+				<span class="loopItem">{{ loop_item.text|safe }}</span>
+
+				{% if loop_item.filename %}
+				<a href="/media/attachments/{{ loop_item.id }}/{{ loop_item.filename }}">{{ loop_item.filename }}</a>
+				{% endif %}
+
+			</li>
+		{% endfor %}
+		</ol>
+
+</div>

@@ -1,0 +1,5 @@
+#!/bin/bash
+managedir="`dirname $0`";
+managedir=$managedir"/manage.py";
+python $managedir runserver;
+

@@ -1,0 +1,119 @@
+
+
+{% extends "ledger/base.html" %}
+{% load custom %}
+
+{% block "head" %}
+
+{% endblock %}
+
+{% block "title" %}
+
+{% endblock %}
+
+{% block "toolbox" %}
+
+{% endblock %}
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+{% block "topnav2" %}
+
+{% endblock %}
+
+
+
+
+{% block "breadcrumb" %}
+  <img src="/media/layout/icons/folder_user.png" /> <a href="/">Home</a>
+{% endblock %}
+
+
+
+{% block "navigation" %}
+	<ol>
+		<li>
+			<ol>
+				<li class="selected">
+					<a href="{% url roadmap.ledger.views.view_client name=client.slug %}">{{ client.name }}</a>
+				</li>
+			</ol>
+		</li>
+
+
+		{% for binder in client.binders %}
+			{% for project in binder.projects %}
+
+				<li>
+					<div class="sectionTop project">
+						<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ project.slug }}">{{ project.name }}</a>
+					</div>
+				</li>
+
+			{% endfor %}
+		{% endfor %}
+	</ol>
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+<div id="dashboardConstraint">
+	<div id="dashboard">
+		<h2>
+			New project folder
+		</h2>
+
+		<div style="margin-left: 24px;">
+			<p style="margin-bottom: 24px;">
+				You are creating a new folder to store projects in.
+			</p>
+
+			{{ form.field.errors }}
+
+			<form method="post" name="new_binder" id="newBinder">
+				{% csrf_token %}
+				<ul>
+					{{ form.as_ul }}
+
+					<br/>
+
+					<li>
+
+						<input type="submit"  class="floatRight marginRight24 submit" name="Create" value="Create" />
+ 
+							<a class="orangeInput info" href="{% url roadmap.ledger.views.view_client name=client.slug %}">Cancel</a>
+
+					</li>
+				</ul>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+{% block "rightcontent" %}
+  <div id="line-divider">
+
+	<div style="margin-top: 44px">
+	{% include "ledger/objects/calendar.html" %}
+	</div>
+
+	{% if user.is_staff %}
+		<h3 style="border-top: dashed 1px #dddddd; margin-top: 12px; padding-left: 12px; padding-top:12px;">Tags</h3>
+		<div id="tagCloud" style="padding-left: 12px;">
+			<div>
+				{% for tag in tag_cloud %}
+					<span class="tag-{{tag.font_size}}"><a href="/roadmap/ledger/active?location=All&binder={{binder.slug }}&tags={{ tag.name|urlencode }}&SearchTags=Search">{{tag.name}}</a></span>
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+  </div>
+{% endblock %}
