@@ -745,30 +745,23 @@ def home(request):
 		include_client = False
 
 		for loop_binder in Binder.objects.filter(client = loop_client, active = True):
-			for loop_project in Project.objects.filter(binder = loop_binder):
-				project_row = GridRow()
-				project_row.project = loop_project
-				project_row.binder = loop_binder
-				project_row.client = loop_binder.client
+			if request.user in loop_binder.all_users():
+				for loop_project in Project.objects.filter(binder = loop_binder):
 
-				default_location = None
-				if request.user in loop_binder.reporters.all():
-					default_location = Location.objects.get(name = 'Testing')
-				if request.user in loop_binder.producers.all():
-					default_location = Location.objects.get(name = 'Production')
-				if request.user == loop_binder.owner:
-					default_location = Location.objects.get(name = 'Reported')
+					project_row = GridRow()
+					project_row.project = loop_project
+					project_row.binder = loop_binder
+					project_row.client = loop_binder.client
 
-				if default_location:
-					items = Item.objects.filter(Q(state = 0, project = loop_project, location = default_location))
+					items = Item.objects.filter(Q(state = 0, project = loop_project, assigned_to = request.user))
 					items = items.exclude(item_type = Type.objects.get(name = 'Email'))
 					items = items.exclude(item_type = Type.objects.get(name = 'Note'))
 					items = items.exclude(item_type = Type.objects.get(name = 'File'))
 
-					project_row.your_items = items.filter(assigned_to = request.user).count()
-					project_row.total_items = items.count()
+					project_row.your_items = items.count()
+					#project_row.total_items = items.count()
 
-					project_row.default_location = default_location
+					#project_row.default_location = default_location
 
 					#
 					# Get the viewsettings
@@ -790,8 +783,8 @@ def home(request):
 					row.projects.append(project_row)
 					include_client = True
 
-		if include_client:
-			grid.append(row)
+			if include_client:
+				grid.append(row)
 
 	grid = sorted(grid, key=attrgetter('client_order_index'))
 
@@ -1114,6 +1107,7 @@ def recently_viewed_items(request):
 			'order_by': '',
 			'h2text' : 'Recently Viewed Items',
 			'active_items' : active_items(request),
+			'clients': Client.objects.all().order_by('name'),
 		},
 		context_instance = RequestContext(request),
 	)
@@ -2560,7 +2554,7 @@ def new_binder(request, client_id):
 
 			request.flash['new_binder'] = 'This is your new team. Start by adding some team members on the right hand side.'
 
-			return HttpResponseRedirect('/roadmap/ledger/binder/%s' % (binder.slug))
+			return HttpResponseRedirect('/roadmap/ledger/binder/%s/%s' % (client.slug, binder.slug))
 
 	return render_to_response(
 		'ledger/forms/Binder.html',
@@ -3376,8 +3370,9 @@ def view_client(request, name):
 	)
 
 @login_required
-def view_binder(request, name):
-	binder = Binder.objects.get(slug = name)
+def view_binder(request, client_name, name):
+	client = Client.objects.get(slug = client_name)
+	binder = Binder.objects.get(slug = name, client = client)
 
 	if not user_can_view(request, binder):
 		return HttpResponseRedirect('/roadmap/ledger')
@@ -4781,35 +4776,35 @@ def item_details_priority(request):
 @login_required
 def item_details_target(request):
 	item = Item.objects.get(id = request.POST.get('item_id'))
-	if item.assigned_to == request.user:
-		target_id = request.POST.get('target_id')
-		#
-		# Unattach any targets for this user and item
-		#
-		for loop_target in item.targets.filter(user=request.user):
-			item.targets.remove(loop_target)
+	#if item.assigned_to == request.user:
+	target_id = request.POST.get('target_id')
+	#
+	# Unattach any targets for this user and item
+	#
+	for loop_target in item.targets.filter(user=request.user):
+		item.targets.remove(loop_target)
 
-		if target_id == '0':
-			pass
-		else:
-			target = Target.objects.get(id = target_id)
-			try:
-				for loop_item in item.targets.all:
-					#print('%s' % loop_item)
-					pass
-			except Exception, ex:
-				#print('%s' % ex)
+	if target_id == '0':
+		pass
+	else:
+		target = Target.objects.get(id = target_id)
+		try:
+			for loop_item in item.targets.all:
+				#print('%s' % loop_item)
 				pass
-			item.targets.add(target)
-		item.save()
+		except Exception, ex:
+			#print('%s' % ex)
+			pass
+		item.targets.add(target)
+	item.save()
 
-		feed = Feed()
-		feed.description = '<span class="floatRight"><img src="/media/layout/icons/target.png" /></span><a href="/roadmap/ledger/item/%s">%s</a> has updated schedule details.' % (item.id, escape(item.description))
-		feed.date_time = datetime.datetime.now()
-		feed.user = request.user
-		feed.item = item
-		feed.author = request.user
-		feed.save()
+	feed = Feed()
+	feed.description = '<span class="floatRight"><img src="/media/layout/icons/target.png" /></span><a href="/roadmap/ledger/item/%s">%s</a> has updated schedule details.' % (item.id, escape(item.description))
+	feed.date_time = datetime.datetime.now()
+	feed.user = request.user
+	feed.item = item
+	feed.author = request.user
+	feed.save()
 
 	return render_to_response(
 		'ledger/objects/extra_details.html',
@@ -5679,11 +5674,14 @@ def signup(request):
 def sign_out(request):
 	now = time.time()
 	path = os.path.join(settings.MEDIA_ROOT, 'searches')
+	if not os.path.exists(path):
+		os.mkdir(path)
 	for loop_file in os.listdir(path):
 		loop_file_path = os.path.join(path, loop_file)
 		if os.stat(loop_file_path).st_mtime < now - 86400:
 			if os.path.isfile(loop_file_path):
-				os.remove(loop_file_path)
+				#os.remove(loop_file_path)
+				pass
 
 	import roadmap.chat.views
 	roadmap.chat.views.sign_out(request)

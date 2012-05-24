@@ -38,19 +38,7 @@
   	<div id="line-divider">
 		{% include "ledger/objects/calendar.html" %}
 
-		div id="tagCloud" style="border-top: dashed 1px #dddddd; margin-top: 12px; padding-left: 12px; ">
-			<h3>Tags</h3>
-			{% load tag_cloud %}
-			{% tag_cloud_for_model ledger.Item as tags with steps=6 min_count=1 %}
-			<div>
-				{% for tag in tags %}
-					<span class="tag-{{tag.font_size}}"><a href="/roadmap/ledger/active?location=All&tags={{ tag.name|urlencode }}&SearchTags=Search">{{tag.name}}</a></span>
-				{% empty %}
-					<span class="tag-1 charcoal">You do not have any tagged items</span>
-				{% endfor %}
-
-			</div>
-		</div>
+		 
 
 		<div id="clientList" style="border-top: dashed 1px #dddddd; margin-top: 12px; padding-left: 12px; ">
 			<span class="floatRight" style="font-size: 11px; margin-top: 12px;"><a href="/roadmap/ledger/new_client">New client</a></span>

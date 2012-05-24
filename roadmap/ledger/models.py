@@ -76,6 +76,18 @@ class Client(models.Model):
 		"""
 		if not self.id:
 			self.slug = slugify(self.name)
+			#
+			# make sure slug is unique
+			#
+			all_slugs = [sl.values()[0] for sl in Client.objects.values('slug')]
+			if self.slug in all_slugs:
+				import re
+				counterFinder = re.compile(r'-\d+$')
+				counter = 2
+				self.slug = "%s-%i" % (self.slug, counter)
+				while self.slug in all_slugs:
+					self.slug = re.sub(counterFinder,"-%i" % counter, self.slug)
+					counter += 1
 		super(Client, self).save(*args, **kwargs)
 
 	def binders(self):
@@ -132,6 +144,18 @@ class Binder(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.id:
 			self.slug = slugify(self.name)
+			#
+			# make sure slug is unique
+			#
+			all_slugs = [sl.values()[0] for sl in Binder.objects.values('slug')]
+			if self.slug in all_slugs:
+				import re
+				counterFinder = re.compile(r'-\d+$')
+				counter = 2
+				self.slug = "%s-%i" % (self.slug, counter)
+				while self.slug in all_slugs:
+					self.slug = re.sub(counterFinder,"-%i" % counter, self.slug)
+					counter += 1
 		super(Binder, self).save(*args, **kwargs)
 
 	def projects(self):
@@ -188,6 +212,18 @@ class Project(models.Model):
 	def save(self, *args, **kwargs):
 		if not self.id:
 			self.slug = slugify(self.name)
+			#
+			# make sure slug is unique
+			#
+			all_slugs = [sl.values()[0] for sl in Project.objects.values('slug')]
+			if self.slug in all_slugs:
+				import re
+				counterFinder = re.compile(r'-\d+$')
+				counter = 2
+				self.slug = "%s-%i" % (self.slug, counter)
+				while self.slug in all_slugs:
+					self.slug = re.sub(counterFinder,"-%i" % counter, self.slug)
+					counter += 1
 
 		super(Project, self).save(*args, **kwargs)
 

@@ -79,7 +79,7 @@
 			{% if user_filters.count > 1 %}
 				<ol>
 					{% for loop_filter in user_filters %}
-						<li>
+						<li class="viewLine">
 							<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?searchId={{ loop_filter.search_id }}">{{ loop_filter.name }}</a>
 						</li>
 					{% endfor %}
@@ -161,19 +161,19 @@
 						<tr>
 							<th>Status</th>
 							<th style="text-align: center">
-								Identified
+								<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?its=1">Identified</a>
 								<span class="floatRight" style="color: #ddd;">▶</span>
 							</th>
 							<th style="text-align: center">
-								Actioned
+								<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?its=2">Actioned</a>
 								<span class="floatRight" style="color: #ddd;">▶</span>
 							</th>
 							<th style="text-align: center">
-								Completed
+								<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?its=3">Completed</a>
 								<span class="floatRight" style="color: #ddd;">▶</span>
 							</th>
 							<th style="text-align: center">
-								Verified
+								<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?its=4">Verified</a>
 							</th>
 						</tr>
 					</thead>
@@ -181,13 +181,13 @@
 						{% for loop_item in row.items %}
 							<tr>
 								<th>
-									{{ loop_item.location.description }} {{ loop_item.all_count }}</th>
+									<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?il={{ loop_item.location.id }}&its=1&its=2&its=3&its=4">{{ loop_item.location.description }} {{ loop_item.all_count }}</a></th>
 
 
 								{% for loop_state in loop_item.items%}
-								<td style="text-align: center" class="charcoal">
-									{{ loop_state}}
-								</td>
+									<td style="text-align: center" class="charcoal">
+										<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?its={{ forloop.counter }}&il={{ loop_item.location.id }}">{{ loop_state}}</a>
+									</td>
 								{% endfor %}
 
 							</tr>

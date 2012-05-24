@@ -93,6 +93,7 @@
 					<li>
 						<span class="groupTitle ">
 							<a class="charcoal" href="/roadmap/ledger/binder/{{ binder.slug }}">{{ binder.name }}</a>
+							<a class="floatRight marginRight24" href="{% url roadmap.ledger.views.view_binder client_name=binder.client.slug, name=binder.slug %}">Team</a>
 						</span>
 
 						{% for project in binder.projects %}
@@ -124,6 +125,6 @@
 	{% include "ledger/objects/calendar.html" %}
 	</div>
 
-	
+
   </div>
 {% endblock %}

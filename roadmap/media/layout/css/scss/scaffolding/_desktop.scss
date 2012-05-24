@@ -48,6 +48,8 @@
 					}
 				}
 
+				#filterEditProperties input[type="text"] { border: solid 1px $orange; padding: 4px; }
+
 				a {
 					display: block;
 				}
@@ -55,6 +57,7 @@
 					background-color: #1d1d1d; padding: 8px;
 
 					li {
+						&.viewLine { padding-bottom: 12px; }
 						#itemListOtherItemsPage {
 							a {
 								display: inline;

@@ -71,7 +71,7 @@
 					{% if loop_filter.search_id == search_id %}
 						<form name="filterItems" method="post">
 							{% csrf_token %}
-							<li  class="selected" >
+							<li  class="selected " >
 								{% if not loop_filter.default  %}
 								<a class="floatRight explanation" href="#" onclick="$('#filterEditProperties').show(); return false;">Properties</a>
 								{% endif %}
@@ -85,7 +85,7 @@
 								<ol>
 									{% if not loop_filter.default  %}
 										<div id="filterEditProperties" style="{% if loop_filter.name != 'New View' %} display: none;{% endif %}">
-											
+
 											<li>
 												<label>Name:</label> <input type="text" name="filterName" value="{{ loop_filter.name }}" />
 											</li>
@@ -94,7 +94,7 @@
 												<input type="checkbox" name="deleteThisFilter" id="deleteThisFilter"/> <label for="deleteThisFilter">Delete This View</label>
 											</li>
 											<li>
-											<hr/>
+											<br/>
 											</li>
 										</div>
 									{% endif %}
@@ -197,7 +197,7 @@
 						</form>
 					</li>
 					{% else %}
-						<li>
+						<li class="viewLine">
 							<a href="{% url roadmap.ledger.views.items client_name=page.project_item.binder.client.slug,binder_name=page.project_item.binder.slug,project_name=page.project_item.slug %}?searchId={{ loop_filter.search_id }}">{{ loop_filter.name }}</a>
 						</li>
 					{% endif %}
