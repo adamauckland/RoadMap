@@ -51,7 +51,7 @@
 
 				{% for loop_other_filter in project_item_filters %}
 					{% if loop_other_filter.search_id != search_id %}
-						<li>
+						<li class="viewLine">
 							<a href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?searchId={{ loop_other_filter.search_id }}" style="display: inline;"> {{ loop_other_filter.name }}</a>
 						</li>
 					{% endif %}

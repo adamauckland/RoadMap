@@ -4,9 +4,19 @@
 
 */
 #binder {
+	.bubble {
+		border: solid 1px #ddd;	background: #fafafa;
+		padding: 12px 12px;	margin-top: 12px; margin-left: 12px; margin-right: 12px;	margin-bottom: 12px;
+		@include shadow(0px, 4px, 4px, #DDD); @include borderRadius(16px, 16px, 16px, 16px);
+
+		h3 {
+			margin-top: 0;
+		}
+	}
 	ol {
+		border: none; padding: 0; margin: 0;
 		li {
-			clear: both; padding: 0px 24px 0px 12px;
+			clear: both; padding: 0px 24px 0px 0px;
 			&:hover {
 
 			}
@@ -38,7 +48,7 @@
 				ol {
 						margin-top: 12px;
 						li {
-								background-color: #fff; border: solid 1px #ddd; clear:none; float:left; height: 64px; padding: 1em; margin-bottom: 1em; margin-left: 12px; width: 182px;
+								background-color: #fff; border: solid 1px #ddd; clear:none; float:left; height: 64px; padding: 1em; margin-bottom: 1em; margin-left: 12px; width: 178px;
 								#trophies {
 										clear: right;
 								}

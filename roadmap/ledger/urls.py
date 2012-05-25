@@ -33,6 +33,7 @@ urlpatterns = patterns('roadmap.ledger',
 	# Project and binder pages
 	#
 	url(r'^binder/(?P<client_name>.+)/(?P<name>.+)$', 'views.view_binder', name='view-binder'),
+	url(r'^(?P<client_name>.+)/(?P<binder_name>.+)/(?P<project_name>.+)/settings$', 'views.view_project_settings'),
 	url(r'^(?P<client_name>.+)/(?P<binder_name>.+)/(?P<project_name>.+)/breakdown$', 'views.view_project_breakdown'),
 	url(r'^(?P<client_name>.+)/(?P<binder_name>.+)/(?P<project_name>.+)/import_csv$', 'views.project_import_csv'),
 	url(r'^(?P<client_name>.+)/(?P<binder_name>.+)/(?P<project_name>.+)/project_import_csv_mapping$', 'views.project_import_csv_mapping'),

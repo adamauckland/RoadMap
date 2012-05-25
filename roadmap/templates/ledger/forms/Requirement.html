@@ -74,7 +74,7 @@ Editing {{ item.description }}
 
 				{% else %}
 					{% if search_id %}
-						<a href="/roadmap/ledger/back_next?direction=-1&current_id={{ item.id }}&search_id={{ search_id }}">&#9664;</a>{{ search_found }}/{{ search_count }}<a href="/roadmap/ledger/back_next?direction=1&current_id={{ item.id }}&search_id={{ search_id }}">&#9654;</a>
+						<a class="charcoal" href="/roadmap/ledger/back_next?direction=-1&current_id={{ item.id }}&search_id={{ search_id }}">&#9664;</a>{{ search_found }}/{{ search_count }}<a href="/roadmap/ledger/back_next?direction=1&current_id={{ item.id }}&search_id={{ search_id }}" class="charcoal">&#9654;</a>
 					{% endif %}
 				{% endif %}
 			</span>
