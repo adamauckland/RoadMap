@@ -83,36 +83,38 @@
 		<p class="margin24"><strong>Full users</strong> have unrestricted access.</p>
 
 
-		<h3 class="margin24">Projects
-			{% if user.is_staff %}
-				<span class="floatRight marginRight24">
-					<a href="{% url roadmap.ledger.views.new_project binder.id %}">+ New Project</a>
-				</span>
-			{% endif %}
-		</h3>
+		<div class="bubble">
+			<h3 >Projects
+				{% if user.is_staff %}
+					<span class="floatRight">
+						<a class="orangeInput" href="{% url roadmap.ledger.views.new_project binder.id %}">New Project</a>
+					</span>
+				{% endif %}
+			</h3>
 
 
-		<ol style="margin-left: 12px;">
-			{% for loop_project in projects %}
-				<li>
-					<h3>
+			<ol>
+				{% for loop_project in projects %}
+					<li>
+						<h3>
 
-						<span class="floatRight">{% if loop_project.project.deadline %}{{ loop_project.project.deadline|date:"d M Y" }}{% else %}{% endif %} </span>
-						<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ loop_project.project.slug }}">{{ loop_project.project.name }}</a>
-					</h3>
+							<span class="floatRight">{% if loop_project.project.deadline %}{{ loop_project.project.deadline|date:"d M Y" }}{% else %}{% endif %} </span>
+							<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ loop_project.project.slug }}">{{ loop_project.project.name }}</a>
+						</h3>
 
-					{% if loop_project = binder.default_project %}
-					<span>Default</span>
-					{% endif %}
+						{% if loop_project = binder.default_project %}
+						<span>Default</span>
+						{% endif %}
 
-					<div style="clear: both;"></div>
-				</li>
-			{% empty %}
-				<li>
-					This folder does not contain any projects yet. Start by <a href="{% url roadmap.ledger.views.new_project binder.id %}">adding a project</a>.
-				</li>
-			{% endfor %}
-		</ol>
+						<div style="clear: both;"></div>
+					</li>
+				{% empty %}
+					<li>
+						This folder does not contain any projects yet. Start by <a href="{% url roadmap.ledger.views.new_project binder.id %}">adding a project</a>.
+					</li>
+				{% endfor %}
+			</ol>
+		</div>
 
 		{% if user.is_staff %}
 			<div style="border-top: dashed 1px #ccc; margin-top:24px;">

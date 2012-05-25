@@ -83,17 +83,20 @@
 
 		{% if user.is_staff %}
 			<span class="floatRight marginRight24">
-				<a href="{% url roadmap.ledger.views.new_binder client_id=client.id %}">+ New Project Folder</a>
+				<a class="orangeInput" href="{% url roadmap.ledger.views.new_binder client_id=client.id %}">New Project Folder</a>
 			</span>
 
 			<h3>Project Folders</h3>
 
-			<ol id="teamList" class="margin24">
+			<br/>
+
+			<ol id="teamList" class="margin12">
 				{% for binder in client.binders %}
 					<li>
 						<span class="groupTitle ">
-							<a class="charcoal" href="/roadmap/ledger/binder/{{ binder.slug }}">{{ binder.name }}</a>
-							<a class="floatRight marginRight24" href="{% url roadmap.ledger.views.view_binder client_name=binder.client.slug, name=binder.slug %}">Team</a>
+							<a class="charcoal" href="{% url roadmap.ledger.views.view_binder client_name=binder.client.slug, name=binder.slug %}">{{ binder.name }}</a>
+							<a class="floatRight orangeInput info" href="{% url roadmap.ledger.views.view_binder client_name=binder.client.slug, name=binder.slug %}">Edit Team</a>
+							<a class="floatRight marginRight12 orangeInput" href="{% url roadmap.ledger.views.new_project binder.id %}">New Project</a>
 						</span>
 
 						{% for project in binder.projects %}
