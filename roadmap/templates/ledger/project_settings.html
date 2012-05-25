@@ -1,0 +1,125 @@
+{% extends "ledger/base.html" %}
+
+{% load custom %}
+{% load markup %}
+{% load avatar_tags %}
+
+
+{% block "head" %}
+	<link rel="shortcut icon" href="/media/layout/icons/timeline_marker.png" />
+{% endblock %}
+
+
+{% block "title" %}Editing {{ item.description }}{% endblock %}
+
+
+{% block "toolbox" %}
+
+  <div id="toolbox">
+
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ item.id }}">+ Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ item.id }}">+ Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ item.id }}">+ File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ item.id }}">+ Note</a>
+	</span>
+  </div>
+{% endblock %}
+
+
+
+
+{% block "heading" %}
+
+{% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+  {% include "ledger/objects/project_details.html" %}
+{% endblock %}
+
+
+
+{% block "navigation" %}
+	{% include "ledger/project_navigation.html" %}
+{% endblock %}
+
+
+
+
+
+
+{% block "breadcrumb" %}
+
+{% endblock %}
+
+
+
+
+{% block "maincontent" %}
+
+
+
+	<div id="project">
+
+		<h2 style="margin-top: 0"> <span>{{ item.name }}  Settings</span></h2>
+		<div id="details">
+
+			<div id="deliverynotes" class=" margin12">
+
+
+				<form name="settings" id="settings" method="post" >
+					<div style="padding: 12px; background: #fafafa; border: solid 1px #ddd; margin-right: 12px;">
+						<input name="addLocation" type="submit" class="orangeInput floatRight" value="+ Add Location" />
+					   <h3 style="margin-top:0px; margin-bottom:24px;">Locations</h3>
+
+					   <ol>{% csrf_token %}
+
+						   {% for loop_location in locations %}
+
+							   <li style="margin-bottom: 12px;">
+								   <input type="hidden" name="location_edit_{{ loop_location.id }}" value="true" />
+								   <input type="text" style="border: solid 1px #CCC; padding: 3px;" name="location_{{ loop_location.id }}" value="{{ loop_location.description }}" />
+								   <!--<input type="text" name="order_{{ loop_location.id }}" value="{{ loop_location.order }}" />-->
+								   <!--<input type="submit" class="orangeInput" name="moveUp_{{ loop_location.id }}" value="Move Up" />-->
+
+								   <input type="submit" class="margin24 orangeInput error"  name="delete_{{ loop_location.id }}" value="Delete" />
+
+							   </li>
+							   {% if not forloop.last %}
+							   <li style="margin-bottom: 12px; padding-left: 50px;">
+								   <input type="submit" class="orangeInput "  name="moveDown_{{ loop_location.id }}" value="Swap" />
+							   </li>
+							   {% endif %}
+
+						   {% endfor %}
+
+					   </ol>
+
+					</div>
+
+					<div style="margin-top: 24px;">
+						<input type="submit" name="submit" class="orangeInput floatRight marginRight24" value="Update" />
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		document.title = 'Roadmap | {{ item.name|safe }}';
+	</script>
+{% endblock %}

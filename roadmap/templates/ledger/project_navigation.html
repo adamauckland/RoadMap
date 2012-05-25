@@ -1,0 +1,63 @@
+<ol id="tabBar">
+		<li>
+			<ol>
+				<li>
+					<a href="{% url roadmap.ledger.views.view_client name=binder.client.slug %}">{{ binder.client.name }}</a>
+				</li>
+			</ol>
+		</li>
+
+		<li>
+			<div class="sectionTop project  {% if template_section == 'overview' %} selected {% endif %}">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/overview">{{ item.name }}</a>
+			</div>
+		</li>
+
+
+		<li>
+			<div class="sectionTop">
+				<a id="viewDefaultItems" href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?{{ view_settings }}">
+					Items
+				</a>
+			</div>
+
+			{% if user_filters.count > 1 %}
+				<ol>
+					{% for loop_filter in user_filters %}
+						<li class="viewLine">
+							<a href="{% url roadmap.ledger.views.items client_name=binder.client.slug,binder_name=binder.slug,project_name=item.slug %}?searchId={{ loop_filter.search_id }}">{{ loop_filter.name }}</a>
+						</li>
+					{% endfor %}
+				</ol>
+			{% endif %}
+		</li>
+
+		<li>
+			<div class="sectionTop  {% if template_section == 'notes' %} selected {% endif %}">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/notes">Notes</a>
+			</div>
+		</li>
+		<li>
+			<div class="sectionTop  {% if template_section == 'emails' %} selected {% endif %}">
+			  <a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/emails">Communication</a>
+			</div>
+		</li>
+
+		<li>
+			<div class="sectionTop  {% if template_section == 'files' %} selected {% endif %}">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/files">File Library</a>
+			</div>
+		</li>
+
+		<li class="{% if template_section == 'deliverynotes' %} selected {% endif %}">
+			<div class="sectionTop">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/deliverynotes">Delivery Notes</a>
+			</div>
+		</li>
+
+		<li class="last  {% if template_section == 'settings' %} selected {% endif %}">
+			<div class="sectionTop">
+				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/settings">Settings</a>
+			</div>
+		</li>
+	</ol>
