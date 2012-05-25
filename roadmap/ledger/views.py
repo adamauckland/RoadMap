@@ -2224,7 +2224,7 @@ def move_items(request, item_ids, location_id, binder_id, project_id, user_id=''
 						item.unseen = True
 
 				feed = Feed()
-				feed.description = '<a href="/roadmap/ledger/item/%s">%s</a> has been assigned to you.<span class="floatRight"><img src="/media/layout/icons/user_add.png" />' % (item.id, escape(item.description))
+				feed.description = '<a href="/roadmap/ledger/item/%s">%s</a> has been assigned to you.' % (item.id, escape(item.description))
 				feed.date_time = datetime.datetime.now()
 				feed.user = this_user_object
 				feed.item = item
@@ -2388,7 +2388,7 @@ def move(request):
 		)
 		for user in User.objects.all():
 			feed = Feed()
-			feed.description = u'<a href="/roadmap/ledger/profile/%s">%s %s</a> moved %s items to %s &gt; %s %s <span class="floatRight"><img src="/media/layout/icons/%s.png" /></span>' % (
+			feed.description = u'<a href="/roadmap/ledger/profile/%s">%s %s</a> moved %s items to %s &gt; %s %s ' % (
 				request.user.username,
 				request.user.first_name,
 				request.user.last_name,
@@ -2396,7 +2396,6 @@ def move(request):
 				project.binder.name,
 				project.name,
 				location.name,
-				location.name
 			)
 			feed.date_time = datetime.datetime.now()
 			#print(feed.date_time)
@@ -3948,6 +3947,88 @@ def project_import_csv_mapping(request, client_name, binder_name, project_name):
 
 
 @login_required
+def view_project_settings(request, client_name, binder_name, project_name):
+	"""
+	Configuration for the project
+	"""
+	try:
+		item = Project.objects.get(slug = project_name, binder = Binder.objects.get(slug = binder_name))
+	except Project.DoesNotExist:
+		return HttpResponseRedirect('/roadmap/ledger')
+	except Binder.DoesNotExist:
+		return HttpResponseRedirect('/roadmap/ledger')
+
+	binder = item.binder
+
+	if not user_can_view(request, item):
+		return HttpResponseRedirect('/roadmap/ledger')
+
+	locations = Location.objects.filter(method = 'action', project = item).order_by('order')
+
+	if request.method == 'POST':
+		if request.POST.get('addLocation', '') != '':
+			new_location = Location()
+			new_location.project = item
+			new_location.description = 'new location'
+			new_location.method = 'action'
+			new_location.order = len(locations)
+			new_location.save()
+
+		for loop_location in locations:
+			if request.POST.get('delete_%s' % loop_location.id, '') != '':
+				loop_location.delete()
+
+			if request.POST.get('moveUp_%s' % loop_location.id, '') != '' or request.POST.get('moveDown_%s' % loop_location.id, '') != '':
+				order_index = loop_location.order
+				if request.POST.get('moveUp_%s' % loop_location.id, '') != '':
+					new_order_index = order_index - 1
+				else:
+					new_order_index = order_index + 1
+				for new_loop_location in locations:
+					if new_loop_location.order == new_order_index:
+						new_loop_location.order = order_index
+						new_loop_location.save()
+						loop_location.order = new_order_index
+						loop_location.save()
+						break
+
+
+		if request.POST.get('submit', '') != '':
+			for loop_location in locations:
+				if request.POST.get('location_edit_%s' % loop_location.id,'' ) != '':
+					form_location_name = request.POST.get('location_%s' % loop_location.id )
+					#form_location_order = int(request.POST.get('order_%s' % loop_location.id ))
+					loop_location.description = form_location_name
+					#loop_location.order = form_location_order
+					loop_location.save()
+			return view_project(request, binder_name, item.slug, 'Overview')
+		locations = Location.objects.filter(method = 'action', project = item).order_by('order')
+
+
+
+	tag_cloud = Tag.objects.cloud_for_model(Item, 4, tagging.utils.LOGARITHMIC, {'project': item } )
+	team = item.binder.team.all().order_by('first_name', 'last_name')
+	team = gravatar_list(team)
+	user_filters = item.project_filters.filter(user = request.user)
+	targets = Target.objects.filter(Q(project = item, user = request.user, public = 0) | Q(project = item, public = 1)).filter(active = True)
+
+	return render_to_response(
+		'ledger/project_settings.html',
+		{
+			'user_filters': user_filters,
+			'locations': locations,
+			'template_section': 'settings',
+			'calendar_output': mini_calendar(request, binder, item),
+			'binder': item.binder,
+			'team': team,
+			'item': item,
+			'tag_cloud' : tag_cloud,
+		},
+		context_instance = RequestContext(request),
+	)
+
+
+@login_required
 def view_project(request, binder_name, name, template_section = 'Overview'):
 	"""
 	The standard landing page, showing status, feed, activity and calendar.
@@ -4020,9 +4101,6 @@ def view_project(request, binder_name, name, template_section = 'Overview'):
 				elif loop_item.fixed and loop_item.validated == False:
 					loop_item.item_state = ItemState.objects.get(constant = constants.ITEMSTATE_COMPLETED)
 
-
-				#loop_item.state = reported or
-			print('saving item %s' % loop_item)
 			loop_item.save()
 
 		find_locations = Location.objects.filter(project = item).order_by('order')
@@ -4539,7 +4617,7 @@ def item_details_estimates(request):
 		item.save()
 
 		feed = Feed()
-		feed.description = '<span class="floatRight"></span><a href="/roadmap/ledger/item/%s">%s</a> has updated schedule details.' % (item.id, escape(item.description))
+		feed.description = '<a href="/roadmap/ledger/item/%s">%s</a> has updated schedule details.' % (item.id, escape(item.description))
 		feed.date_time = datetime.datetime.now()
 		feed.user = request.user
 		feed.item = item
@@ -4568,7 +4646,7 @@ def item_toggle_followup(request):
 	content = ''
 
 	if item.follow_up:
-		feed_text = '<span class="floatRight"><img src="/media/layout/icons/flag_red.png" /></span><a href="/roadmap/ledger/item/%s">%s</a> requires following up.' % (item.id, escape(item.description))
+		feed_text = '<a href="/roadmap/ledger/item/%s">%s</a> requires following up.' % (item.id, escape(item.description))
 
 		feed = Feed()
 		feed.description = feed_text
@@ -4687,7 +4765,7 @@ def item_details_comment(request):
 
 	for loop_user in user_set:
 		feed = Feed()
-		feed.description = '<span class="floatRight"><img src="/media/layout/icons/comment.png" /></span><a href="/roadmap/ledger/profile/%s">%s %s</a> has commented on <a href="/roadmap/ledger/item/%s">%s</a><p><em>&quot;%s&quot;</em></p>' % (
+		feed.description = '<a href="/roadmap/ledger/profile/%s">%s %s</a> has commented on <a href="/roadmap/ledger/item/%s">%s</a><p><em>&quot;%s&quot;</em></p>' % (
 			request.user.username, request.user.first_name, request.user.last_name, item.id, escape(item.description), escape(comment_teaser)
 		)
 		feed.date_time = datetime.datetime.now()
@@ -4799,7 +4877,7 @@ def item_details_target(request):
 	item.save()
 
 	feed = Feed()
-	feed.description = '<span class="floatRight"><img src="/media/layout/icons/target.png" /></span><a href="/roadmap/ledger/item/%s">%s</a> has updated schedule details.' % (item.id, escape(item.description))
+	feed.description = '<a href="/roadmap/ledger/item/%s">%s</a> has updated schedule details.' % (item.id, escape(item.description))
 	feed.date_time = datetime.datetime.now()
 	feed.user = request.user
 	feed.item = item
@@ -5005,7 +5083,7 @@ def item_details_mark_completed(request):
 
 	for loop_user in user_for_binder(request, item.project.binder):
 		feed = Feed()
-		feed.description = '<a href="/roadmap/ledger/profile/%s">%s %s</a> has marked <a href="/roadmap/ledger/item/%s">%s</a> as completed. <span class="floatRight"><img src="/media/layout/icons/tick.png" /></span>' % (
+		feed.description = '<a href="/roadmap/ledger/profile/%s">%s %s</a> has marked <a href="/roadmap/ledger/item/%s">%s</a> as completed.' % (
 			request.user.username,
 			request.user.first_name,
 			request.user.last_name,
@@ -5219,7 +5297,7 @@ def item_details_mark_failed(request):
 	item.save()
 
 	feed = Feed()
-	feed.description = '<a href="/roadmap/ledger/profile/%s">%s %s</a> has marked <a href="/roadmap/ledger/item/%s">%s</a> as failed. <span class="floatRight"><img src="/media/layout/icons/cross.png" /></span>' % (request.user.username, request.user.first_name, request.user.last_name, item.id, escape(item.description))
+	feed.description = '<a href="/roadmap/ledger/profile/%s">%s %s</a> has marked <a href="/roadmap/ledger/item/%s">%s</a> as failed.' % (request.user.username, request.user.first_name, request.user.last_name, item.id, escape(item.description))
 	feed.date_time = datetime.datetime.now()
 	feed.user = item.assigned_to
 	feed.item = item
@@ -5251,7 +5329,7 @@ def item_details_mark_verified(request):
 
 	for loop_user in user_for_binder(request, item.project.binder):
 		feed = Feed()
-		feed.description = '<a href="/roadmap/ledger/profile/%s">%s %s</a> has marked <a href="/roadmap/ledger/item/%s">%s</a> as verified. <span class="floatRight"><img src="/media/layout/icons/emoticon_smile.png" /></span>' % (request.user.username, request.user.first_name, request.user.last_name, item.id, escape(item.description))
+		feed.description = '<a href="/roadmap/ledger/profile/%s">%s %s</a> has marked <a href="/roadmap/ledger/item/%s">%s</a> as verified.' % (request.user.username, request.user.first_name, request.user.last_name, item.id, escape(item.description))
 		feed.date_time = datetime.datetime.now()
 		feed.user = loop_user #item.assigned_to
 		feed.item = item
@@ -5529,7 +5607,7 @@ def make_delivery_reassign(request, client, binder, project, location):
 	#
 	for loop_user in user_for_binder(request, project_item.binder):
 		feed = Feed()
-		feed.description = '<a href="/roadmap/ledger/profile/%s">%s %s</a> has delivered to %s <span class="floatRight"><img src="/media/layout/icons/tick.png" /></span>' % (
+		feed.description = '<a href="/roadmap/ledger/profile/%s">%s %s</a> has delivered to %s' % (
 			request.user.username,
 			request.user.first_name,
 			request.user.last_name,
