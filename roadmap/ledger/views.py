@@ -446,7 +446,7 @@ class TargetForm(ModelForm):
 			'public',
 			'active',
 		)
-	deadline = forms.DateField(widget=SelectDateWidget())
+	deadline = forms.DateField(widget=SelectDateWidget(), initial = datetime.date.today() + datetime.timedelta(1) )
 
 class PasswordForm(Form):
 	"""
