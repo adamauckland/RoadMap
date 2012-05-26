@@ -83,15 +83,15 @@ Active {{ page.location }}
 			<input type="text" id="feedFilter" class="instaFilterInput" placeholder="Filter projects"/>
 		</div>
 
-		<ol class="clients" style="padding-left: 0px;">
+		<ol class="clients" >
 			{% for loop_client in client_items %}
 				<li class="instaFilterThis">
-					<h3>{{ loop_client.name }}</h3>
+					<h3 style="font-size: 12px;">{{ loop_client.name }}</h3>
 
 					<ol class="binders">
 						{% for loop_binder in loop_client.binders %}
 							<li >
-								<h3> {{ loop_binder.name }}</h3>
+								<h3 style="color: #aaa;"> {{ loop_binder.name }}</h3>
 
 								<ol class="projects">
 									{% for loop_project in loop_binder.projects %}
