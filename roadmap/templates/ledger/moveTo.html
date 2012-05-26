@@ -78,23 +78,6 @@
 		  <input type="hidden" name="return" value="{{ return }}" />
 
 		  <div class="floatRight">
-			  <h3>Project</h3>
-			  <ol class="choiceList">
-				  {% for item in project %}
-					  <li><input type="radio" name="project" id="project_{{ item.id }}" value="{{ item.id }}" {% ifequal item current_project %}checked="checked"{% endifequal %}/> <label for="project_{{ item.id }}">{{ item.name }}</label></li>
-				  {% endfor %}
-				  <li><input type="radio" name="project" value="new" /> New <input name="newProject" type="text" value="" /></li>
-			  </ol>
-		  </div>
-
-		  <h3>To Location</h3>
-		  <ol class="choiceList">
-			  {% for item in location %}
-				  <li><input type="radio" name="location" id="location_{{ item.id }}" value="{{ item.id }}" {% ifequal item current_location %}checked="checked"{% endifequal %}/> <label for="location_{{ item.id }}"> {{ item.description }}</label></li>
-			  {% endfor %}
-		  </ol>
-
-		  <div class="floatRight">
 			  <h3>To Milestone</h3>
 
 			  <ol class="choiceList">
@@ -103,10 +86,10 @@
 				  <li>
 					<input type="radio" name="target" id="target_{{ loop_target.id }}" value="{{ loop_target.id }}"/>
 
-					<img src="/media/layout/icons/target.png" alt="Target" title="Target"/>
+
 					<label for="target_{{ loop_target.id }}">
 					{{ loop_target.name }} <span style="font-size:0.8em; color: #aaa;">{{ loop_target.deadline|date:"d M Y"}}</span>
-					{% ifequal loop_target.public 1 %}{% else %}<img src="/media/layout/icons/lock.png" title="Private target" />{% endifequal %}
+					{% ifequal loop_target.public 1 %}{% else %}Private{% endifequal %}
 					</label>
 				  </li>
 			  {% endfor %}
@@ -118,7 +101,25 @@
 
 		  </div>
 
+		<input type="hidden" name="project" value="{{ current_project.id }}" />
 
+
+		  <!--<div class="floatRight">
+			  <h3>Project</h3>
+			  <ol class="choiceList">
+				  {% for item in project %}
+					  <li><input type="radio" name="project" id="project_{{ item.id }}" value="{{ item.id }}" {% ifequal item current_project %}checked="checked"{% endifequal %}/> <label for="project_{{ item.id }}">{{ item.name }}</label></li>
+				  {% endfor %}
+				  <li><input type="radio" name="project" value="new" /> New <input name="newProject" type="text" value="" /></li>
+			  </ol>
+		  </div>-->
+
+		  <h3>To Location</h3>
+		  <ol class="choiceList">
+			  {% for item in location %}
+				  <li><input type="radio" name="location" id="location_{{ item.id }}" value="{{ item.id }}" {% ifequal item current_location %}checked="checked"{% endifequal %}/> <label for="location_{{ item.id }}"> {{ item.description }}</label></li>
+			  {% endfor %}
+		  </ol>
 
 		  <h3>To User</h3>
 		  <ol class="choiceList">
@@ -126,7 +127,7 @@
 			  {% for item in users %}
 				  {% if item.username != '' %}
 					  <li>
-						<input type="radio" name="user" id="user_{{ item.id }}" value="{{ item.id }}"/> <label for="user_{{ item.id }}"><img src="/media/layout/icons/user.png" alt="Image for {{ item }}" /> {{ item.first_name }} {{ item.last_name }}</label></li>
+						<input type="radio" name="user" id="user_{{ item.id }}" value="{{ item.id }}"/> <label for="user_{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</label></li>
 				  {% endif %}
 			  {% endfor %}
 		  </ol>
@@ -135,8 +136,8 @@
 
 		  <div class="buttons	">
 
-			  <input class="orangeInput floatRight" type="submit" name="moveSubmit" value="Move" />
-			  <input class="orangeInput floatRight" type="submit" name="moveCancel" value="Cancel" />
+			  <input class="orangeInput floatRight" type="submit" name="moveSubmit" value="Submit" />
+			  <input class="orangeInput  info" type="submit" name="moveCancel" value="Cancel" />
 		  </div>
 	  </form>
 	</div>

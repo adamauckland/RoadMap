@@ -54,11 +54,11 @@ Active {{ page.location }}
 		<div id="selectedItems" style="{% if selected_items_count != 0 %}display:block;{% endif %}">
 			{% if selected_items_count != 0 %}<a href="{% url roadmap.ledger.views.selected_items %}">{{ selected_items_count }} item{{ selected_items_count|pluralize }} selected</a>
 			  <input type="submit" id="clearTags"  class="submit" name="ClearTags" value="Clear" class=" dialog_link" />
-			  <input type="submit" id="moveTags" class="submit marginRight24" id="moveTo" name="moveTo" value="Edit"/>
+			  <input type="submit" id="moveTags" class="submit marginRight24" id="moveTo" name="moveTo" value="Edit Multiple Items"/>
 				<button id="groupItems" onclick="return Roadmap.grouping.addToGroup();">
-					<img src="/media/layout/icons/folder_page.png" />Add to Group</button>
+				Add to Group</button>
 				<button id="remindItems" onclick="return Roadmap.reminders.addToReminder();">
-				<img src="/media/layout/icons/bell.png" /> Remind Me Later
+				Remind Me Later
 			  </button>
 		  {% endif %}
 

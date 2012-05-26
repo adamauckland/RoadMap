@@ -477,7 +477,7 @@ class RequirementForm(Form):
 	Requirement form
 	"""
 	subject = forms.CharField(label = 'Requirement For', max_length = 2000, required = True)
-	text = forms.CharField(label = 'Notes', widget = forms.widgets.Textarea(), required = False)
+	text = forms.CharField(label = 'Additional Details', widget = forms.widgets.Textarea(), required = False)
 	tags = forms.CharField(label = 'Tags', max_length = 2000, required = False)
 	comments = forms.CharField(label = 'Comments', widget = forms.widgets.Textarea(), required = False)
 	priority_choices = [(item.id, item.name) for item in Priority.objects.all()]
@@ -2284,7 +2284,7 @@ def move(request):
 				'items': items,
 				'location': location,
 				'project': project,
-				'users' : User.objects.all(),
+				'users' : current_binder.all_users(), #User.objects.all(),
 				'active_items': active_items(request),
 				'current_location': current_location,
 				'current_project': current_project,
@@ -2296,54 +2296,13 @@ def move(request):
 			context_instance = RequestContext(request),
 		)
 
-	if request.GET.get('moveTo', '') == 'Start Production':
-		item_list = request.GET.getlist('id')
-		location = Location.objects.get(method='action')
-		project = Project.objects.get(binder__slug = request.GET.get('binder'), slug = request.GET.get('project'))
-		move_count = move_items(
-			request,
-			item_list,
-			location.id,
-			None,
-			None,
-		)
-		items_moved = True
-		previous = request.META['HTTP_REFERER']
-
-	if request.GET.get('moveTo', '') == 'Ready for Testing':
-		item_list = request.GET.getlist('id')
-		location = Location.objects.get(method='test')
-		project = Project.objects.get(binder__slug = request.GET.get('binder'), slug = request.GET.get('project'))
-		move_count = move_items(
-			request,
-			item_list,
-			location.id,
-			None,
-			None,
-		)
-		items_moved = True
-		previous = request.META['HTTP_REFERER']
-
-	if request.GET.get('moveTo', '') == 'Move to Delivered':
-		move_count = item_list = request.GET.getlist('id')
-		location = Location.objects.get(method='deliver')
-		project = Project.objects.get(binder__slug = request.GET.get('binder'), slug = request.GET.get('project'))
-		move_items(
-			request,
-			item_list,
-			location.id,
-			None,
-			None,
-		)
-		items_moved = True
-		previous = request.META['HTTP_REFERER']
-
-	#print('MOVING ITEMS: %s' % request.POST.get('referrer', ''))
-
 	if request.method == 'POST':
 		if request.POST.get('moveCancel', '') != '':
 			import urllib
-			return HttpResponseRedirect(request.POST.get('referrer', ''))
+			new_url = request.POST.get('referrer', '')
+			if new_url == None or new_url == 'None':
+				new_url = '/'
+			return HttpResponseRedirect(new_url)
 			if request.POST.get('return', '') == '':
 				return HttpResponseRedirect(
 					'/roadmap/ledger/active?location=%s&project=%s&binder=%stags=%s' %
@@ -2355,7 +2314,10 @@ def move(request):
 					)
 				)
 			else:
-				return HttpResponseRedirect(request.POST.get('referrer', ''))
+				new_url = request.POST.get('referrer', '')
+				if new_url == None or new_url == 'None':
+					new_url = '/'
+				return HttpResponseRedirect(new_url)
 
 		if request.POST.get('moveSubmit', '') != '':
 			item_ids = request.POST.get('items', '')
@@ -2371,6 +2333,8 @@ def move(request):
 			move_count = move_items(request, item_ids.split(' '), location_id, binder_id, project_id, user_id, target_id)
 			items_moved = True
 			previous = request.POST.get('referrer')
+			if previous == None or previous == 'None':
+				previous = '/'
 			#previous = '/roadmap/ledger/active?location=%s&project=%s&binder=%s&tags=%s' % (
 			#	request.POST.get('back_location', ''),
 			#	request.POST.get('back_project', ''),
