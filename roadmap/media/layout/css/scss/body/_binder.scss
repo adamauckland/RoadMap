@@ -7,7 +7,9 @@
 	.bubble {
 		border: solid 1px #ddd;	background: #fafafa;
 		padding: 12px 12px;	margin-top: 12px; margin-left: 12px; margin-right: 12px;	margin-bottom: 12px;
-		@include shadow(0px, 4px, 4px, #DDD); @include borderRadius(16px, 16px, 16px, 16px);
+		/*@include shadow(0px, 4px, 4px, #DDD);*/
+		@include shadow(inset 0px, 1px, 1px, rgb(206,206,207));
+		@include borderRadius(16px, 16px, 16px, 16px);
 
 		h3 {
 			margin-top: 0;
