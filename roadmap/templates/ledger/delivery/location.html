@@ -11,11 +11,7 @@
 
 
 	{% block "breadcrumb" %}
-		<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> <span class="arrow">&#9654;</span>
-		<img src="/media/layout/icons/folder_user.png" /> <a href="{% url roadmap.ledger.views.view_client name=project_item.binder.client.slug %}">{{ project_item.binder.client.name }}</a> <span class="arrow">&#9654;</span>
-		<img src="/media/layout/icons/group.png" /> <a href="{% url roadmap.ledger.views.view_binder name=project_item.binder.slug %}">{{ project_item.binder.name }}</a> <span class="arrow">&#9654;</span>
-		<img src="/media/layout/icons/timeline_marker.png" /> <a href="/roadmap/ledger/project/{{ project_item.binder.slug }}/{{ project_item.slug }}" title="Go to {{ project_item.name }} project ">{{ project_item.name }}</a> <span class="arrow">&#9654;</span>
-		<img src="/media/layout/icons/application_view_list.png"  title="Items" /> Delivery
+		 
 	{% endblock %}
 
 
