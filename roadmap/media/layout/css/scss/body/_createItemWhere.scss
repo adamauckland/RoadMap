@@ -1,16 +1,22 @@
 #createItemWhere {
 	.clients {
-		margin-left: 24px;
+		margin-left: 24px; margin-top: 12px;
 
 		li {
+			margin-top: 0px;
+			margin-bottom: 24px;
+			h3 {
+				margin-top: 0px; margin-bottom: 0px;
+			}
+			margin-left: 0px;
 			.binders {
-				margin-left: 24px;
+				margin-left: 0px;
 
 				li {
 					.projects {
-						margin-left: 24px;
-						
+						margin-left: 0px;
 					}
+					margin-bottom: 0px;
 				}
 			}
 		}

@@ -3628,6 +3628,7 @@ def create_item_where(request, item_type, client_name = None, binder_name = None
 			'client_items' : client_items,
 			'item_type' : item_type,
 			'active_items' : active_items(request),
+			'clients': Client.objects.all(),
 		},
 		context_instance = RequestContext(request)
 	)
