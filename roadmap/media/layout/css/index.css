@@ -644,7 +644,7 @@ nav a { text-decoration: none; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\0000330}}
 #homeList #selectedItems a { margin-right: 12px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\0000333}}
-#homeList #selectedItems button { padding: 0px 9px 4px 9px; }
+#homeList #selectedItems button { padding: 4px 9px 4px 9px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\0000336}}
 #homeList #selectedItems input { padding: 4px 9px 4px 9px; }
 
