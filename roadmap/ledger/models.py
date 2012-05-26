@@ -407,11 +407,18 @@ class Item(models.Model):
 		comment.date_time = date_time
 		comment.save()
 
+	def comments_users(self):
+		"""
+		Return a set containing all the users in the comment stream
+		"""
+		return set([comment.user for comment in Comment.objects.filter(item = self)])
+
 	def get_comments(self):
 		"""
 		Return all the comments for this item
 		"""
 		return Comment.objects.filter(item = self).order_by('date_time')
+
 	comments = property(get_comments)
 
 	def latest_comment(self):

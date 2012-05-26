@@ -692,7 +692,7 @@ def post_comment(request, item, comment_text):
 
 	for loop_user in user_set:
 		feed = Feed()
-		feed.description = '<span class="floatRight"><img src="/media/layout/icons/comment.png" /></span>%s %s has commented on <a href="/roadmap/ledger/item/%s">%s</a>' % (
+		feed.description = '%s %s has commented on <a href="/roadmap/ledger/item/%s">%s</a>' % (
 			request.user.first_name, request.user.last_name, item.id, escape(item.description)
 		)
 		feed.date_time = datetime.datetime.now()
@@ -963,7 +963,7 @@ def link_items_process(request, item, linked_item):
 		comment = Comment()
 		comment.user = request.user
 		comment.item = item
-		comment.message = '<img src="/media/layout/icons/%s.png" /> <a href="/roadmap/ledger/item/%s">%s</a>' % (
+		comment.message = '%s <a href="/roadmap/ledger/item/%s">%s</a>' % (
 			linked_item.item_type, linked_item.id, linked_item.description
 		)
 		comment.date_time = datetime.datetime.now()
@@ -972,7 +972,7 @@ def link_items_process(request, item, linked_item):
 		comment = Comment()
 		comment.user = request.user
 		comment.item = linked_item
-		comment.message = '<img src="/media/layout/icons/%s.png" /> <a href="/roadmap/ledger/item/%s">%s</a>' % (
+		comment.message = '%s <a href="/roadmap/ledger/item/%s">%s</a>' % (
 			item.item_type, item.id, item.description
 		)
 		comment.date_time = datetime.datetime.now()
@@ -1148,6 +1148,7 @@ def my_items(request):
 			'order_by': request.GET.get('order_by', ''),
 			'h2text' : 'Updated Items',
 			'active_items' : active_items(request),
+			'clients': Client.objects.all().order_by('name'),
 		},
 		context_instance = RequestContext(request),
 	)
@@ -1507,7 +1508,10 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	# Limited user can only see their own items
 	#
 	if request.user in project.binder.reporters.all():
-		items = items.filter(assigned_to = request.user)
+		for loop_item in items:
+			if request.user != loop_item.assigned_to and request.user not in loop_item.comments_users():
+				del(loop_item)
+		#items = items.filter(assigned_to = request.user)
 
 	if 'selected_items' not in request.session.keys():
 		request.session['selected_items'] = []
@@ -4109,6 +4113,10 @@ def view_project(request, binder_name, name, template_section = 'Overview'):
 			).exclude(
 				item_type = Type.objects.get(name = 'File')
 			)
+			if request.user in item.binder.reporters.all():
+				for loop_item in all_items:
+					if request.user != loop_item.assigned_to and request.user not in loop_item.comments_users():
+						del(loop_item)
 
 			grid_item.items.append(all_items.count())
 		grid_item.location = loop_location

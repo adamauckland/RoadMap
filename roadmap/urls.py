@@ -9,6 +9,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	(r'^media/(?P<path>.*)$', 'django.views.static.serve', { 'document_root': os.path.join(SITE_ROOT, 'media' ) }),
+	
 	(r'^comments/', include('django.contrib.comments.urls')),
 	(r'^roadmap/ledger/', include('roadmap.ledger.urls')),
 	(r'^roadmap/chat/', include('roadmap.chat.urls')),

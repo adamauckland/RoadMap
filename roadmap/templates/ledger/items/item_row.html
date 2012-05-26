@@ -12,7 +12,7 @@
 			<th colspan="8">
 				<a href="{% url roadmap.ledger.views.view_client name=item.project.binder.client.slug %}">{{ item.project.binder.client.name }}</a>
 				<span class="charcoal" style="padding-left: 4px; padding-right: 4px;">&#9654;</span>
-				<a href="{% url roadmap.ledger.views.view_binder name=item.project.binder.slug %}">{{ item.project.binder.name }}</a>
+				<a href="{% url roadmap.ledger.views.view_binder client_name=item.project.binder.client.slug,name=item.project.binder.slug %}">{{ item.project.binder.name }}</a>
 				<span class="charcoal" style="padding-left: 4px; padding-right: 4px;">&#9654;</span>
 				<a href="{% url roadmap.ledger.views.view_project binder_name=item.project.binder.slug,name=item.project.slug %}">{{ item.project.name }}</a>
 			</th>

@@ -88,9 +88,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	'django.core.context_processors.debug',
 	'django.contrib.auth.context_processors.auth',
 	'djangoflash.context_processors.flash',
+
 	'roadmap.ledger.context_processor.user_details',
 	'roadmap.ledger.context_processor.notifications',
 	'roadmap.ledger.context_processor.get_current_path',
+
 	'django.core.context_processors.media',
 
 )
@@ -102,8 +104,12 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
+
 	'reversion.middleware.RevisionMiddleware',
+	
+	'roadmap.ledger.middleware.MediaCacheHeaders',
 	'roadmap.ledger.middleware.MultipleProxyMiddleware',
+
 )
 
 ROOT_URLCONF = 'roadmap.urls'
