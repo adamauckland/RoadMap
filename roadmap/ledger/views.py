@@ -1317,10 +1317,6 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	search_list = request.path
 	project = None
 
-	if request.GET.get("ClearTags", "") != "":
-		search_data.tags = ""
-		request.session['selected_items'] = []
-
 	#
 	# Get the project
 	#
@@ -1343,6 +1339,14 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 			filters["project"] = project
 		except Project.DoesNotExist:
 			project_name = "All"
+
+	#
+	# Clear button
+	#
+	if request.GET.get("ClearTags", "") != "":
+		search_data.tags = ""
+		request.session['selected_items'] = []
+
 	#
 	# Binder Name
 	#
@@ -2035,20 +2039,19 @@ def select_all_click(request):
 	Add all items in the current search list to the selected_items list
 	"""
 	search_id = request.REQUEST.get('search_id')
-	try:
-		searchData = load_search(search_id)
-		items = search_data.items
-		#print('Search Data %s' % items)
-		selected_items = request.session['selected_items']
-		for item in items:
-			item_key = 'k%s' % item
-			#print('Item key %s' % item_key)
-			if item_key not in selected_items:
-				#print('Adding to selected items')
-				selected_items.append(item_key)
-		request.session['selected_items'] = selected_items
-	except:
-		pass
+
+	search_data = load_search(search_id)
+	items = search_data.items
+	#print('Search Data %s' % items)
+	selected_items = request.session['selected_items']
+	for item in items:
+		item_key = 'k%s' % item
+		#print('Item key %s' % item_key)
+		if item_key not in selected_items:
+			#print('Adding to selected items')
+			selected_items.append(item_key)
+	request.session['selected_items'] = selected_items
+
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
