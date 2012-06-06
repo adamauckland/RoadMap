@@ -106,9 +106,10 @@ MIDDLEWARE_CLASSES = (
 	'django.contrib.messages.middleware.MessageMiddleware',
 
 	'reversion.middleware.RevisionMiddleware',
-	
-	'roadmap.ledger.middleware.MediaCacheHeaders',
+
 	'roadmap.ledger.middleware.MultipleProxyMiddleware',
+	'roadmap.ledger.middleware.MediaCacheHeaders',
+
 
 )
 
