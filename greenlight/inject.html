@@ -1,0 +1,42 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+
+
+		var roadmap_text = $('<button style="position:absolute; top:0; left;0; background-color: black; color: white; border:solid 2px white;" >Select Assert</button>');
+		$('body').append(roadmap_text);
+
+		function clickScript() {
+			var detectElements = ['div', 'p', 'li', 'a'];
+			roadmap_text.text('Click the items now. Click me to stop assert.');
+
+			roadmap_text.click(function() {
+				for(var i = 0; i < detectElements.length; i++) {
+					$(detectElements[i]).off('mouseenter.roadmap');
+					$(detectElements[i]).off('mouseout.roadmap');
+					$(detectElements[i]).off('click.roadmap');
+
+					roadmap_text.text('Select Assert');
+					roadmap_text.click(clickScript);
+				}
+			});
+
+			for(var i = 0; i < detectElements.length; i++) {
+				$(detectElements[i]).on('mouseenter.roadmap', function(aa) { $(aa.target).css('border', 'solid 1px red'); return false; });
+				$(detectElements[i]).on('mouseout.roadmap', function(aa) { $(aa.target).css('border', 'none'); });
+
+				$(detectElements[i]).on('click.roadmap', function(aa) {
+					$(aa.target).css('border', 'solid 1px green');
+					var assertHtml = $(aa.target).html();
+					var assertParentHtml = $(aa.target).parent().html();
+					$.post('/roadmap/assert.html', {'data': assertHtml, 'parentData': assertParentHtml }, function(data) {
+						roadmap_text.text(roadmap_text.text() + ' Check added. ');
+					});
+					//aa.cancelBubble();
+					return false;
+				});
+			}
+		}
+
+		roadmap_text.click(clickScript);
+
+</script>

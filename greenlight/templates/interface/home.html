@@ -1,0 +1,39 @@
+	{% block "maincontent" %}
+			<table border=1>
+				<thead>
+					<tr>
+						<th>Method</th>
+						<th>Host</th>
+						<th>Path</th>
+						<th>Params</th>
+						<th>Querystring</th>
+						<th>Fragment</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for loop_item in activity %}
+						<tr>
+							<td>
+								{{ loop_item.uri_parse.0 }}
+							</td>
+							<td>
+								{{ loop_item.uri_parse.1 }}
+							</td>
+							<td>
+								{{ loop_item.uri_parse.2 }}
+							</td>
+							<td>
+								{{ loop_item.uri_parse.3 }}
+							</td>
+							<td>
+								{{ loop_item.uri_parse.4 }}
+							</td>
+							<td>
+								{{ loop_item.uri_parse.5 }}
+							</td>
+
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+{% endblock %}

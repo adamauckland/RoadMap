@@ -1,0 +1,18 @@
+	{% block "maincontent" %}
+		<p>
+			<ol>
+			{% for loop_item in results %}
+				<li>
+					<div>
+					{{ loop_item.activity.uri }}
+					</div>
+					<pre>
+					{{ loop_item.difference }}
+					</pre>
+
+				</li>
+			{% endfor %}
+			</ol>
+		</p>
+
+ {% endblock%}
