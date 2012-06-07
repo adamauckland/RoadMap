@@ -2255,7 +2255,7 @@ def move_items(request, item_ids, location_id, binder_id, project_id, user_id=''
 def move(request):
 	items_moved = False
 
-	if request.GET.get('moveTo', '') == 'Edit':
+	if request.GET.get('moveTo', '') == 'Edit Multiple Items':
 		item_list = request.GET.getlist('id')
 		items = Item.objects.filter(id__in = item_list)
 		items_count = items.count()
