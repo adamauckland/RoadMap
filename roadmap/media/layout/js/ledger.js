@@ -1609,7 +1609,7 @@ function () {
 			Roadmap.setupDropdowns();
 			Roadmap.setupBreadCrumb();
 			Roadmap.activeItemsHover();
-			tagComplete();
+
 			Roadmap.patchLayout();
 			Roadmap.toolboxEvents();
 			Roadmap.itemCheckboxButtonBarInit();
@@ -1618,6 +1618,8 @@ function () {
 			Roadmap.reminders.initialise();
 			Roadmap.navigationSearch.initialise();
 			Roadmap.updatedItemsCollapse();
+
+			tagComplete();
 		}
 	}
 })();
