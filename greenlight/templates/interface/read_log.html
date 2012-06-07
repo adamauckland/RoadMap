@@ -1,17 +1,19 @@
 <html>
 <head>
-<META HTTP-EQUIV="Refresh" CONTENT="2;" />
 
 </head>
 
 <body>
 {% block "maincontent" %}
 
+<a href="{% url greenlight.interface.views.list_suite %}">Back</a>
 
 <pre>
 
 	{{ log }}
 </pre>
+
+<div id="latest">&nbsp;</div>
 
 {% endblock%}
 </body>
