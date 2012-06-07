@@ -3,7 +3,9 @@
 
 
 		var roadmap_text = $('<button style="position:absolute; top:0; left;0; background-color: black; color: white; border:solid 2px white;" >Select Assert</button>');
-		$('body').append(roadmap_text);
+		$(document).bind('ready', function() {
+			$('body').append(roadmap_text);
+		});
 
 		function clickScript() {
 			var detectElements = ['div', 'p', 'li', 'a'];
