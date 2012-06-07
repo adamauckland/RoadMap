@@ -24,6 +24,8 @@
 						<a href="{% url greenlight.interface.views.start_suite suite_id=loop_item.id %}">Test now</a>
 					{% endif %}
 
+					<a href="{% url greenlight.interface.views.read_log suite_id=loop_item.id %}">Log</a>
+
 					<ol>
 						{% for loop_session in loop_item.test_sessions %}
 						<li>
