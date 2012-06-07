@@ -20,6 +20,7 @@ import sys
 import signal
 import cookielib
 import difflib
+#import importlib
 
 #
 # Django imports
@@ -70,15 +71,16 @@ def home(request):
 
 
 def read_log(request, suite_id):
-	log_file = os.path.join(settings.SITE_ROOT, 'proxy_log', ('%s.log' % suite_id))
+	log_file = os.path.join(greenlight.settings.SITE_ROOT, 'proxy_log', ('%s.log' % suite_id))
 
 	with open(log_file, 'rt') as read_log:
-		log = log_file.read()
+		log = read_log.read()
 
 	return render_to_response(
 		'interface/read_log.html',
 		{
 			'log': log,
+			'suite_id': suite_id,
 		},
 		context_instance = RequestContext(request),
 	)
@@ -87,22 +89,33 @@ def read_log(request, suite_id):
 
 
 def start_learning(request, suite_id):
-	suite = TestSuite.objects.get(id = suite_id)
+	start_proxy(suite_id)
 
-	process_id = 0
-	proxy_path = os.path.join(greenlight.settings.SITE_ROOT, 'proxy.py')
-	sub_process = subprocess.Popen([sys.executable, proxy_path, str(suite_id)])
-	process_id = sub_process.pid
+	return HttpResponseRedirect(reverse('greenlight.interface.views.read_log', kwargs ={ 'suite_id' : suite_id})) #list_suite(request)# HttpResponseRedirect(reverse('greenlight.interface.views.list_suite'))
 
-	print('process started %s' % process_id)
 
-	suite.status = 'learning'
-	suite.proxy_id = process_id
-	suite.save()
 
-	time.sleep(2)
 
-	return HttpResponseRedirect(reverse('greenlight.interface.views.read_log', { 'suite_id' : suite_id})) #list_suite(request)# HttpResponseRedirect(reverse('greenlight.interface.views.list_suite'))
+def start_proxy(suite_id):
+	new_pid = os.fork()
+	if new_pid == 0:
+		proxy_process_id = os.getpid()
+
+		proxy_path = os.path.join(greenlight.settings.SITE_ROOT, 'proxy.py')
+		sub_process = subprocess.Popen([sys.executable, proxy_path, str(suite_id)])
+		process_id = sub_process.pid
+
+		suite = TestSuite.objects.get(id = suite_id)
+		suite.status = 'learning'
+		suite.proxy_id = process_id
+		suite.save()
+
+		#os._exit(0)
+	else:
+		pass
+
+	#return process_id
+
 
 
 
