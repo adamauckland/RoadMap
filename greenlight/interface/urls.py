@@ -12,6 +12,9 @@ urlpatterns = patterns('greenlight.interface',
 	url(r'^stop_learning/(?P<suite_id>\d+)$', 'views.stop_learning'),
 	url(r'^start_suite/(?P<suite_id>\d+)$', 'views.start_suite'),
 	url(r'^read_log/(?P<suite_id>\d+)$', 'views.read_log'),
+	url(r'^suite_details/(?P<suite_id>\d+)$', 'views.suite_details'),
+	url(r'^activity_details/(?P<activity_id>\d+)$', 'views.activity_details'),
+
 
 	url(r'^examine_session/(?P<session_id>\d+)$', 'views.examine_session'),
 

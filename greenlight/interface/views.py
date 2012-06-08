@@ -35,7 +35,7 @@ from django.db import connection, transaction
 from django.db.models import Sum, Count
 from django.db.models import Q
 from django.forms import ModelForm, Form
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import loader, RequestContext
 #from django.contrib.csrf.middleware import csrf_exempt
@@ -73,6 +73,9 @@ def home(request):
 def read_log(request, suite_id):
 	log_file = os.path.join(greenlight.settings.SITE_ROOT, 'proxy_log', ('%s.log' % suite_id))
 
+	while not os.path.exists(log_file):
+		time.sleep(1)
+
 	with open(log_file, 'rt') as read_log:
 		log = read_log.read()
 
@@ -89,10 +92,38 @@ def read_log(request, suite_id):
 
 
 def start_learning(request, suite_id):
+	log_file = os.path.join(greenlight.settings.SITE_ROOT, 'proxy_log', ('%s.log' % suite_id))
+
+	if os.path.exists(log_file):
+		os.remove(log_file)
+
 	start_proxy(suite_id)
 
 	return HttpResponseRedirect(reverse('greenlight.interface.views.read_log', kwargs ={ 'suite_id' : suite_id})) #list_suite(request)# HttpResponseRedirect(reverse('greenlight.interface.views.list_suite'))
 
+
+
+def suite_details(request, suite_id):
+	suite = TestSuite.objects.get(id = suite_id)
+	return render_to_response(
+		'interface/suite_details.html',
+		{
+			'suite': suite,
+		},
+		context_instance = RequestContext(request),
+	)
+
+
+
+def activity_details(request, activity_id):
+	activity = Activity.objects.get(id = activity_id)
+	return render_to_response(
+		'interface/activity_details.html',
+		{
+			'activity': activity,
+		},
+		context_instance = RequestContext(request),
+	)
 
 
 
