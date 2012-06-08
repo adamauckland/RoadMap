@@ -1,54 +1,75 @@
 {% extends "interface/base.html" %}
 
 	{% block "maincontent" %}
-		<p>
-			<ol>
-			{% for loop_item in test_suite %}
-				<li>
-					{{ loop_item.name }}
-					{% if loop_item.proxy_id != 0 %}
-						(proxy id: {{ loop_item.proxy_id }} - {% if loop_item.process_running %}running {% endif %} )
-					{% endif %}
-
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<h2>Test Suites</h2>
 					<p>
-					{{ loop_item.activities.count }} activities recorded.
+						<table>
+						{% for loop_item in test_suite %}
+							<tr>
+								<td>
+									<a href="{% url greenlight.interface.views.suite_details suite_id=loop_item.id %}">
+										{{ loop_item.name }}
+									</a>
+								</td>
+
+								<td>
+								{{ loop_item.activities.count }} activities recorded.
+								</td>
+
+
+								<td>
+								{{ loop_item.status }}
+
+													{% if loop_item.proxy_id != 0 %}
+									(proxy id: {{ loop_item.proxy_id }} - {% if loop_item.process_running %}running {% endif %} )
+								{% endif %}
+
+								</td>
+
+								<td>
+								{% if loop_item.proxy_id != 0 %}
+									<a href="{% url greenlight.interface.views.stop_learning suite_id=loop_item.id %}">Stop Learning</a>
+								{% else %}
+									<a href="{% url greenlight.interface.views.start_learning suite_id=loop_item.id %}">Start Learning</a>
+
+									<a href="{% url greenlight.interface.views.start_suite suite_id=loop_item.id %}">Test now</a>
+								{% endif %}
+								</td>
+
+								<td>
+									<a href="{% url greenlight.interface.views.read_log suite_id=loop_item.id %}">Log</a>
+								</td>
+			<!--
+								<ol>
+									{% for loop_session in loop_item.test_sessions %}
+									<li>
+
+										<a href="{% url greenlight.interface.views.examine_session session_id=loop_session.id %}">
+											session {{ loop_session.id }}
+										</a>
+
+										- {{ loop_session.test_results.count }} / {{ loop_session.test_activities.count }} results
+									</li>
+
+									{% endfor %}
+								</ol>-->
+							</tr>
+						{% endfor %}
+						</table>
 					</p>
 
-					{{ loop_item.status }}
+					<h2>New</h2>
+					<form name="suite" method="post">
+						{% csrf_token %}
+						<label>Name</label>
+						<input type="text" name="name" />
 
-					{% if loop_item.proxy_id != 0 %}
-						<a href="{% url greenlight.interface.views.stop_learning suite_id=loop_item.id %}">Stop Learning</a>
-					{% else %}
-						<a href="{% url greenlight.interface.views.start_learning suite_id=loop_item.id %}">Start Learning</a>
-
-						<a href="{% url greenlight.interface.views.start_suite suite_id=loop_item.id %}">Test now</a>
-					{% endif %}
-
-					<a href="{% url greenlight.interface.views.read_log suite_id=loop_item.id %}">Log</a>
-
-					<ol>
-						{% for loop_session in loop_item.test_sessions %}
-						<li>
-
-							<a href="{% url greenlight.interface.views.examine_session session_id=loop_session.id %}">
-								session {{ loop_session.id }}
-							</a>
-
-							- {{ loop_session.test_results.count }} / {{ loop_session.test_activities.count }} results
-						</li>
-
-						{% endfor %}
-					</ol>
-				</li>
-			{% endfor %}
-			</ol>
-		</p>
-
-		<h2>New</h2>
-		<form name="suite" method="post">
-			{% csrf_token %}
-			<label>Name</label>
-			<input type="text" name="name" />
-
-			<input type="submit" name="go" value="Submit" />
-		</form>{% endblock%}
+						<input type="submit" name="go" value="Submit" />
+					</form>
+				</div>
+			</div>
+		</div>
+	{% endblock%}
