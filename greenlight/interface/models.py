@@ -5,7 +5,8 @@ from django.contrib.auth.models import User, Group, UserManager
 from django.utils.safestring import mark_safe
 from django.template.defaultfilters import slugify
 from django.db.models import Q
-
+from django.http import QueryDict
+import urlparse
 
 class TestSuite(models.Model):
 	name = models.CharField(max_length = 1000)
@@ -31,6 +32,29 @@ class Activity(models.Model):
 	response_headers = models.TextField()
 	activity_type = models.CharField(max_length = 20)
 	test_suite = models.ForeignKey(TestSuite)
+	referrer = models.TextField()
+
+	def broken_uri(self):
+		url_parse = urlparse.urlparse(self.uri)
+		return url_parse
+
+	def assert_text(self):
+		result = ''
+		result_dict = QueryDict(self.post_data)
+		result = result_dict['data']
+		return result
+
+	def assert_parent_text(self):
+		result = ''
+		result_dict = QueryDict(self.post_data)
+		result = result_dict['parentData']
+		return result
+
+	def headers_unpacked(self):
+		return eval(self.headers)
+
+	def response_headers_unpacked(self):
+		return eval(self.response_headers)
 
 
 class TestSession(models.Model):
