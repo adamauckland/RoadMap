@@ -1,0 +1,88 @@
+{% extends "interface/base.html" %}
+
+	{% block "maincontent" %}
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<a href="{% url greenlight.interface.views.list_suite %}">Back</a>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<p>{{ suite.name }}
+						<a href="{% url greenlight.interface.views.start_suite suite_id=suite.id %}">Test now</a>
+						<ol>
+							{% for loop_session in suite.test_sessions %}
+							<li>
+
+								<a href="{% url greenlight.interface.views.examine_session session_id=loop_session.id %}">
+									session {{ loop_session.id }}
+								</a>
+
+								- {{ loop_session.test_results.count }} / {{ loop_session.test_activities.count }} results
+							</li>
+
+							{% endfor %}
+						</ol>
+
+						<h2>Activity Recorded</h2>
+
+						<table>
+							{% for loop_item in suite.activities %}
+								<tr>
+									<td>
+										<input type="checkbox" value="select_{{ loop_item.id }}" />
+									</td>
+									{% if loop_item.activity_type = 'user' %}
+
+										<td>
+											{{ loop_item.date_time }}
+										</td>
+
+										<td>
+											{{ loop_item.method }}
+										</td>
+
+										<td>
+											{{ loop_item.broken_uri.0 }}
+										</td>
+
+										<td>
+											{{ loop_item.broken_uri.1 }}
+										</td>
+
+										<td>
+											{{ loop_item.broken_uri.2 }}
+										</td>
+
+										<td>
+											<a href="{% url greenlight.interface.views.activity_details activity_id=loop_item.id %}">Details</a>
+										</td>
+
+									{% else %}
+
+										<td colspan="6">
+											<div>
+												Check for: {{ loop_item.assert_text }}
+											</div>
+											<div>
+												HTML Data: {{ loop_item.assert_parent_text }}
+											</div>
+										</td>
+
+									{% endif %}
+								</tr>
+
+							{% endfor %}
+
+						</table>
+
+					</p>
+
+				 
+				</div>
+			</div>
+		</div>
+	{% endblock%}

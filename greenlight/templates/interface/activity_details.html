@@ -1,0 +1,47 @@
+{% extends "interface/base.html" %}
+
+	{% block "maincontent" %}
+		<style>
+			pre { background: #fff7d8; overflow: scroll; }
+
+		</style>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<a href="{% url greenlight.interface.views.suite_details suite_id=activity.test_suite.id %}">Back</a>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					{{ activity.method }} {{ activity.uri }}
+
+				</div>
+
+				<div class="span12">
+					<h3>Request headers:</h3>
+					<pre><code>{% for loop_header, loop_values in activity.headers_unpacked.items %}{{ loop_header }}: {% for loop_value in loop_values %}{{ loop_value }}; {% endfor %}
+{% endfor %}</code></pre>
+				</div>
+
+				<div class="span12">
+					<h3>Post data:</h3>
+
+					<pre><code>{{ activity.post_data }}{% if not activity.post_data %}None{% endif %}</code></pre>
+				</div>
+
+				<div class="span12">
+					<h3>Response headers:</h3>
+					<pre><code>{% for loop_header, loop_values in activity.response_headers_unpacked.items %}{{ loop_header }}: {{ loop_values }}
+{% endfor %}</code></pre>
+				</div>
+
+				<div class="span12">
+					<h3>Response data:</h3>
+
+					<pre><code>{{ activity.response }}{% if not activity.response %}None{% endif %}</code></pre>
+				</div>
+			</div>
+		</div>
+	{% endblock%}
