@@ -67,6 +67,7 @@ class ProxyClient(http.HTTPClient):
 		self.contentLength = None
 		self.contentType = ''
 		self.gzip = False
+		self.referrer = ''
 
 
 
@@ -82,6 +83,9 @@ class ProxyClient(http.HTTPClient):
 
 	def sendHeaders(self):
 		for key, values in self.headers:
+			if key.lower() == 'referer' or key.lower() == 'referrer':
+				self.referrer = values[0]
+
 			if key.lower() == 'connection':
 				values = ['close']
 			elif key.lower() == 'keep-alive':
@@ -182,7 +186,7 @@ class ProxyClient(http.HTTPClient):
 
 		connection = sqlite3.connect('database/db.sql')
 		cursor = connection.cursor()
-		cursor.execute('insert into interface_activity (date_time, ip_address, method, uri, post_data, response_headers, response, headers, activity_type, test_suite_id) values (?,?,?,?,?,?,?,?,?,?)', (
+		cursor.execute('insert into interface_activity (date_time, ip_address, method, uri, post_data, response_headers, response, headers, activity_type, test_suite_id, referrer) values (?,?,?,?,?,?,?,?,?,?,?)', (
 				datetime.datetime.now(),
 				self.originalRequest.getClientIP(),
 				self.method,
@@ -193,6 +197,7 @@ class ProxyClient(http.HTTPClient):
 				repr(self.browserHeaders),
 				'user',
 				int(sys.argv[1]),
+				self.referrer,
 			)
 		)
 		connection.commit()
@@ -263,12 +268,17 @@ class ProxyRequest(http.Request):
 
 	def processAssert(self):
 		header_package = {}
+		referrer = ''
+
 		for key, values in self.requestHeaders.getAllRawHeaders():
 			header_package[key] = values
 
+			if key.lower() == 'referer' or key.lower() == 'referrer':
+				referrer = values[0]
+
 		connection = sqlite3.connect('database/db.sql')
 		cursor = connection.cursor()
-		cursor.execute('insert into interface_activity (date_time, ip_address, method, uri, post_data, headers, activity_type, response, response_headers, test_suite_id) values (?,?,?,?,?,?,?,?,?,?)', (
+		cursor.execute('insert into interface_activity (date_time, ip_address, method, uri, post_data, headers, activity_type, response, response_headers, test_suite_id, referrer) values (?,?,?,?,?,?,?,?,?,?,?)', (
 				datetime.datetime.now(),
 				str(self),
 				self.method,
@@ -279,6 +289,7 @@ class ProxyRequest(http.Request):
 				'',
 				'',
 				int(sys.argv[1]),
+				referrer,
 			)
 		)
 		connection.commit()
