@@ -6,8 +6,28 @@
 					<div>
 					{{ loop_item.activity.uri }}
 					</div>
+					<div>
+						Looking in {{ loop_item.activity.referrer }}
+					</div>
 					<pre>
 					{{ loop_item.difference }}
+					</pre>
+
+					{% if loop_item.activity.assert_text != "" %}
+					<h3>Assert text</h3>
+					<pre>
+					{{ loop_item.activity.assert_text }}
+					</pre>
+					{% endif %}
+
+					{% if loop_item.activity.assert_parent_text != "" %}
+					<h3>Assert text</h3>
+					<pre>
+					{{ loop_item.activity.assert_parent_text }}
+					</pre>
+					{% endif %}
+
+					{{ loop_item.result }}
 					</pre>
 
 				</li>

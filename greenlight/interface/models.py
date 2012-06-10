@@ -41,13 +41,15 @@ class Activity(models.Model):
 	def assert_text(self):
 		result = ''
 		result_dict = QueryDict(self.post_data)
-		result = result_dict['data']
+		if result_dict.has_key('data'):
+			result = result_dict['data']
 		return result
 
 	def assert_parent_text(self):
 		result = ''
 		result_dict = QueryDict(self.post_data)
-		result = result_dict['parentData']
+		if result_dict.has_key('parentData'):
+			result = result_dict['parentData']
 		return result
 
 	def headers_unpacked(self):

@@ -104,6 +104,24 @@ def start_learning(request, suite_id):
 
 
 def suite_details(request, suite_id):
+	if request.method == 'POST':
+		if request.POST.get('delete', '') != '':
+			for loop_key, value in request.POST.iteritems():
+				print value
+				if loop_key.startswith('select') and value != '':
+					search_id = int(loop_key.split('_')[1])
+					item = Activity.objects.get(id = search_id)
+					item.delete()
+		if request.POST.get('deleteAllImages', '') != '':
+			activities = Activity.objects.filter(test_suite__id = suite_id)
+			for loop_activity in activities:
+				lower_uri = loop_activity.uri.lower()
+				remove_items = ['jpg', 'jpeg', 'gif', 'png']
+				for check in remove_items:
+					if lower_uri.endswith(check):
+						loop_activity.delete()
+						next
+
 	suite = TestSuite.objects.get(id = suite_id)
 	return render_to_response(
 		'interface/suite_details.html',
@@ -145,10 +163,6 @@ def start_proxy(suite_id):
 	else:
 		pass
 
-	#return process_id
-
-
-
 
 
 def stop_learning(request, suite_id):
@@ -164,8 +178,18 @@ def stop_learning(request, suite_id):
 
 
 
-
 def start_suite(request, suite_id):
+	new_pid = os.fork()
+	if new_pid == 0:
+		activate_test_suite(request, suite_id)
+		os._exit(0)
+	else:
+		return HttpResponseRedirect(reverse('greenlight.interface.views.list_suite'))
+
+
+
+
+def activate_test_suite(request, suite_id):
 	suite = TestSuite.objects.get(id = suite_id)
 	session = TestSession()
 	session.test_suite = suite
@@ -182,9 +206,36 @@ def start_suite(request, suite_id):
 	if os.path.exists(cookie_file):
 		os.remove(cookie_file)
 
+	page_buffer = {}
 
 	activity = Activity.objects.filter(test_suite = suite).order_by()
 	for loop_activity in activity:
+		if loop_activity.activity_type == 'assert':
+			result = TestResult()
+			result.activity = loop_activity
+			result.test_session = session
+			result.response = ''
+			result.response_headers = ''
+			log = []
+
+			referrer_uri = loop_activity.referrer
+			if page_buffer.has_key(referrer_uri):
+				if loop_activity.assert_text() != '':
+					if page_buffer[referrer_uri].find(loop_activity.assert_text()) != -1:
+						log.append('found assert')
+					else:
+						log.append('found assert failed')
+
+				if loop_activity.assert_parent_text() != '':
+					if page_buffer[referrer_uri].find(loop_activity.assert_parent_text()) != -1:
+						log.append('found parent assert')
+					else:
+						log.append('found parent assert failed')
+			else:
+				log.append('could not find page in buffer')
+			result.result = '\n'.join(log)
+			result.save()
+
 		if loop_activity.activity_type == 'user':
 			print(loop_activity.uri)
 
@@ -204,10 +255,12 @@ def start_suite(request, suite_id):
 			if loop_activity.method == 'POST':
 				headers_object = eval(loop_activity.headers)
 				headers_list = []
-				for loop_key, loop_value in headers_object:
-					headers_list.append('%s: %s' % (loop_key, loop_value))
+				#print headers_object
+				#for loop_key, loop_value in headers_object:
+				#	headers_list.append('%s: %s' % (loop_key, loop_value))
 
-				data = '\n'.join(headers_list)
+				#data = '\n'.join(headers_list)
+				data = loop_activity.post_data
 				try:
 					url_open = opener.open(loop_activity.uri, data)
 				except Exception, ex:
@@ -217,6 +270,7 @@ def start_suite(request, suite_id):
 					url_open = opener.open(loop_activity.uri)
 				except Exception, ex:
 					error = ex
+
 			if not error:
 				cookie = ''
 				cookie_jar.save(cookie_file)
@@ -231,8 +285,10 @@ def start_suite(request, suite_id):
 				result.test_session = session
 				result.response = response
 				result.response_headers = response_headers
-				result.result = 'pass'
+				result.result = 'downloaded'
 				result.save()
+
+				page_buffer[loop_activity.uri] = response
 
 				#
 				# store cookie
@@ -240,7 +296,6 @@ def start_suite(request, suite_id):
 				session.cookies = cookie
 				session.save()
 			else:
-				print(error)
 				result = TestResult()
 				result.activity = loop_activity
 				result.test_session = session
@@ -252,25 +307,22 @@ def start_suite(request, suite_id):
 			time.sleep(1)
 
 
-	return HttpResponseRedirect(reverse('greenlight.interface.views.list_suite'))
-
-
 
 
 
 def examine_session(request, session_id):
 	session = TestSession.objects.get(id = session_id)
 	results = TestResult.objects.filter(test_session = session).order_by('id')
-	for result in results:
-		if result.response != result.activity.response:
-			#differ = difflib.differ()
-			difference= []
-			for loop_diff in difflib.unified_diff(result.response.split('\n'), result.activity.response.split('\n')):
-				difference.append(loop_diff)
-			result.difference_data = '\n'.join(difference)
-			result.difference = 'different'
-		else:
-			result.difference = 'match'
+	#for result in results:
+	#	pass
+	#	if result.response != result.activity.response:
+	#		difference= []
+	#		for loop_diff in difflib.unified_diff(result.response.split('\n'), result.activity.response.split('\n')):
+	#			difference.append(loop_diff)
+	#		result.difference_data = '\n'.join(difference)
+	#		result.difference = 'different'
+	#	else:
+	#		result.difference = 'match'
 
 	return render_to_response(
 		'interface/results.html',
@@ -279,7 +331,6 @@ def examine_session(request, session_id):
 		},
 		context_instance = RequestContext(request),
 	)
-
 
 
 
@@ -314,13 +365,11 @@ def list_suite(request):
 
 
 
-
 def test(request):
 	activity = Activity.objects.filter(activity_type = 'user').order_by('id')
 
 	for loop_item in activity:
 		pass
-
 
 	return render_to_response(
 		'interface/results.html',

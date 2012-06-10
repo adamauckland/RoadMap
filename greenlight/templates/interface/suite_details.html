@@ -29,11 +29,19 @@
 
 						<h2>Activity Recorded</h2>
 
+						<form name="activity" method="post">
+
+						<input type="submit" name="deleteAllImages" value="Delete all images" />
+
+						<input type="submit" name="delete" value="Delete" />
+						{% csrf_token%}
+
 						<table>
+
 							{% for loop_item in suite.activities %}
 								<tr>
 									<td>
-										<input type="checkbox" value="select_{{ loop_item.id }}" />
+										<input type="checkbox" name="select_{{ loop_item.id }}" />
 									</td>
 									{% if loop_item.activity_type = 'user' %}
 
@@ -79,9 +87,12 @@
 
 						</table>
 
+
+
+						</form>
 					</p>
 
-				 
+
 				</div>
 			</div>
 		</div>
