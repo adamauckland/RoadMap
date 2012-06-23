@@ -101,7 +101,7 @@
 
 
 									<li class="hiddenStateTitle">
-										<a href="#">Showing All Status...</a>
+										<a  style="background-color: #000; padding: 5px; border-radius: 4px;display:inline;"  href="#">Showing All Status</a>
 									</li>
 									{% for loop_state in item_states %}
 									<li class="hiddenState">
@@ -115,7 +115,7 @@
 									</li>
 
 									<li class="hiddenUserTitle">
-										<a href="#">Showing All Users...</a>
+										<a    style="background-color: #000; padding: 5px; border-radius: 4px;display:inline;"  href="#">Showing All Users</a>
 									</li>
 
 									{% for loop_user in page.project_item.binder.team.all %}
@@ -133,7 +133,7 @@
 
 									{% if locations %}
 										<li class="hiddenLocationTitle">
-											<a href="#">Showing All Locations...</a>
+											<a  style="background-color: #000; padding: 5px; border-radius: 4px;display:inline;"  href="#">Showing All Locations</a>
 										</li>
 										{% for loop_location in locations %}
 										<li class="hiddenLocation">
@@ -149,7 +149,7 @@
 
 									{% if targets %}
 										<li class="hiddenTargetTitle">
-											<a href="#">No Milestone Filtering...</a>
+											<a style="background-color: #000; padding: 5px; border-radius: 4px;display:inline;" href="#">No Milestone Filtering</a>
 										</li>
 
 										<li  class="hiddenTarget">
@@ -171,6 +171,16 @@
 									{% endif %}
 
 									<li>
+										<input style="margin-left: 4px;" type="checkbox" name="filterReminders" id="filterReminders" {% if not hide_reminders %} checked="checked" {% endif %}/>
+										<label for="filterReminders">Show Reminders
+											{% if hidden_reminders and hide_reminders %}
+												<em>({{ hidden_reminders.count }} hidden)</em>
+											{% endif %}
+										</label>
+									</li>
+
+
+									<li>
 										<input type="search" name="tags" id="tags" placeholder="Search By Tag" value="{{ search_data.tags }}"/>
 										<li>
 												&nbsp;
@@ -178,19 +188,12 @@
 									</li>
 
 
-									<li>
-										<input type="checkbox" name="filterReminders" id="filterReminders" {% if not hide_reminders %} checked="checked" {% endif %}/>
-										<label for="filterReminders">Show Reminders
-											{% if hidden_reminders and hide_reminders %}
-												<em>({{ hidden_reminders.count }} hidden)</em>
-											{% endif %}
-										</label>
-									</li>
+
 									<li>
 										&nbsp;
 									</li>
 									<li style="text-align: right">
-										<input type="submit" class="orangeInput" value="Update" />
+										<input id="viewSubmitButton" type="submit" class="orangeInput" value="Update" />
 									</li>
 								</ol>
 							</li>
@@ -203,7 +206,7 @@
 					{% endif %}
 				{% endfor %}
 				<li>
-					<a href="{% url roadmap.ledger.views.new_project_filter project_id=page.project_item.id %}">+ New View</a>
+					<a style="background-color: #080808; padding: 5px; border-radius: 4px;display:inline;" href="{% url roadmap.ledger.views.new_project_filter project_id=page.project_item.id %}">New View</a>
 				</li>
 			</ol>
 		</li>

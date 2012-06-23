@@ -10,6 +10,7 @@ import os, os.path
 from poplib import *
 import shutil
 import urllib
+import urllib2
 import uuid
 import pickle
 import hotshot
@@ -1458,12 +1459,15 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 				tags_searched.append(strip_item)
 			except Tag.DoesNotExist:
 				if strip_item != '':
-					tags.replace(item, '')
+					search_data.tags.replace(item, '')
 					ignored_tags.append(item)
 		items = TaggedItem.objects.get_by_model(Item, tag_list)
 		items = items.filter(**filters)
 	else:
 		items = Item.objects.filter(**filters)
+		#
+		# not searching with tags means we can start at the project list
+		#
 
 	#
 	# Filter out any milestone
@@ -1675,7 +1679,11 @@ def active(request, client_name = None, binder_name = None, project_name = None,
 	if request.GET.get("ClearTags", "") != "":
 		tags = ""
 		request.session['selected_items'] = []
-		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+		parse_referrer = urllib2.urlparse.urlsplit(request.META.get('HTTP_REFERER'))
+		new_url_result = (parse_referrer[0], parse_referrer[1], parse_referrer[2], 'searchId=' + request.GET.get('search_id'), '')
+		new_url = urllib2.urlparse.urlunsplit(new_url_result)
+		return HttpResponseRedirect(new_url)
 	#
 	# Don't show emails or notes by default
 	#
@@ -2766,12 +2774,18 @@ def toggle_item(request, item_id):
 			del(selected_items[selected_items.index(item_key)])
 	request.session['selected_items'] = selected_items
 
+	referrer = request.META.get('HTTP_REFERER')
+	referrer_split = urllib2.urlparse.urlsplit(referrer)
+	qs = urllib2.urlparse.parse_qs(referrer_split[3])
+	search_id = qs['searchId'][0]
+
 	items_count = len(selected_items)
 	plural = ''
 	if items_count > 1:
 		plural = 's'
 	body = loader.render_to_string('ledger/items/selected_items_bar.html', {
 		'selected_items_count': items_count,
+		'search_id': search_id,
 	})
 
 	#if items_count == 0:

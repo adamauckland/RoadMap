@@ -145,7 +145,8 @@ function () {
 				$.post('/roadmap/ledger/selected_to_group', {
 					'name': name
 				}, function(data) {
-					$('body').load(window.location.href);
+					//$('body').load(window.location.href);
+					$('#viewSubmitButton').click();
 				});
 				return false;
 			}
@@ -1623,6 +1624,18 @@ function () {
 		}
 	}
 })();
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
