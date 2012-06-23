@@ -8,7 +8,7 @@
 {% block "toolbox" %}
   <div id="toolbox">
 	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue',client_name=client.slug %}">+ Issue</a>
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue',client_name=client.slug %}">New Issue</a>
 	</span>
 
 	<span class="linkButton">
@@ -16,11 +16,11 @@
 	</span>
 
 	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File',client_name=client.slug %}">+ File</a>
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File',client_name=client.slug %}">New File</a>
 	</span>
 
 	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note',client_name=client.slug %}">+ Note</a>
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note',client_name=client.slug %}">New Note</a>
 	</span>
   </div>
 {% endblock %}

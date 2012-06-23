@@ -8,19 +8,19 @@
 {% block "toolbox" %}
 <div id="toolbox">
 	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue',client_name=binder.client.slug,binder_name=binder.slug %}">+ Issue</a>
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue',client_name=binder.client.slug,binder_name=binder.slug %}">New Issue</a>
 	</span>
 
 	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Requirement',client_name=binder.client.slug,binder_name=binder.slug %}">+ Requirement</a>
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Requirement',client_name=binder.client.slug,binder_name=binder.slug %}">New Requirement</a>
 	</span>
 
 	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File',client_name=binder.client.slug,binder_name=binder.slug %}">+ File</a>
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File',client_name=binder.client.slug,binder_name=binder.slug %}">New File</a>
 	</span>
 
 	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note',client_name=binder.client.slug,binder_name=binder.slug %}">+ Note</a>
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note',client_name=binder.client.slug,binder_name=binder.slug %}">New Note</a>
 	</span>
   </div>
 {% endblock %}
