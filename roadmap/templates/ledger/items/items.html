@@ -77,6 +77,10 @@
 								{% endif %}
 								<a href="{% url roadmap.ledger.views.items client_name=page.project_item.binder.client.slug,binder_name=page.project_item.binder.slug,project_name=page.project_item.slug %}?searchId={{ loop_filter.search_id }}">{{ loop_filter.name }} ({{ page.itemcount }})</a>
 							</li>
+
+									<li>
+										&nbsp;
+									</li>
 							<li>
 
 								<input type="hidden" name="filter_search_id" value="{{ loop_filter.search_id }}" />
@@ -179,6 +183,9 @@
 										</label>
 									</li>
 
+									<li>
+										&nbsp;
+									</li>
 
 									<li>
 										<input type="search" name="tags" id="tags" placeholder="Search By Tag" value="{{ search_data.tags }}"/>
@@ -189,9 +196,6 @@
 
 
 
-									<li>
-										&nbsp;
-									</li>
 									<li style="text-align: right">
 										<input id="viewSubmitButton" type="submit" class="orangeInput" value="Update" />
 									</li>
@@ -208,6 +212,10 @@
 				<li>
 					<a style="background-color: #080808; padding: 5px; border-radius: 4px;display:inline;" href="{% url roadmap.ledger.views.new_project_filter project_id=page.project_item.id %}">New View</a>
 				</li>
+
+									<li>
+										&nbsp;
+									</li>
 			</ol>
 		</li>
 

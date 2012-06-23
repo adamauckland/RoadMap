@@ -49,7 +49,7 @@ Active {{ page.location }}
 	</h2>
 
 	<form action="/roadmap/ledger/activepost?return=items" method="get" name="homelist" id="homeList" class="instaFilter">
-		<input type="text" name="search_id" value="{{ search_id }}" />
+		<input type="hidden" name="search_id" value="{{ search_id }}" />
 		{% csrf_token %}
 
 		<div id="selectedItems" style="{% if selected_items_count != 0 %}display:block;{% endif %}">

@@ -26,6 +26,7 @@ from django.contrib.auth.models import User, Group
 from django.core import serializers
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator
 from django.db import connection, transaction
 from django.db.models import Sum, Count
 from django.db.models import Q
@@ -1293,6 +1294,7 @@ def new_project_filter(request, project_id):
 		) + '?searchId=%s' % default_filter.search_id
 	)
 
+
 @login_required
 def items(request, client_name = None, binder_name = None, project_name = None, location_name = None, target_name = None):
 	"""
@@ -1464,7 +1466,12 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		items = TaggedItem.objects.get_by_model(Item, tag_list)
 		items = items.filter(**filters)
 	else:
-		items = Item.objects.filter(**filters)
+		items = Item.objects.filter(
+			Q(**filters) &
+			~Q(item_type__name = 'File') &
+			~Q(item_type__name = 'Email') &
+			~Q(item_type__name = 'Note')
+		)
 		#
 		# not searching with tags means we can start at the project list
 		#
@@ -1479,9 +1486,9 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		)
 
 	# don't show files
-	items = items.exclude(item_type = Type.objects.get(name = 'File'))
-	items = items.exclude(item_type = Type.objects.get(name = 'Email'))
-	items = items.exclude(item_type = Type.objects.get(name = 'Note'))
+	##items = items.exclude(item_type = Type.objects.get(name = 'File'))
+	##items = items.exclude(item_type = Type.objects.get(name = 'Email'))
+	##items = items.exclude(item_type = Type.objects.get(name = 'Note'))
 	#items = items.exclude(location__method = constants.LOCATION_DELETED)
 
 	#
@@ -1525,6 +1532,9 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	#
 	search_id = save_search(request, items, search_data, search_id)
 
+	#p = Paginator(items, 25)
+	#items = p.page(1).object_list
+
 	#
 	# Group the items into locations
 	#
@@ -1553,6 +1563,8 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	page["itemcount"] = '%s item' % (item_count)
 	if item_count > 1:
 		page['itemcount'] += 's'
+
+
 
 	return render_to_response(
 		'ledger/items/items.html',

@@ -115,16 +115,7 @@
 			</div> <!-- end of #container -->
 		</div>
 
-		{% if debug %}
-			<div> debug mode </div>
-				<ol>
-					{% for loop_item in sql_queries %}
-						<li>
-							{{ loop_item.time }} - {{ loop_item.sql }}
-						</li>
-					{% endfor %}
-				</ol>
-			{% endif %}
+		
 	</div>
 	</body>
 </html>
