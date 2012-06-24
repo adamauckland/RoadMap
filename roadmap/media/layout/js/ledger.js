@@ -1620,7 +1620,10 @@ function () {
 			Roadmap.navigationSearch.initialise();
 			Roadmap.updatedItemsCollapse();
 
+			$('#djDebug').show();
+			$('#djDebugToolbar').show();
 			tagComplete();
+
 		}
 	}
 })();
@@ -1654,63 +1657,68 @@ function tagComplete() {
 			return split(term).pop();
 		}
 
-		$("#id_tags").autocomplete({
-			minLength: 0,
-			source: function (request, response) {
-				// delegate back to autocomplete, but extract the last term
-				response($.ui.autocomplete.filter(availableTags, extractLast(request.term)));
-			},
-			focus: function () {
-				// prevent value inserted on focus
-				return false;
-			},
-			select: function (event, ui) {
-				var terms = split(this.value);
-				// remove the current input
-				terms.pop();
-				// add the selected item
-				strip_name = ui.item.value;
-				strip_name = strip_name.split(' ');
-				item_value = ui.item.value;
-				if (strip_name.length > 0) {
-					item_value = strip_name[1];
+		if($("#id_tags").length > 0) {
+			$("#id_tags").autocomplete({
+				minLength: 0,
+				source: function (request, response) {
+					// delegate back to autocomplete, but extract the last term
+					response($.ui.autocomplete.filter(availableTags, extractLast(request.term)));
+				},
+				focus: function () {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function (event, ui) {
+					var terms = split(this.value);
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					strip_name = ui.item.value;
+					strip_name = strip_name.split(' ');
+					item_value = ui.item.value;
+					if (strip_name.length > 0) {
+						item_value = strip_name[1];
+					}
+					terms.push(strip_name);
+					// add placeholder to get the comma-and-space at the end
+					terms.push("");
+					this.value = terms.join(", ");
+					return false;
 				}
-				terms.push(strip_name);
-				// add placeholder to get the comma-and-space at the end
-				terms.push("");
-				this.value = terms.join(", ");
-				return false;
-			}
-		});
+			});
 
-		$("#tags").autocomplete({
-			minLength: 0,
-			source: function (request, response) {
-				// delegate back to autocomplete, but extract the last term
-				response($.ui.autocomplete.filter(availableTags, extractLast(request.term)));
-			},
-			focus: function () {
-				// prevent value inserted on focus
-				return false;
-			},
-			select: function (event, ui) {
-				var terms = split(this.value);
-				// remove the current input
-				terms.pop();
-				// add the selected item
-				strip_name = ui.item.value;
-				strip_name = strip_name.split(' ');
-				item_value = ui.item.value;
-				if (strip_name.length > 0) {
-					item_value = strip_name[1];
+		}
+
+		if($("#tags").length > 0) {
+			$("#tags").autocomplete({
+				minLength: 0,
+				source: function (request, response) {
+					// delegate back to autocomplete, but extract the last term
+					response($.ui.autocomplete.filter(availableTags, extractLast(request.term)));
+				},
+				focus: function () {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function (event, ui) {
+					var terms = split(this.value);
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					strip_name = ui.item.value;
+					strip_name = strip_name.split(' ');
+					item_value = ui.item.value;
+					if (strip_name.length > 0) {
+						item_value = strip_name[1];
+					}
+					terms.push(strip_name);
+					// add placeholder to get the comma-and-space at the end
+					terms.push("");
+					this.value = terms.join(", ");
+					return false;
 				}
-				terms.push(strip_name);
-				// add placeholder to get the comma-and-space at the end
-				terms.push("");
-				this.value = terms.join(", ");
-				return false;
-			}
-		});
+			});
+		}
 	});
 }
 

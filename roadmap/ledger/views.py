@@ -755,10 +755,15 @@ def home(request):
 					project_row.binder = loop_binder
 					project_row.client = loop_binder.client
 
-					items = Item.objects.filter(Q(state = 0, project = loop_project, assigned_to = request.user))
-					items = items.exclude(item_type = Type.objects.get(name = 'Email'))
-					items = items.exclude(item_type = Type.objects.get(name = 'Note'))
-					items = items.exclude(item_type = Type.objects.get(name = 'File'))
+					items = Item.objects.filter(
+						Q(state = 0, project = loop_project, assigned_to = request.user) &
+						~Q(item_type__name = 'File') &
+						~Q(item_type__name = 'Email') &
+						~Q(item_type__name = 'Note')
+					)
+					#items = items.exclude(item_type = Type.objects.get(name = 'Email'))
+					#items = items.exclude(item_type = Type.objects.get(name = 'Note'))
+					#items = items.exclude(item_type = Type.objects.get(name = 'File'))
 
 					project_row.your_items = items.count()
 					#project_row.total_items = items.count()
@@ -785,8 +790,8 @@ def home(request):
 					row.projects.append(project_row)
 					include_client = True
 
-			if include_client:
-				grid.append(row)
+		if include_client:
+			grid.append(row)
 
 	grid = sorted(grid, key=attrgetter('client_order_index'))
 

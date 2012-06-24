@@ -12,7 +12,7 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 hostname = 'settings_' + socket.gethostname().replace('.','_') + '_initialise'
 hostpath = os.path.join(os.path.abspath('.'), hostname + '.py')
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -109,9 +109,8 @@ MIDDLEWARE_CLASSES = (
 
 	'roadmap.ledger.middleware.MultipleProxyMiddleware',
 	'roadmap.ledger.middleware.MediaCacheHeaders',
-
-
 )
+
 
 ROOT_URLCONF = 'roadmap.urls'
 
@@ -135,6 +134,7 @@ INSTALLED_APPS = (
 	'south',
 	'avatar',
 	'haystack',
+	'debug_toolbar',
 )
 CHAT_ROOT = os.path.join(MEDIA_ROOT, 'chat')
 
