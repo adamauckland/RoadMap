@@ -256,7 +256,11 @@ Editing {{ item.description }}
 	{% tags_for_model ledger.Item as item_tags %}
 
 		<script type="text/javascript">
-			$('#tabs').tabs();
+			try {
+				$('#tabs').tabs();	
+			} catch (e) {
+			}
+
 			document.title = '#{{ item.id }} ' + $('#id_subject').val();
 
 			var availableTags =  [ {% for item in item_tags %}"{{ item }}", {% endfor %} ];

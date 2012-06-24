@@ -225,7 +225,10 @@
 		<script type="text/javascript">
 			document.title = '#{{ item.id }} ' + $('#id_subject').val();
 
-			$('#tabs').tabs();
+			try {
+				$('#tabs').tabs();
+			} catch (e) {
+			}
 
 			function addComments() {
 				var comments_text = $('#id_comments').val();

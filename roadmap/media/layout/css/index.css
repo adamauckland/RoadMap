@@ -493,7 +493,7 @@ nav a { text-decoration: none; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_project\.scss}line{font-family:\0000351}}
 #project #details #overview table tbody td .plain { color: #666; padding: 12px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_project\.scss}line{font-family:\0000360}}
-#project #details #files li { border-radius: 5px 5px 5px 5px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-collapse: separate; border-spacing: 1px; background-color: #f0f0F8; border: solid 1px #E1E2EB; margin-bottom: 1em; padding: 1em; width: 633px; }
+#project #details #files li { border-radius: 5px 5px 5px 5px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-collapse: separate; border-spacing: 1px; background-color: #ffffff; border: solid 1px #d1d2dB; margin-bottom: 20px; padding: 1em; width: 633px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_project\.scss}line{font-family:\0000367}}
 #project #details ol#notes li.note { border-collapse: separate; border-spacing: 1px; background-color: #FFFED6; border: solid 1px #F6F3CD; margin-bottom: 1em; padding: 1em; padding-bottom: 0; width: 633px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_project\.scss}line{font-family:\0000371}}

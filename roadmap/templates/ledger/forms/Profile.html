@@ -159,7 +159,7 @@ Editing {{ item.description }}
 				{% for loop_binder in binders %}
 					<li>
 						<span class="margin24">
-						<a href="/roadmap/ledger/binder/{{ loop_binder.slug }}">{{ loop_binder }}</a>
+						<a href="/roadmap/ledger/binder/{{ loop_binder.client.slug }}/{{ loop_binder.slug }}">{{ loop_binder }}</a>
 						{% ifequal profile_user loop_binder.owner %}<span>Owner</span>{% endifequal %}
 						{% if profile_user in loop_binder.reporters %}<span style="margin-left: 1em;">Limited user</span>{% endif %}
 						{% if profile_user in loop_binder.producers %}<span style="margin-left: 1em;">Full user</span>{% endif %}

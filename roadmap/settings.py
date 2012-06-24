@@ -97,6 +97,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 )
 
+
+
 MIDDLEWARE_CLASSES = (
 	'django.middleware.common.CommonMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
@@ -111,6 +113,10 @@ MIDDLEWARE_CLASSES = (
 	'roadmap.ledger.middleware.MediaCacheHeaders',
 
 	'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+
+
+	
 )
 
 

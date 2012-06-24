@@ -96,11 +96,11 @@
 			<ol>
 				{% for loop_project in projects %}
 					<li>
-						<h3>
 
-							<span class="floatRight">{% if loop_project.project.deadline %}{{ loop_project.project.deadline|date:"d M Y" }}{% else %}{% endif %} </span>
+
+							<span class="floatRight charcoal">{% if loop_project.project.deadline %}Due: {{ loop_project.project.deadline|date:"d M Y" }}{% else %}{% endif %} </span>
 							<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ loop_project.project.slug }}">{{ loop_project.project.name }}</a>
-						</h3>
+
 
 						{% if loop_project = binder.default_project %}
 						<span>Default</span>

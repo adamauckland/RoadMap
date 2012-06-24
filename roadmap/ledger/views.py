@@ -40,6 +40,7 @@ from django.utils.html import escape
 from django.db import connection
 from django.forms.extras.widgets import SelectDateWidget
 from django.template.defaultfilters import slugify
+from django.views.decorators.cache import never_cache
 
 #
 # RoadMap imports
@@ -5712,6 +5713,7 @@ def change_password(request):
 	)
 
 @login_required
+@never_cache
 def feed_growl(request):
 	lastcheck = request.session.get('last_checked', datetime.datetime.now())
 	feed_date = datetime.datetime(

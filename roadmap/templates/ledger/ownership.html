@@ -89,7 +89,10 @@
 	{% tags_for_model ledger.Item as item_tags %}
 
 		<script type="text/javascript">
-			$('#tabs').tabs();
+			try {
+				$('#tabs').tabs();
+			} catch (e) {
+			}
 
 
 			var availableTags =  [ {% for item in item_tags %}"{{ item }}", {% endfor %} ];
