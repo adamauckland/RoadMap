@@ -1,7 +1,9 @@
 Django==1.3.0
 South==0.7.3
 Whoosh==2.1.0
+python-memcached==1.48
 django-avatar==1.0.5
+django-cache-machine==0.7.1
 django-flash==1.8
 django-haystack==1.2.4
 django-reversion==1.4

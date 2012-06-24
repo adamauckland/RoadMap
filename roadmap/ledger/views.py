@@ -270,7 +270,7 @@ class IssueForm(forms.Form):
 	comments = forms.CharField(label = 'Comments', widget = forms.widgets.Textarea(), required = False)
 	priority_choices = [(item.id, item.name) for item in Priority.objects.all().order_by('-id')]
 	priority = forms.ChoiceField(label = 'Priority', choices = priority_choices)
-	delivery_notes = forms.CharField(label = 'Delivery Notes', widget = forms.widgets.Textarea(), required = False)
+	delivery_notes = forms.CharField(label = 'Delivery Tasks', widget = forms.widgets.Textarea(), required = False)
 
 class IssueProcess(object):
 	"""
@@ -485,7 +485,7 @@ class RequirementForm(Form):
 	comments = forms.CharField(label = 'Comments', widget = forms.widgets.Textarea(), required = False)
 	priority_choices = [(item.id, item.name) for item in Priority.objects.all()]
 	priority = forms.ChoiceField(label = 'Priority', choices = priority_choices)
-	delivery_notes = forms.CharField(label = 'Delivery notes', widget = forms.widgets.Textarea(), required = False)
+	delivery_notes = forms.CharField(label = 'Delivery Tasks', widget = forms.widgets.Textarea(), required = False)
 
 class RequirementProcess(object):
 	"""
@@ -1525,7 +1525,7 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	if search_data.order_by != None:
 		items = items.order_by('location', 'item_group', search_data.order_by)
 	else:
-		items = items.order_by('location', 'item_group', )
+		items = items.order_by('location', 'item_group', 'id')
 
 	if project != None:
 		try:
@@ -3121,12 +3121,10 @@ def item(request, id):
 	if search_id:
 		search_data = load_search(search_id)
 		if search_data:
-			search_url = search_id #search_data['searchUrl']
+			search_url = search_id
 			items = search_data.items
 			index = -1
 			for loop_item in items:
-				#print('item %s' %loop_item)
-				#print('id %s ' % item.id)
 				index+=1
 				if str(loop_item) == str(item.id):
 					search_found = index + 1
