@@ -1208,14 +1208,16 @@ Comments styling
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000364}}
   #lowerWrapper #leftNav ol li ol li #itemListOtherItemsPage a:hover { cursor: pointer; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000372}}
+  #lowerWrapper #leftNav ol li ol#itemListOtherItems li { margin-bottom: 0.8em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000375}}
   #lowerWrapper #leftNav ol li ol#itemListOtherItems a { font-size: 11px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000378}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000381}}
   #lowerWrapper #leftNav ol li .selected a { color: #fff; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000387}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000390}}
   #lowerWrapper #leftNav .more { display: inline; font-size: 9px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000391}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000394}}
   #lowerWrapper #leftNav .action { color: #fb9e4a; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_desktop\.scss}line{font-family:\0000399}}
   #lowerWrapper #container { margin-left: 260px; } }
 @media (min-width: 480px) and (max-width: 801px) { @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/scaffolding\/_smallDesktop\.scss}line{font-family:\000032}}
   #user-controls li:nth-child(0) { display: none; }

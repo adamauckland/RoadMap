@@ -49,14 +49,14 @@
 			</div>
 		</li>
 
-		<li class="{% if template_section == 'deliverynotes' %} selected {% endif %}">
-			<div class="sectionTop">
+		<li class="">
+			<div class="sectionTop {% if template_section == 'deliverynotes' %} selected {% endif %}">
 				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/deliverynotes">Delivery Notes</a>
 			</div>
 		</li>
 
-		<li class="last  {% if template_section == 'settings' %} selected {% endif %}">
-			<div class="sectionTop">
+		<li class="last  ">
+			<div class="sectionTop {% if template_section == 'settings' %} selected {% endif %}">
 				<a href="/roadmap/ledger/project/{{ binder.slug }}/{{ item.slug }}/settings">Settings</a>
 			</div>
 		</li>
