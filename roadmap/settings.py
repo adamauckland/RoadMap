@@ -109,6 +109,8 @@ MIDDLEWARE_CLASSES = (
 
 	'roadmap.ledger.middleware.MultipleProxyMiddleware',
 	'roadmap.ledger.middleware.MediaCacheHeaders',
+
+	'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 
@@ -134,7 +136,6 @@ INSTALLED_APPS = (
 	'south',
 	'avatar',
 	'haystack',
-	'debug_toolbar',
 )
 CHAT_ROOT = os.path.join(MEDIA_ROOT, 'chat')
 

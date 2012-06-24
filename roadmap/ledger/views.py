@@ -1411,6 +1411,18 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		attempt_to_load = load_search(search_id)
 		if attempt_to_load != None:
 			search_data = attempt_to_load
+		#
+		# Redirect so we have the searchId on the QS
+		#
+		current_url = request.get_full_path()
+		current_url_parts = urllib2.urlparse.urlsplit(current_url)
+		qs = urllib2.urlparse.parse_qsl(current_url_parts[3])
+		qs.append( ('searchId', search_id) )
+		querystring = urllib.urlencode(qs)
+
+		new_url_data = (current_url_parts[0], current_url_parts[1], current_url_parts[2], querystring, current_url_parts[4])
+		new_url = urllib2.urlparse.urlunsplit(new_url_data)
+		return HttpResponseRedirect(new_url)
 	#
 	# Now try and parse the querystring
 	#
