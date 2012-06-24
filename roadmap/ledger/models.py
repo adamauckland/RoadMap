@@ -465,7 +465,7 @@ class FeedAction(models.Model):
 	name = models.CharField(max_length = 100)
 	template = models.CharField(max_length = 2000)
 
-class Feed(models.Model):
+class Feed(caching.base.CachingMixin, models.Model):
 	"""
 	Feed for news.
 
@@ -489,6 +489,8 @@ class Feed(models.Model):
 	group = models.ManyToManyField(Group)
 	item = models.ForeignKey(Item, null = True, blank = True)
 	action = models.ForeignKey(FeedAction, null = True, blank = True)
+
+	objects = caching.base.CachingManager()
 
 	def __unicode__(self):
 		return self.description
@@ -539,7 +541,7 @@ class File(caching.base.CachingMixin, models.Model):
 if not reversion.is_registered(File):
 	reversion.register(File)
 
-class Email(models.Model):
+class Email(caching.base.CachingMixin, models.Model):
 	"""
 	An email read by RoadMap from the email POP mailbox assigned to it.
 
@@ -559,6 +561,8 @@ class Email(models.Model):
 	in_reply_to = models.CharField(max_length = 2000)
 	references = models.CharField(max_length = 4000)
 	date_time = models.DateField(null = True, blank = True)
+
+	objects = caching.base.CachingManager()
 
 if not reversion.is_registered(Email):
 	reversion.register(Email)
@@ -640,12 +644,14 @@ class Comment(caching.base.CachingMixin, models.Model):
 if not reversion.is_registered(Comment):
 	reversion.register(Comment)
 
-class UserProfile(models.Model):
+class UserProfile(caching.base.CachingMixin, models.Model):
 	"""
 	Used to extend the user model
 	"""
 	gravatar_url = models.URLField()
 	user = models.ForeignKey(User, unique=True)
+
+	objects = caching.base.CachingManager()
 
 class Notification(caching.base.CachingMixin, models.Model):
 	"""
@@ -693,7 +699,7 @@ class LocationExpander():
 		for loop_location in Location.objects.all():
 			self.location_expanded[loop_location] = True
 
-class ProjectSettingGroup(models.Model):
+class ProjectSettingGroup(caching.base.CachingMixin, models.Model):
 	"""
 	Used to group project settings
 	"""
@@ -702,7 +708,9 @@ class ProjectSettingGroup(models.Model):
 	def __unicode__(self):
 		return self.name
 
-class ProjectSetting(models.Model):
+	objects = caching.base.CachingManager()
+
+class ProjectSetting(caching.base.CachingMixin, models.Model):
 	"""
 	ProjectSetting is a setting for the project page or child page.
 	This will control the default view the user is presented with, and what they
@@ -716,7 +724,9 @@ class ProjectSetting(models.Model):
 	def __unicode__(self):
 		return self.name
 
-class SystemProjectSetting(models.Model):
+	objects = caching.base.CachingManager()
+
+class SystemProjectSetting(caching.base.CachingMixin, models.Model):
 	"""
 	Store settings for the project for all users
 	"""
@@ -728,7 +738,9 @@ class SystemProjectSetting(models.Model):
 	def project_setting_const(self):
 		return self.project_setting.const
 
-class UserProjectSetting(models.Model):
+	objects = caching.base.CachingManager()
+
+class UserProjectSetting(caching.base.CachingMixin, models.Model):
 	"""
 	Store the settings for each user, for each project setting.
 	"""
@@ -736,6 +748,8 @@ class UserProjectSetting(models.Model):
 	user = models.ForeignKey(User)
 	project_setting = models.ForeignKey(ProjectSetting)
 	value = models.TextField()
+
+	objects = caching.base.CachingManager()
 
 
 # Register the Item object with the tagging application. For reference see http://api.rst2a.com/1.0/rst2/html?uri=http://django-tagging.googlecode.com/svn/trunk/docs/overview.txt

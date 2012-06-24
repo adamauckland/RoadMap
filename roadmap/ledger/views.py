@@ -1371,6 +1371,7 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	page["project"] = project_name
 
 	search_data = SearchStructure()
+	search_id = ''
 	#
 	# Get search
 	#
@@ -1388,7 +1389,7 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	#
 	# No search ID, use the default one
 	#
-	if request.GET.get('searchId', '') == '':
+	if search_id == '':
 		user_filters = project.project_filters.filter(default = True, user = request.user)
 		#
 		# Create a new filter
