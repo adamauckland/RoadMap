@@ -8,6 +8,8 @@ from django.db.models import Q
 import reversion
 import constants
 
+import caching.base
+
 #class RecoveryModel(object):
 #	def __getattr__(self, name):
 #		if not hasattr(self, name):
@@ -27,7 +29,7 @@ class RoadmapUser(User):
 	def short_name(self):
 		return "%s %s" % (self.first_name, self.last_name[:1])
 
-class Priority(models.Model):
+class Priority(caching.base.CachingMixin, models.Model):
 	"""
 	Priority for triage.
 
@@ -45,7 +47,9 @@ class Priority(models.Model):
 	def __unicode__(self):
 		return self.name
 
-class Type(models.Model):
+	objects = caching.base.CachingManager()
+
+class Type(caching.base.CachingMixin, models.Model):
 	"""
 	Describes the type of the item.
 	"""
@@ -54,7 +58,9 @@ class Type(models.Model):
 	def __unicode__(self):
 		return self.name
 
-class Client(models.Model):
+	objects = caching.base.CachingManager()
+
+class Client(caching.base.CachingMixin, models.Model):
 	"""
 	A client.
 
@@ -96,10 +102,12 @@ class Client(models.Model):
 		"""
 		return Binder.objects.filter(client = self)
 
+	objects = caching.base.CachingManager()
+
 if not reversion.is_registered(Client):
 	reversion.register(Client)
 
-class Binder(models.Model):
+class Binder(caching.base.CachingMixin, models.Model):
 	"""
 	A binder.
 
@@ -176,10 +184,12 @@ class Binder(models.Model):
 		all_users_set.add(self.owner)
 		return sorted(all_users_set)
 
+	objects = caching.base.CachingManager()
+
 if not reversion.is_registered(Binder):
 	reversion.register(Binder)
 
-class ProjectItemFilter(models.Model):
+class ProjectItemFilter(caching.base.CachingMixin, models.Model):
 	"""
 	Search items
 	"""
@@ -188,7 +198,9 @@ class ProjectItemFilter(models.Model):
 	user = models.ForeignKey(User)
 	default = models.BooleanField(default = False)
 
-class Project(models.Model):
+	objects = caching.base.CachingManager()
+
+class Project(caching.base.CachingMixin, models.Model):
 	"""
 	A project to group items by.
 
@@ -250,10 +262,12 @@ class Project(models.Model):
 	def client_name(self):
 		return self.binder.client.name
 
+	objects = caching.base.CachingManager()
+
 if not reversion.is_registered(Project):
 	reversion.register(Project)
 
-class Location(models.Model):
+class Location(caching.base.CachingMixin, models.Model):
 	"""
 	Where the item is logically.
 
@@ -273,7 +287,9 @@ class Location(models.Model):
 	def __unicode__(self):
 		return self.description
 
-class Target(models.Model):
+	objects = caching.base.CachingManager()
+
+class Target(caching.base.CachingMixin, models.Model):
 	"""
 	A date for users to use to prioritise things.
 
@@ -318,6 +334,8 @@ class Target(models.Model):
 			return False
 	overdue = property(get_overdue)
 
+	objects = caching.base.CachingManager()
+
 if not reversion.is_registered(Target):
 	reversion.register(Target)
 
@@ -330,14 +348,16 @@ class ItemManager(models.Manager):
 			Q(location__method = constants.LOCATION_DELETED) | Q(state = 1)
 		)
 
-class ItemState(models.Model):
+class ItemState(caching.base.CachingMixin, models.Model):
 	"""
 	Identified, Actioned, Completed and Verified
 	"""
 	description = models.CharField(max_length = 100)
 	constant = models.CharField(max_length = 200)
 
-class Item(models.Model):
+	objects = caching.base.CachingManager()
+
+class Item(caching.base.CachingMixin, models.Model):
 	"""
 	A trackable item in the db. Might be an issue or change_request or document
 
@@ -378,6 +398,7 @@ class Item(models.Model):
 	# Implement table level functionality
 	#
 	objects = models.Manager()
+	objects = caching.base.CachingManager()
 	active_objects = ItemManager()
 
 	def __unicode__(self):
@@ -472,16 +493,19 @@ class Feed(models.Model):
 	def __unicode__(self):
 		return self.description
 
-class Note(models.Model):
+class Note(caching.base.CachingMixin, models.Model):
 	"""
 	Useful text for the binder.
 	"""
 	item = models.ForeignKey(Item)
 	text = models.TextField()
+
+	objects = caching.base.CachingManager()
+
 if not reversion.is_registered(Note):
 	reversion.register(Note)
 
-class File(models.Model):
+class File(caching.base.CachingMixin, models.Model):
 	"""
 	Stores a file such as a spec or an image.
 
@@ -510,6 +534,8 @@ class File(models.Model):
 		else:
 			return 'filetypes/%s.ico' % return_icon
 
+	objects = caching.base.CachingManager()
+
 if not reversion.is_registered(File):
 	reversion.register(File)
 
@@ -537,7 +563,7 @@ class Email(models.Model):
 if not reversion.is_registered(Email):
 	reversion.register(Email)
 
-class ChecklistItem(models.Model):
+class ChecklistItem(caching.base.CachingMixin, models.Model):
 	"""
 	Checklist Item.
 
@@ -552,10 +578,12 @@ class ChecklistItem(models.Model):
 	text = models.CharField(max_length = 2000)
 	filename = models.CharField(max_length = 2000)
 
+	objects = caching.base.CachingManager()
+
 if not reversion.is_registered(ChecklistItem):
 	reversion.register(ChecklistItem)
 
-class Issue(models.Model):
+class Issue(caching.base.CachingMixin, models.Model):
 	"""
 	A fault.
 
@@ -577,7 +605,7 @@ class Issue(models.Model):
 if not reversion.is_registered(Issue):
 	reversion.register(Issue)
 
-class Requirement(models.Model):
+class Requirement(caching.base.CachingMixin, models.Model):
 	"""
 	A simple requirement.
 
@@ -590,10 +618,12 @@ class Requirement(models.Model):
 	text = models.TextField()
 	delivery_notes = models.TextField()
 
+	objects = caching.base.CachingManager()
+
 if not reversion.is_registered(Requirement):
 	reversion.register(Requirement)
 
-class Comment(models.Model):
+class Comment(caching.base.CachingMixin, models.Model):
 	"""
 	A block of text a user has added to an item.
 	"""
@@ -605,6 +635,8 @@ class Comment(models.Model):
 	def message_safe(self):
 		return mark_safe(self.message)
 
+	objects = caching.base.CachingManager()
+
 if not reversion.is_registered(Comment):
 	reversion.register(Comment)
 
@@ -615,7 +647,7 @@ class UserProfile(models.Model):
 	gravatar_url = models.URLField()
 	user = models.ForeignKey(User, unique=True)
 
-class Notification(models.Model):
+class Notification(caching.base.CachingMixin, models.Model):
 	"""
 	Notification for an item (unused)
 	"""
@@ -623,13 +655,15 @@ class Notification(models.Model):
 	text = models.TextField()
 	item = models.ForeignKey(Item)
 
+	objects = caching.base.CachingManager()
+
 class DailyBasic(models.Model):
 	day = models.DateField(auto_now_add=True)
 	quantity = models.IntegerField()
 	location = models.ForeignKey(Location)
 	project = models.ForeignKey(Project)
 
-class Assigned(models.Model):
+class Assigned(caching.base.CachingMixin, models.Model):
 	"""
 	Tracks who was assigned to this item.
 	"""
@@ -639,7 +673,9 @@ class Assigned(models.Model):
 	user = models.ForeignKey(User)
 	comments = models.CharField(max_length = 100)
 
-class Contact(models.Model):
+	objects = caching.base.CachingManager()
+
+class Contact(caching.base.CachingMixin, models.Model):
 	"""
 	A person's contact details.
 	"""
@@ -648,6 +684,8 @@ class Contact(models.Model):
 	email = models.CharField(max_length = 200)
 	telephone = models.CharField(max_length = 100)
 	notes = models.CharField(max_length = 2000)
+
+	objects = caching.base.CachingManager()
 
 class LocationExpander():
 	def __init__(self):
