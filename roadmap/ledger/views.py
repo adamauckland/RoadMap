@@ -1504,12 +1504,6 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 			Q(targets__id = search_data.item_target, targets__public = 1)
 		)
 
-	# don't show files
-	##items = items.exclude(item_type = Type.objects.get(name = 'File'))
-	##items = items.exclude(item_type = Type.objects.get(name = 'Email'))
-	##items = items.exclude(item_type = Type.objects.get(name = 'Note'))
-	#items = items.exclude(location__method = constants.LOCATION_DELETED)
-
 	#
 	# Reminders
 	#
