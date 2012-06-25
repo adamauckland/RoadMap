@@ -11,11 +11,11 @@ $gradientBottom: #eaeaea;
 $gradientBottomLight: #edefef;
 
 #tabWrap {
- margin-top: 24px; margin-bottom: 16px; padding: 0;
+ 	margin-top: 24px; margin-bottom: 16px; padding: 0;
 	ol#tabBar {
 		li {
 			background: -moz-linear-gradient(top, #fff 0%, $gradientBottom 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff), color-stop(100%,$gradientBottom)); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff', endColorstr='$gradientBottom',GradientType=0 );
-			/*background: url("/media/layout/images/content/search-background.png") repeat-x bottom; */border-left: solid 1px #fff; border-right: solid 1px #eee; border-bottom: solid 1px #ebebeb;
+			border-left: solid 1px #fff; border-right: solid 1px #eee; border-bottom: solid 1px #ebebeb;
 			display: block; float: left; margin-top: 4px; padding: 8px; padding-top: 4px; text-align: center; width: 119px;
 			img { position: relative; top: 2px; }
 
@@ -31,11 +31,9 @@ $gradientBottomLight: #edefef;
 }
 
 .tabContent {
-  /*border-left: solid 1px $tabBorder; border-top: solid 1px #fff; border-bottom: solid 1px #fff;*/
   clear: left; min-height: 300px; padding: 12px; padding-right: 12px; padding-top: 0px; padding-left: 8px; width: 663px;
 }
 
 #sub-content {
-	/*padding-top: 56px;*/
 	background: url("/media/layout/images/content/playingAreaTopBackground.png") top repeat-x;
 }

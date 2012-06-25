@@ -1279,8 +1279,14 @@ def parse_form_filter(request, search_data):
 def new_project_filter(request, project_id):
 	project = Project.objects.get(id = project_id)
 
+	check_for_filters = ProjectItemFilter.objects.filter(user = request.user, name = 'New View').count()
+
 	default_filter = ProjectItemFilter()
 	default_filter.name = 'New View'
+
+	if check_for_filters != 0:
+		default_filter.name = 'New View %s' % (check_for_filters + 1)
+
 	default_filter.default = False
 	default_filter.search_id = str(uuid.uuid1())
 	default_filter.user = request.user
@@ -1288,6 +1294,7 @@ def new_project_filter(request, project_id):
 	default_filter.save()
 
 	project.project_filters.add(default_filter)
+	project.save()
 
 	return HttpResponseRedirect(
 		reverse(
@@ -1485,11 +1492,10 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		items = TaggedItem.objects.get_by_model(Item, tag_list)
 		items = items.filter(**filters)
 	else:
+		filter_items = Q(**filters) & ~Q(item_type__name = 'File') & ~Q(item_type__name = 'Email') & ~Q(item_type__name = 'Note')
+
 		items = Item.objects.filter(
-			Q(**filters) &
-			~Q(item_type__name = 'File') &
-			~Q(item_type__name = 'Email') &
-			~Q(item_type__name = 'Note')
+			filter_items
 		)
 		#
 		# not searching with tags means we can start at the project list
@@ -1545,9 +1551,6 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	#
 	search_id = save_search(request, items, search_data, search_id)
 
-	#p = Paginator(items, 25)
-	#items = p.page(1).object_list
-
 	#
 	# Group the items into locations
 	#
@@ -1578,12 +1581,35 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		page['itemcount'] += 's'
 
 
+	#
+	# collapse checkboxes which are all checked
+	#
+	item_states = ItemState.objects.all()
+	status_all_checked = False
+	if len(search_data.item_states) == len(item_states_list):
+		status_all_checked = True
+
+	collapse_user = False
+	if len(project.binder.team.all()) != len(assigned_to_list):
+		collapse_user = True
+
+	collapse_locations = False
+	if len(location_list) != Location.objects.filter(project = project).count():
+		collapse_locations = True
+
+	targets = Target.objects.filter(
+		Q(project = project, user = request.user, public = 0) |
+		Q(project = project, public = 1)
+	).filter(active = True)
 
 	return render_to_response(
 		'ledger/items/items.html',
 		{
 			'search_data': search_data,
 			'item_states_list2': item_states_list,
+			'status_all_checked': status_all_checked,
+			'collapse_user': collapse_user,
+			'collapse_locations': collapse_locations,
 			'location': location_name,
 			'loop_location': loop_location,
 			'page': page,
@@ -1600,10 +1626,10 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 			'assigned_to': search_data.assigned_to,
 			'order_by': search_data.order_by,
 			'item_target' : search_data.item_target,
-			'targets' : Target.objects.filter(Q(project = project, user = request.user, public = 0) | Q(project = project, public = 1)).filter(active = True),
+			'targets' : targets,
 			'location_list': location_list,
 			'locations': Location.objects.filter(project = project).order_by('order'),#.exclude(method = constants.LOCATION_DELETED),
-			'item_states': ItemState.objects.all(),
+			'item_states': item_states,
 			'hidden_reminders': hidden_reminders,
 			'item_groups': item_groups,
 			'request': request,

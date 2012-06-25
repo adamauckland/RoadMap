@@ -23,8 +23,7 @@ ul#icons {margin: 0; padding: 0;}
 ul#icons li {margin: 2px; position: relative; padding: 4px 0; cursor: pointer; float: left;  list-style: none;}
 ul#icons span.ui-icon {float: left; margin: 0 4px;}
 
-
-
+/* This file contains a lot of legacy CSS which should probably be torn out.  */
 
 
 
@@ -47,16 +46,17 @@ ul#icons span.ui-icon {float: left; margin: 0 4px;}
 
 #signOut { }
 
-#home { margin-bottom: 2.5em; }
-	#home ol li { display: inline; margin-right: 20px; }
-		#home ol li img { position: relative; top: 3px;  }
+#home { margin-bottom: 2.5em; 
+	ol li { display: inline; margin-right: 20px; 
+		img { position: relative; top: 3px;  }
+	}
+}
 
-#tagbox { /*margin-bottom: 1em;*/ margin-top: 2em; }
-	#tagbox input { border: solid 1px #AED0EA; padding: 0.5em; }
-		#tagbox input.textBox { width: 400px; }
-
-
-
+#tagbox { margin-top: 2em; 
+	input { border: solid 1px #AED0EA; padding: 0.5em; 
+		&.textBox { width: 400px; }
+	}
+}
 
 
 

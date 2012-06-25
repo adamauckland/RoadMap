@@ -100,7 +100,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 MIDDLEWARE_CLASSES = (
-	'django.middleware.cache.UpdateCacheMiddleware',
+	#'django.middleware.cache.UpdateCacheMiddleware',
 
 
 
@@ -120,7 +120,7 @@ MIDDLEWARE_CLASSES = (
 
 
 
-	'django.middleware.cache.FetchFromCacheMiddleware',
+	#'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 

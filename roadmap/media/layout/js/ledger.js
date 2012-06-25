@@ -185,17 +185,18 @@ function () {
 					}
 				});
 				if(allUsersChecked) {
-					$(checkboxCss).each(function(index, element) {
+					/*$(checkboxCss).each(function(index, element) {
 						$(element).hide();
-					});
+					});*/
 					$(titleCss).click(function(evt) {
 						$(this).hide();
 						$(checkboxCss).each(function(index, element) {
 							$(element).show();
 						});
+						return false;
 					});
 				} else {
-					$(titleCss).hide();
+					//$(titleCss).hide();
 				}
 			},
 		},

@@ -21,7 +21,8 @@ $error-colour: #ff0000;
 $warning-colour: #ff0000;
 $info-colour: $lightBlue;
 $border-colour: $lightBlue;
-$black-colour: #333333;
+$black-colour: #171717;
+$dark-colour: #333333;
 
 .charcoal { color: $charcoal; }
 
@@ -90,6 +91,7 @@ input.submit, button, .orangeInput {
 	&.warning { @include colour-gradient($warning-colour); }
 	&.info { @include colour-gradient($info-colour); }
 	&.black { @include colour-gradient($black-colour); }
+	&.dark { @include colour-gradient($dark-colour); }
 
 	&:hover {
 		text-decoration: none;
@@ -119,7 +121,6 @@ a.info:hover { @include colour-gradient(lighten($info-colour, 5%)); }
 
 
 
-
 /* Make it depress on click */
 input.submit:active {top: 1px;}
 
@@ -133,14 +134,14 @@ input.submit[disabled="disabled"], input.submit[disabled], input.disabled {
 }
 
 .popOver {
-		background-color: white;
-		z-index: 99999;
-		padding-top: 4px;
-		padding-right: 4px;
-		padding-bottom: 4px;
-		padding-left: 4px;
-		border: 1px solid #ccc;
-		display: block;
-		position: absolute;
-		@include shadow(0px, 5px, 10px, #aaa);
+	background-color: white;
+	z-index: 99999;
+	padding-top: 4px;
+	padding-right: 4px;
+	padding-bottom: 4px;
+	padding-left: 4px;
+	border: 1px solid #ccc;
+	display: block;
+	position: absolute;
+	@include shadow(0px, 5px, 10px, #aaa);
 }

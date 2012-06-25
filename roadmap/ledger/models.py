@@ -397,7 +397,7 @@ class Item(caching.base.CachingMixin, models.Model):
 	#
 	# Implement table level functionality
 	#
-	objects = models.Manager()
+	#objects = models.Manager()
 	objects = caching.base.CachingManager()
 	active_objects = ItemManager()
 
