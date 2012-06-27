@@ -69,12 +69,10 @@
 
 
 {% block "maincontent" %}
-
-
-	<!--<span style="margin-left: 24px; color: #aaa; font-size: 10px; position: relative; top: -8px;">Binder</span>-->
 	<div id="project">
 
-		<h2 style="margin-top: 0"> <span>{{ item.name }}  {% if template_section == "deliverynotes" %}Delivery Tasks {% else %}{{ template_section|capfirst }}{% endif %}</span></h2>
+		<h2 style="margin-top: 0">
+			<span>{{ item.name }}  {% if template_section == "deliverynotes" %}Delivery Tasks {% else %}{{ template_section|capfirst }}{% endif %}</span></h2>
 	  <div id="details">
 
 

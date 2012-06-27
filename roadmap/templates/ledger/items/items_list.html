@@ -37,40 +37,39 @@
 		</tr>
 	</thead>
 
+			  
+
 	{% for loop_location in location_list %}
 		<tbody>
+			<tr class="locationChanged">
+				<td colspan="8">
 
+					{{ loop_location.description }} <span class="explanation"> ({{ loop_location.item_count }})</span>
 
+					{% if location.name = 'Reported' %}<span class="explanation margin24">Items not yet actioned</span>{% endif %}
 
-		<tr class="locationChanged">
-			<td colspan="8">
-
-				{{ loop_location.description }} <span class="explanation"> ({{ loop_location.item_count }})</span>
-
-				{% if location.name = 'Reported' %}<span class="explanation margin24">Items not yet actioned</span>{% endif %}
-
-			</td>
-		</tr>
-	</tbody>
-
-	<tbody id="location{{ loop_location.name }}">
-		{% if not loop_location.items  %}
-			<tr class="">
-				<td colspan="1">&nbsp;</td>
-				<td colspan="7"  class="charcoal">
-					No items
 				</td>
 			</tr>
-		{% endif %}
+		</tbody>
 
-		{% for item in loop_location.items %}
-			  <!-- location headings -->
-			{% ifchanged item.location %}
+		<tbody id="location{{ loop_location.name }}">
+			{% if not loop_location.items  %}
+				<tr class="">
+					<td colspan="1">&nbsp;</td>
+					<td colspan="7"  class="charcoal">
+						No items
+					</td>
+				</tr>
+			{% endif %}
 
-			{% endifchanged %}
+			{% for item in loop_location.items %}
+				  <!-- location headings -->
+				{% ifchanged item.location %}
 
-			{% include "ledger/items/item_row.html" %}
-		 {% endfor %}
+				{% endifchanged %}
+
+				{% include "ledger/items/item_row.html" %}
+			 {% endfor %}
 		</tbody>
 	{% endfor %}
 </table>

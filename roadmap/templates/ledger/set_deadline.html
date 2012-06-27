@@ -1,5 +1,5 @@
 
-{% extends "ledger/base_wide.html" %}
+{% extends "ledger/base.html" %}
 {% load custom %}
 {% load markup %}
 
@@ -8,8 +8,42 @@ Editing {{ item.description }}
 {% endblock %}
 
 {% block "toolbox" %}
-	
+	 <div id="toolbox">
+
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Issue' %}?project={{ item.id }}">New Issue</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Requirement' %}?project={{ item.id }}">New Requirement</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='File' %}?project={{ item.id }}">New File</a>
+	</span>
+
+	<span class="linkButton">
+	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.new_item item_type='Note' %}?project={{ item.id }}">New Note</a>
+	</span>
+  </div>
 {% endblock %}
+
+
+
+
+{% block "rightcontent" %}
+  {% include "ledger/objects/project_details.html" %}
+{% endblock %}
+
+
+
+{% block "navigation" %}
+	{% include "ledger/project_navigation.html" %}
+{% endblock %}
+
+
+
 
 
 {% block "heading" %}
@@ -17,9 +51,11 @@ Editing {{ item.description }}
 {% endblock %}
 
 {% block "maincontent" %}
-  <h2>
-		<img src="/media/layout/icons/world.png" /> Set deadline for {{ project.name }}
-	</h2>
+	<div id="project">
+
+		<h2 style="margin-top: 0">
+			Set deadline for {{ project.name }}
+		</h2>
 
 	<table id="dashboardTable">
 			<caption></caption>
@@ -48,7 +84,8 @@ Editing {{ item.description }}
 					{% for week_item in calendar_output.weeks %}
 						<tr>
 							{% for day_item in week_item %}
-								<td class="{{ day_item.ccs_class }}">
+								<td class="{{ day_item.ccs_class }} {% if calendar_output.todays_year == project.deadline.year %}{% if calendar_output.todays_month == project.deadline.month %}{% if day_item.value == project.deadline.day %}flagToday{% endif %}{% endif	%}{% endif %}">
+
 									{% ifnotequal day_item.value 0 %}
 												<a href="/roadmap/ledger/set_deadline?month={{ calendar_output.todays_month }}&year={{ calendar_output.todays_year }}&day={{ day_item.value }}&project={{ project.slug }}&action=set">{{ day_item.value }}</a>
 									{% endifnotequal %}
@@ -60,8 +97,6 @@ Editing {{ item.description }}
 			</tbody>
 			</table>
 
-		
-		 
-{% endblock %}
- 
 
+	</div>
+{% endblock %}

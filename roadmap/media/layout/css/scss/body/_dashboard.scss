@@ -94,6 +94,9 @@
 		 &.today {
 		font-weight: bold;
 		 }
+		 &.flagToday {
+			background-color: #fff;
+		 }
 		 .abs {
 		position: absolute; z-index: 506;
 		 .bottomRight {

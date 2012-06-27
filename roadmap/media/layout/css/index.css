@@ -441,24 +441,26 @@ nav a { text-decoration: none; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000394}}
 #dashboardTable tbody tr td.today { font-weight: bold; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000397}}
+#dashboardTable tbody tr td.flagToday { background-color: #fff; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003100}}
 #dashboardTable tbody tr td .abs { position: absolute; z-index: 506; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000399}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003102}}
 #dashboardTable tbody tr td .abs .bottomRight { opacity: 0.5; position: relative; left: 8px; top: 4px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003101}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003104}}
 #dashboardTable tbody tr td .abs .bottomRight:hover { opacity: 1; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003113}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003116}}
 #dashboard .monthYear { background: #E4F3FE; text-align: center; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003116}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003119}}
 #dashboard table { border-radius: 5px 5px 5px 5px; -moz-border-radius: 5px 5px 5px 5px; -webkit-border-radius: 5px 5px 5px 5px; border-collapse: separate; border-spacing: 1px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003121}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003124}}
 #dashboard table#dashboardTable thead tr { border: solid 1px #AED0EA; margin: 0; padding: 0; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003123}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003126}}
 #dashboard table#dashboardTable thead tr th { background: url("/media/layout/development-bundle/themes/cupertino/images/ui-bg_glass_80_d7ebf9_1x400.png") repeat-x scroll 50% 50% #d7ebf9; color: #2779AA; margin: 0; padding: 0.5em 1em 0.5em 1em; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003127}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003130}}
 #dashboard table#dashboardTable thead tr.hasItems { background: #f6f6f6; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003134}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003137}}
 #dashboard table#dashboardTable tbody tr td { padding: 1em; }
 
 /*
@@ -818,20 +820,20 @@ nav a { text-decoration: none; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003332}}
 #lowerWrapper #leftNav ol li ol form ol#filterListProperties li a.orangeInput { color: #ddd; padding: 6px; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003339}}
-#lowerWrapper #leftNav ol li ol#itemListOtherItems { background: #404040; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003341}}
+#lowerWrapper #leftNav ol li ol#itemListOtherItems { /*background: #404040;  */ }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003342}}
 #lowerWrapper #leftNav ol li ol#itemListOtherItems li { margin-bottom: 0.8em; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003344}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003345}}
 #lowerWrapper #leftNav ol li ol#itemListOtherItems a { font-size: 11px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003349}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003350}}
 #lowerWrapper #leftNav ol li ol a.newViewButton { background: #404040; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003354}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003355}}
 #lowerWrapper #leftNav ol li .selected a { color: #fff; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003364}}
 #lowerWrapper #leftNav .more { display: inline; font-size: 9px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003367}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003368}}
 #lowerWrapper #leftNav .action { color: #fb9e4a; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_items\.scss}line{font-family:\00003373}}
 #lowerWrapper #container { margin-left: 260px; }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_editItem\.scss}line{font-family:\000035}}

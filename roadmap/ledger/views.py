@@ -810,7 +810,7 @@ def home(request):
 			#'feed': feed,
 			'settings': settings,
 			'grid': grid,
-			'calendar_output': mini_calendar(request),
+			'calendar_output': [], #mini_calendar(request),
 			#'updates_header': updates_header,
 			'headernav': 'home',
 			'active_items': active_items(request),
@@ -1038,6 +1038,7 @@ def download(request, filename):
 	return response
 
 def active_items(request):
+	return []
 	active_items = []
 	project_setting = None
 	try:
@@ -1494,7 +1495,7 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	else:
 		filter_items = Q(**filters) & ~Q(item_type__name = 'File') & ~Q(item_type__name = 'Email') & ~Q(item_type__name = 'Note')
 
-		items = Item.objects.filter(
+		items = Item.objects.select_related().filter(
 			filter_items
 		)
 		#
@@ -1534,6 +1535,7 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 			pass
 	page['project_item'] = project
 
+	#items = items.select_related()
 	#
 	# Limited user can only see their own items
 	#
@@ -1602,7 +1604,9 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		Q(project = project, public = 1)
 	).filter(active = True)
 
-	return render_to_response(
+	all_locations = Location.objects.filter(project = project).order_by('order')
+
+	result =  render_to_response(
 		'ledger/items/items.html',
 		{
 			'search_data': search_data,
@@ -1628,7 +1632,7 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 			'item_target' : search_data.item_target,
 			'targets' : targets,
 			'location_list': location_list,
-			'locations': Location.objects.filter(project = project).order_by('order'),#.exclude(method = constants.LOCATION_DELETED),
+			'locations': all_locations,#.exclude(method = constants.LOCATION_DELETED),
 			'item_states': item_states,
 			'hidden_reminders': hidden_reminders,
 			'item_groups': item_groups,
@@ -1638,6 +1642,200 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		},
 		context_instance = RequestContext(request),
 	)
+	return result
+
+
+
+
+def build_list():
+	#
+	# Build list
+	#
+	_buf = []
+	_str = str
+
+	limit_functionality = False
+	for loop_location in location_list:
+		_buf.extend( ('''
+		<tbody>
+			<tr class="locationChanged">
+				<td colspan="8">
+
+					''', loop_location.description, '''<span class="explanation"> (''',
+					_str(loop_location.item_count),
+					''')</span>
+
+					'''))
+
+		if loop_location.name == 'Reported':
+			_buf.extend('''<span class="explanation margin24">Items not yet actioned</span>''',)
+
+		_buf.extend( ('''
+				</td>
+			</tr>
+		</tbody>
+
+		<tbody id="location''', loop_location.name, '''">'''))
+
+		if not loop_location.items:
+			_buf.extend( ('''
+				<tr class="">
+					<td colspan="1">&nbsp;</td>
+					<td colspan="7"  class="charcoal">
+						No items
+					</td>
+				</tr>''',))
+
+		old_project = None
+		old_item_group = None
+		for item in loop_location.items:
+			if item.project != old_project:
+				old_project = item.project
+				_buf.extend( ('''</tbody>
+				<thead>
+				<tr>
+				<th colspan="8">
+				<a href="{% url roadmap.ledger.views.view_client name=item.project.binder.client.slug %}">''',
+				item.project.binder.client.name, '''</a>
+				<span class="charcoal" style="padding-left: 4px; padding-right: 4px;">&#9654;</span>
+				<a href="{% url roadmap.ledger.views.view_binder client_name=item.project.binder.client.slug,name=item.project.binder.slug %}">''',
+				item.project.binder.name, '''</a>
+				<span class="charcoal" style="padding-left: 4px; padding-right: 4px;">&#9654;</span>
+				<a href="{% url roadmap.ledger.views.view_project binder_name=item.project.binder.slug,name=item.project.slug %}">''',
+				item.project.name, '''</a>
+				</th>
+				</tr>
+				</thead>
+
+				<tbody>''') )
+
+			if old_item_group != item.item_group:
+				old_item_group = item.item_group
+				if item.item_group:
+					_buf.extend( ('''
+					<tr class="itemGroup">
+
+					<td colspan="8">
+					<a href="#" onclick="Roadmap.grouping.selectItems(this); return false;">''',
+					item.item_group, '''</a>
+					</td>
+					</tr>'''))
+			_buf.extend( ( ''' <tr class="instaFilterThis ''', ))
+			if item.fixed and not item.validated:
+				_buf.append(' completed ')
+			if item.unseen and item.assigned_to == user:
+				_buf.append(' unseen ')
+			_buf.append('''>
+		<td class="checkbox">''')
+
+			if not limit_functionality:
+				_buf.extend( ('''
+				<input type="checkbox" name="id" value="''',
+				_str(item.id),
+				'''" onchange="return(Roadmap.itemCheckboxClicked('{% url roadmap.ledger.views.toggle_item item_id=item.id %}', this));" ''') )
+
+			if 'k%s' % item.id in request.session.get('selected_items', []):
+				_buf.append('''checked="checked" ''')
+			_buf.append('''/>
+
+		</td>
+
+		<td>''')
+
+			if not limit_functionality:
+				_buf.append('''
+				<img class="previewThis" src="/media/layout/icons/page_white_magnify.png" alt="Preview" title="Preview item" />''')
+			_buf.extend( ('''
+				</td>
+
+		<td class="auto">
+			<span class="itemId"><a href="{% url roadmap.ledger.views.item id=item.id %}?search_id=''',
+			search_id,
+			'''">''',
+			_str(item.id)
+			,'''</a></span>
+		</td>
+
+		<td class="charcoal explanation priority''',
+			unicode(item.priority),
+			'''" >''',
+			unicode(item.priority),
+			'''
+		</td>
+
+
+		<td class="description">''') )
+			if item.item_type.name == 'File':
+				_buf.extend( ( '''<img src="/media/layout/icons/''', item.linked_item.icon,  '''" width="16" height="16" alt="''',
+					unicode(item.item_type), '''" title="''', unicode(item.item_type), '''" />)''', ))
+
+			if item.follow_up:
+				if item.assigned_to == user:
+					_buf.append('''
+					<img src="/media/layout/icons/flag_red.png" alt="Follow Up" title="Follow Up Required" class="floatRight"/>''')
+
+			_buf.append('''
+			<span class="floatRight">''')
+			for loop_target in item.targets.all():
+				if loop_target.user == user:
+						_buf.extend( ('''<span class="explanation " style="margin-right: 4px;">''', loop_target.name, '''</span>''') )
+
+			_buf.append('''
+			</span>
+
+			<a style="''')
+			if item.unseen and item.assigned_to == user:
+				_buf.append('''font-weight: bold;''')
+			_buf.extend( ('''" href="{% url roadmap.ledger.views.item id=item.id %}?search_id=''', search_id, '''">''', item.description, '''</a>''') )
+
+			if item.reminder:
+				_buf.extend( ('''<span class="reminderDate floatRight" title="You will be reminded on {{ item.reminder|date:"d M Y" }} ">
+					Reminder - {{ item.reminder|date:"d M Y" }}
+				</span>''',) )
+
+
+			_buf.extend( ('''
+			<span class="tags">
+					''', item.tags,# |user_tags }}
+			'''</span>''') )
+
+			_buf.extend( ('''
+			<div class="charcoal" style="font-size: 90%; ''',
+			'''">''', ) )
+			if item.replied and item.assigned_to == user:
+				_buf.append( '''<img src="/media/layout/icons/comment.png" title="New reply" />''')
+
+			if item.latest_comment():
+				_buf.extend( ( '''&ldquo;''', item.latest_comment().message, '''&rdquo;''' ) )
+			_buf.extend( ('''</div>
+		</td>
+
+		<td class="charcoal explanation status''', item.item_state.description, '''" >
+			''', item.item_state.description,'''
+		</td>
+
+
+
+			<td >
+				<a class="charcoal" style="font-size:90%" href="{% url roadmap.ledger.views.profile username=item.assigned_to.username %}" title="''',
+				item.assigned_to.first_name, ' ', item.assigned_to.last_name, '''">
+					<nobr>''', item.assigned_to_short_version(), '''	</nobr>
+				</a>
+			</td>
+
+			<td>
+				<span class="explanation charcoal">''', unicode(item.item_type), '''</span>
+			</td>
+		</tr>''', ))
+
+
+	_buf.append('</tbody>')
+
+	list_html = ''.join(_buf)
+	return list_html
+
+
+
 
 @login_required
 # url(r'^javascript/show_hide/(?P<project_id>.+)/(?P<location_id>.+)/(?P<show>.+)$', 'views.items_expand_location'),
@@ -3323,6 +3521,7 @@ def mini_calendar(request, binder = None, project = None, client = None):
 	).exclude(
 		deadline__gte = datetime.datetime(next_year, next_month, 1)
 	).filter(active = True)
+
 	if project != None:
 		target_list = target_list.filter(project = project)
 
@@ -3334,12 +3533,12 @@ def mini_calendar(request, binder = None, project = None, client = None):
 		target_list = target_list.filter(item__project__binder__client = client)
 
 	if binder != None:
-		month_post_list.filter(item__project__binder = binder)
-		target_list.filter(item__project__binder = binder)
+		month_post_list = month_post_list.filter(item__project__binder = binder)
+		target_list = target_list.filter(item__project__binder = binder)
 
 	if project != None:
-		month_post_list.filter(item__project = project)
-		target_list.filter(item__project = project)
+		month_post_list = month_post_list.filter(item__project = project)
+		target_list = target_list.filter(item__project = project)
 
 	if not request.user.is_staff:
 		month_post_list = month_post_list.filter(item__assigned_to = request.user)
@@ -3397,7 +3596,7 @@ def view_client(request, name):
 		{
 			'client' : client,
 			'tag_cloud' : Tag.objects.cloud_for_model(Item, 4, tagging.utils.LOGARITHMIC, {'project__binder__client': client } ),
-			'calendar_output' : mini_calendar(request, None, None, client),
+			#'calendar_output' : mini_calendar(request, None, None, client),
 		},
 		context_instance = RequestContext(request),
 	)
@@ -3516,7 +3715,7 @@ def view_binder(request, client_name, name):
 			'notes' : notes,
 			'emails' : emails,
 			'settings' : settings,
-			'calendar_output' : mini_calendar(request, binder, None),
+			'calendar_output' : [], #mini_calendar(request, binder, None),
 			'binder' : binder, #item.binder,
 			'team' : team,
 			'projects' : projects,
@@ -3537,6 +3736,8 @@ def view_binder(request, client_name, name):
 def set_deadline(request):
 	project = Project.objects.get(slug = request.GET.get('project'))
 	binder = project.binder
+	team = binder.team.all()
+	team = gravatar_list(team)
 
 	if request.GET.get('action', '') == 'set':
 		#print('setting datetime')
@@ -3558,10 +3759,12 @@ def set_deadline(request):
 	return render_to_response(
 		'ledger/set_deadline.html',
 		{
-			'calendar_output' : mini_calendar(request, binder, None),
-			'active_items' : active_items(request),
-			'project' : project,
-			'binder' : binder,
+			'calendar_output': mini_calendar(request, binder, None),
+			'active_items': active_items(request),
+			'project': project,
+			'binder': binder,
+			'item': project,
+			'team' : team,
 		},
 		context_instance = RequestContext(request),
 	)
