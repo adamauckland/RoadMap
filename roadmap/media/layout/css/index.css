@@ -441,7 +441,7 @@ nav a { text-decoration: none; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000394}}
 #dashboardTable tbody tr td.today { font-weight: bold; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\0000397}}
-#dashboardTable tbody tr td.flagToday { background-color: #fff; }
+#dashboardTable tbody tr td.flagToday { background-color: #333; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003100}}
 #dashboardTable tbody tr td .abs { position: absolute; z-index: 506; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/mnt\/mac\/Web\/RoadMap\/roadmap\/media\/layout\/css\/scss\/body\/_dashboard\.scss}line{font-family:\00003102}}
