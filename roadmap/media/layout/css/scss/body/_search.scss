@@ -18,22 +18,27 @@
 }
 
 #searchWrapper {
-	position: absolute; top: 106px; width: 600px; z-index: 99999;
+	position: absolute; top: 115px; left: 0; width: 500px; z-index: 99999;
 
 	#searchResults {
-		background-color: black; border: none; color: black; display: none; left: -361px; position: relative;  z-index: 99999;
+
+		background-color: #000; border: none; color: #aaa; display: none; left: 0px; position: relative;  z-index: 99999;
+		text-shadow: none;
 		a { color: $orange; }
 		ol {
+			@include shadow(8px, 5px, 30px, #000000);
 			li {
-				background-color: #fff; border: solid 1px $lightBlue; border-bottom: none; display: block; /*margin-bottom: 16px; */ margin-right: 0px; padding: 4px; width: 600px;
+				background-color: #303030; border: solid 1px #000; border-bottom: none; display: block; /*margin-bottom: 16px; */ margin-right: 0px; padding: 4px; width: 500px;
+				padding-left: 8px;
 				&.selected {
 					background-color: $orange;
+					color: black;
 					a {
 						color: black;
 					}
 				}
 				.project {
-					color: #777; padding-left: 8px;
+					color: #777;
 				}
 				.tags {
 					color: $darkBlue;

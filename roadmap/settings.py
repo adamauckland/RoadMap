@@ -12,7 +12,7 @@ SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 hostname = 'settings_' + socket.gethostname().replace('.','_') + '_initialise'
 hostpath = os.path.join(os.path.abspath('.'), hostname + '.py')
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (

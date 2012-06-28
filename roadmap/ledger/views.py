@@ -1280,33 +1280,49 @@ def parse_form_filter(request, search_data):
 def new_project_filter(request, project_id):
 	project = Project.objects.get(id = project_id)
 
-	check_for_filters = ProjectItemFilter.objects.filter(user = request.user, name = 'New View').count()
+	check_for_filters = project.project_filters.all().filter(user = request.user, name__startswith = 'New View')
 
 	default_filter = ProjectItemFilter()
 	default_filter.name = 'New View'
-
-	if check_for_filters != 0:
-		default_filter.name = 'New View %s' % (check_for_filters + 1)
-
 	default_filter.default = False
 	default_filter.search_id = str(uuid.uuid1())
 	default_filter.user = request.user
 	default_filter.tags = ''
+
+	if len(check_for_filters) != 0:
+		new_view_index = 1
+		for loop_check_name in check_for_filters:
+			massage_name = loop_check_name.name.replace('New View', '')
+			massage_name = massage_name.strip()
+			try:
+				attempt_to_cast = int(massage_name)
+				if attempt_to_cast > new_view_index:
+					new_view_index = attempt_to_cast
+			except:
+				pass
+		if new_view_index > 1:
+			default_filter.name = 'New View %s' % (new_view_index + 1)
+
 	default_filter.save()
 
 	project.project_filters.add(default_filter)
 	project.save()
 
-	return HttpResponseRedirect(
-		reverse(
-			items,
-			kwargs = {
-				'project_name': project.slug,
-				'binder_name': project.binder.slug,
-				'client_name': project.binder.client.slug,
-			}
-		) + '?searchId=%s' % default_filter.search_id
-	)
+	Project.objects.invalidate(project)
+	for loop_item in check_for_filters:
+		ProjectItemFilter.objects.invalidate(loop_item)
+
+
+	url = reverse(
+		items,
+		kwargs = {
+			'project_name': project.slug,
+			'binder_name': project.binder.slug,
+			'client_name': project.binder.client.slug,
+		}
+	) + '?searchId=%s&nv=t' % default_filter.search_id
+
+	return HttpResponseRedirect(url)
 
 
 @login_required
@@ -1387,13 +1403,21 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		search_id = request.GET.get('searchId', request.POST.get('searchId', ''))
 
 		if request.POST.get('deleteThisFilter', '') != '':
-			delete_candidate = ProjectItemFilter.objects.get(search_id = request.GET.get('searchId'), user = request.user)
-			delete_candidate.delete()
+			try:
+				delete_candidate = ProjectItemFilter.objects.get(search_id = request.GET.get('searchId'), user = request.user)
+				delete_candidate.delete()
+			except:
+				#
+				# assume it's been deleted
+				#
+				pass
+
 			search_id = project.project_filters.get(default = True, user = request.user).search_id
 
 		search_data = load_search(search_id)
 		if search_data == None:
 			search_data = SearchStructure()
+
 	#
 	# No search ID, use the default one
 	#
@@ -1606,9 +1630,14 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 
 	all_locations = Location.objects.filter(project = project).order_by('order')
 
+	new_view = False
+	if request.GET.get('nv', '') == 't':
+		new_view = True
+
 	result =  render_to_response(
 		'ledger/items/items.html',
 		{
+			'new_view': new_view,
 			'search_data': search_data,
 			'item_states_list2': item_states_list,
 			'status_all_checked': status_all_checked,

@@ -84,7 +84,9 @@ $buttonRadius: 16px;
 }
 
 /* Usage */
-input.submit, button, .orangeInput {
+input.submit,
+button,
+.orangeInput {
 	@include button-style();
 
 	&.error { @include colour-gradient($error-colour); }
@@ -103,11 +105,15 @@ input.submit:hover { @include colour-gradient(darken($ok-colour, 5%)); }
 input.error:hover { @include colour-gradient(darken($error-colour, 5%)) };
 input.warning:hover { @include colour-gradient(darken($warning-colour, 5%)); }
 input.info:hover { @include colour-gradient(lighten($info-colour, 5%)); }
+input.orangeInput:hover { @include colour-gradient(lighten($orange, 5%)); }
 
 a.submit:hover { @include colour-gradient(darken($ok-colour, 5%)); }
 a.error:hover { @include colour-gradient(darken($error-colour, 5%)) };
 a.warning:hover { @include colour-gradient(darken($warning-colour, 5%)); }
 a.info:hover { @include colour-gradient(lighten($info-colour, 5%)); }
+a.black:hover { @include colour-gradient(lighten($black-colour, 5%)); }
+a.dark:hover { @include colour-gradient(lighten($dark-colour, 5%)); }
+
 
 .priorityLow { }
 .priorityMedium { }
@@ -144,34 +150,4 @@ input.submit[disabled="disabled"], input.submit[disabled], input.disabled {
 	display: block;
 	position: absolute;
 	@include shadow(0px, 5px, 10px, #aaa);
-}
-
-.linkButton a:hover {
-	background: #373737;
-background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzM3MzczNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjY3JSIgc3RvcC1jb2xvcj0iIzIwMjAyMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-background: -moz-linear-gradient(top,  #373737 0%, #202020 67%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#373737), color-stop(67%,#202020)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  #373737 0%,#202020 67%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  #373737 0%,#202020 67%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  #373737 0%,#202020 67%); /* IE10+ */
-background: linear-gradient(to bottom,  #373737 0%,#202020 67%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#373737', endColorstr='#202020',GradientType=0 ); /* IE6-8 */
-
-}
-
-.linkButton, .linkButton a {
-	background: #2d2d2d; /* Old browsers */
-	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
-	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzJkMmQyZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjY3JSIgc3RvcC1jb2xvcj0iIzIwMjAyMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-	background: -moz-linear-gradient(top,  #2d2d2d 0%, #202020 67%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2d2d2d), color-stop(67%,#202020)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #2d2d2d 0%,#202020 67%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #2d2d2d 0%,#202020 67%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #2d2d2d 0%,#202020 67%); /* IE10+ */
-	background: linear-gradient(to bottom,  #2d2d2d 0%,#202020 67%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2d2d2d', endColorstr='#202020',GradientType=0 ); /* IE6-8 */
-}
-
-.linkButton:nth-child(1) {
-	background: transparent;
 }

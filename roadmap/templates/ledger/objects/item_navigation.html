@@ -15,48 +15,50 @@
 
 
 		<li>
-			<div class="sectionTop">
-			  <a id="viewDefaultItems" href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?{{ view_settings }}">
 
-				Items
-			</a>
-			</div>
-			<ol>
-				<li>
-					<span class="floatRight" id="itemListOtherItemsPage" >&nbsp;</span>
+				<div class="sectionTop">
+				  <a id="viewDefaultItems" href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?{{ view_settings }}">
 
-					{% if search_id %}
-						<a href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?{{ search_id }}" style="display: inline;"> {{ project_item_filter.name }}</a>
-					{% else %}
-						<a  href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?{{ view_settings }}">{{ project_item_filter.name }}</a>
+					Items
+				</a>
+				</div>
+				<ol>
+					<li>
+						<span class="floatRight" id="itemListOtherItemsPage" >&nbsp;</span>
 
-					{% endif %}
+						{% if search_id %}
+							<a href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?{{ search_id }}" style="display: inline;"> {{ project_item_filter.name }}</a>
+						{% else %}
+							<a  href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?{{ view_settings }}">{{ project_item_filter.name }}</a>
 
-
-				</li>
-				<li>
-
-					<ol id="itemListOtherItems">
-						{% for loop_item in items %}
-
-						<li {% if loop_item.id = item.id %} class="selected" {% endif %}>
-							<a title="#{{ loop_item.id }} {{ loop_item.description }}" style="{% if loop_item.id = item.id %} color: white; {% endif %}" href="{% url roadmap.ledger.views.item id=loop_item.id %}?search_id={{ search_id }}">{{ loop_item.description }}</a>
+						{% endif %}
 
 
-						</li>
+					</li>
+					<li>
 
-						{% endfor %}
-					</ol>
-				</li>
+						<ol id="itemListOtherItems">
+							{% for loop_item in items %}
 
-				{% for loop_other_filter in project_item_filters %}
-					{% if loop_other_filter.search_id != search_id %}
-						<li class="viewLine">
-							<a href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?searchId={{ loop_other_filter.search_id }}" style="display: inline;"> {{ loop_other_filter.name }}</a>
-						</li>
-					{% endif %}
-				{% endfor %}
-			</ol>
+							<li {% if loop_item.id = item.id %} class="selected" {% endif %}>
+								<a title="#{{ loop_item.id }} {{ loop_item.description }}" style="{% if loop_item.id = item.id %} color: white; {% endif %}" href="{% url roadmap.ledger.views.item id=loop_item.id %}?search_id={{ search_id }}">{{ loop_item.description }}</a>
+
+
+							</li>
+
+							{% endfor %}
+						</ol>
+					</li>
+
+					{% for loop_other_filter in project_item_filters %}
+						{% if loop_other_filter.search_id != search_id %}
+							<li class="viewLine">
+								<a href="{% url roadmap.ledger.views.items client_name=item.project.binder.client.slug,binder_name=item.project.binder.slug,project_name=item.project.slug %}?searchId={{ loop_other_filter.search_id }}" style="display: inline;"> {{ loop_other_filter.name }}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ol>
+			 
 		</li>
 
 		<li>

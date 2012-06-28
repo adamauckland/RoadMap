@@ -742,7 +742,10 @@ function () {
 			var newHtml = ' <a onclick="return Roadmap.itemListOtherItemsMove(-1);">&#9664;</a> ';
 			newHtml += 'Page ' + (Roadmap.itemListOtherItems_page + 1) + ' of ' + (parseInt(Roadmap.itemListOtherItems_pagecount) + 1).toString() ;
 			newHtml += ' <a onclick="return Roadmap.itemListOtherItemsMove(1);">&#9654;</a> ';
-			$('#itemListOtherItemsPage').html(newHtml);
+
+			if(parseInt(Roadmap.itemListOtherItems_pagecount) > 0) {
+				$('#itemListOtherItemsPage').html(newHtml);
+			}
 		},
 
 		/**
@@ -1545,7 +1548,7 @@ function () {
 		 */
 
 		toolboxEvents: function() {
-			$('#toolbox').html('<span class="linkButton" style=" color:#FB9E4A; padding-right: 24px;"></span>' + $('#toolbox').html());
+			$('#toolbox').html('<span class="linkButton" style=" color:#FB9E4A; padding-right: 0px;"></span>' + $('#toolbox').html());
 
 
 			$('.linkButton').each(function(spanIndex, spanElement) {

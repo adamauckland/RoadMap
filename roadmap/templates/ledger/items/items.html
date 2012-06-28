@@ -83,7 +83,7 @@
 
 								<ol id="filterListProperties">
 									{% if not loop_filter.default  %}
-										<div id="filterEditProperties" style="{% if loop_filter.name != 'New View' %} display: none;{% endif %}">
+										<div id="filterEditProperties" style="{% if not new_view %} display: none;{% endif %}">
 
 											<li>
 												<label>Name:</label> <input type="text" name="filterName" value="{{ loop_filter.name }}" />
