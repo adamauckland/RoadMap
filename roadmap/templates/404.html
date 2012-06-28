@@ -1,4 +1,4 @@
-{% extends "ledger/base_wide.html" %}
+{% extends "ledger/base.html" %}
 	{% load custom %}
 	{% load markup %}
 
@@ -11,32 +11,31 @@
 
 
 	{% block "breadcrumb" %}
-		<img src="/media/layout/icons/house.png" title="home"/> <a href="/">Home</a> 
+
 	{% endblock %}
 
 
 {% block "toolbox" %}
-  <div id="toolbox">
-	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Issue' %}"> <img src="/media/layout/icons/Issue.png" class="icon-adjust" alt="Icon for issue" /> Issue</a>
-	</span>
 
-	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Requirement' %}"> <img src="/media/layout/icons/Requirement.png" class="icon-adjust" alt="Icon for requirement" /> Requirement</a>
-	</span>
-
-	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='File' %}"> <img src="/media/layout/icons/File.png" class="icon-adjust" alt="Icon for file" /> File</a>
-	</span>
-
-	<span class="linkButton">
-	  <a class="ui-state-default ui-corner-all dialog_link" href="{% url roadmap.ledger.views.create_item_where item_type='Note' %}"> <img src="/media/layout/icons/Note.png" class="icon-adjust" alt="Icon for note" /> Note</a>
-	</span>
-  </div>
 {% endblock %}
 
 
 {% block "maincontent" %}
- 
-	<h2>Page does not exist</h2>
+
+	<div id="dashboardConstraint">
+		<div id="dashboard">
+
+				<h2>Sorry! An unforseen problem just happened!</h2>
+				<h2>Hopefully you can find it in your heart to forgive us.</h2>
+
+				<h3 class="margin24">
+					If you are feeling particularly generous, please log an issue on <a href="https://github.com/adamauckland/RoadMap/issues">GitHub</a>.
+				</h3>
+
+				<p>
+
+				</p>
+
+		</div>
+	</div>
 {% endblock %}
