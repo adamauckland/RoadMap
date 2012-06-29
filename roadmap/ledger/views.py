@@ -2272,6 +2272,8 @@ def selected_to_group(request):
 		if user_can_view(request, item):
 			item.item_group = name
 			item.save()
+	request.session['selected_items'] = []
+
 	return HttpResponse('ok', 'text/plain')
 
 @csrf_exempt
