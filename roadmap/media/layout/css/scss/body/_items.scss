@@ -40,8 +40,8 @@
 }
 
 #tagBox { border-top: 1px solid #bbb; padding: 8px; }
-	#tagBox #tags, #instantFilter { border: solid 1px #FFCFA8; padding: 5px; width: 450px; }
-	#tagBox #moveTags { margin-right: 0em; }
+	#tagBox #tags, #instantFilter { border: solid 1px #FFCFA8; /*padding: 5px;*/ width: 450px; }
+	#tagBox #moveTags { margin-right: 0em;  }
 	.ui-autocomplete li { background-color: #fff; }
 
 

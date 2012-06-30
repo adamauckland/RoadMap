@@ -19,32 +19,95 @@
 
 
 {% block "navigation" %}
-	<ol>
-		<li>
-				{% for client in clients %}
-					<ol>
-					<li>
+	{% if project %}
 
-							<a href="/roadmap/ledger/client/{{ client.slug }}">{{ client.name }}</a>
 
-					</li>
-					</ol>
-				{% empty %}
+
+		<ol>
+			<li>
 				<ol>
 					<li>
-							No clients
+						<a href="{% url roadmap.ledger.views.view_client name=current_project.binder.client.slug %}">{{ current_project.binder.client.name }}</a>
 					</li>
 				</ol>
-				{% endfor %}
+			</li>
 
-		</li>
+			<li>
+				<div class="sectionTop project">
+				<a href="/roadmap/ledger/project/{{ current_project.binder.slug }}/{{ current_project.slug }}" title="Go to {{ current_project.name }} project page.">{{ current_project.name }}</a>
+				</div>
+			</li>
 
-		<li>
-			<div class="sectionTop">
-				<a style="font-size:12px;" href="/roadmap/ledger/new_client" class="">New Client</a>
-			</div>
-		</li>
-	</ol>
+
+			<li>
+				<div class="sectionTop ">
+				  <a id="viewDefaultItems" href="{% url roadmap.ledger.views.items client_name=current_project.binder.client.slug,binder_name=current_project.binder.slug,project_name=current_project.slug %}?{{ view_settings }}">
+
+					Items
+					</a>
+				</div>
+				 
+			</li>
+
+			<li>
+				<div class="sectionTop">
+					<a href="/roadmap/ledger/project/{{ current_project.binder.slug }}/{{ current_project.slug }}/notes">Notes</a>
+				</div>
+			</li>
+			<li>
+				<div class="sectionTop">
+				  <a href="/roadmap/ledger/project/{{ current_project.binder.slug }}/{{ current_project.slug }}/emails">Communication</a>
+				</div>
+			</li>
+
+			<li>
+				<div class="sectionTop">
+					<a href="/roadmap/ledger/project/{{ current_project.binder.slug }}/{{ current_project.slug }}/files">File Library</a>
+				</div>
+			</li>
+
+			<li>
+				<div class="sectionTop">
+					<a href="/roadmap/ledger/project/{{ current_project.binder.slug }}/{{ current_project.slug }}/deliverynotes">Delivery Tasks</a>
+				</div>
+			</li>
+
+			<li class="last">
+				<div class="sectionTop">
+					<a href="/roadmap/ledger/project/{{ current_project.binder.slug  }}/{{ current_project.slug }}/settings">Settings</a>
+				</div>
+			</li>
+		</ol>
+
+
+	{% else %}
+		<ol>
+			<li>
+					{% for client in clients %}
+						<ol>
+						<li>
+
+								<a href="/roadmap/ledger/client/{{ client.slug }}">{{ client.name }}</a>
+
+						</li>
+						</ol>
+					{% empty %}
+					<ol>
+						<li>
+								No clients
+						</li>
+					</ol>
+					{% endfor %}
+
+			</li>
+
+			<li>
+				<div class="sectionTop">
+					<a style="font-size:12px;" href="/roadmap/ledger/new_client" class="">New Client</a>
+				</div>
+			</li>
+		</ol>
+	{% endif %}
 {% endblock %}
 
 

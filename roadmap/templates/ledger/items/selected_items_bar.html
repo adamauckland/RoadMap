@@ -1,4 +1,4 @@
-{% if selected_items_count != 0 %}<a href="{% url roadmap.ledger.views.selected_items %}">{{ selected_items_count }} item{{ selected_items_count|pluralize }} selected</a>
+{% if selected_items_count != 0 %}{{ selected_items_count }} item{{ selected_items_count|pluralize }} selected
 <input type="hidden" name="search_id" value="{{ search_id }}" />
 	<input type="submit" id="clearTags"  class="submit" name="ClearTags" value="Clear" class=" dialog_link" />
 	<input type="submit" id="moveTags" class="submit marginRight24" id="moveTo" name="moveTo" value="Edit Multiple Items"/>

@@ -74,7 +74,7 @@ Dashboard
 
 
 {% block "breadcrumb" %}
-	<img src="/media/layout/icons/house.png" title="home"/> Home
+
 {% endblock %}
 
 
@@ -144,18 +144,14 @@ Dashboard
 		  </ul>
 		{% endif %}
 
-		<!--
-		<span class="floatRight">
-			<img class="icon-adjust" src="/media/layout/icons/add.png" alt="Create new binder icon" /> <a href="/new_binder">Create new binder</a>
-		</span>
-		  -->
+
 
 		<h2 style="margin-top: 0px; padding-bottom: 12px; margin-bottom: 10px;">
 			Active Projects
 		</h2>
 
 	{% if header_notifications %}
-		<h2><img src="/media/layout/icons/email.png" /> Notifications</h2>
+		<h2> Notifications</h2>
 		<div id="notifications" style="margin-bottom: 4em;">
 			<ol>
 				{% for loop_item in header_notifications %}

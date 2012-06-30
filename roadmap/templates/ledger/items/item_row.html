@@ -97,7 +97,7 @@
 					{{ item.tags|user_tags }}
 			</span>
 
-			<div class="charcoal" style="font-size: 90%; {% if not item.replied %}  {% endif %}">{% if item.replied and item.assigned_to == user %}<img src="/media/layout/icons/comment.png" title="New reply" />{% endif %}
+			<div class="charcoal" style="font-size: 90%; {% if not item.replied %}  {% endif %}">{% if item.replied and item.assigned_to == user %}{% endif %}
 			{% if item.latest_comment.message %}&ldquo;{{ item.latest_comment.message }}&rdquo;{% endif %}</div>
 		</td>
 

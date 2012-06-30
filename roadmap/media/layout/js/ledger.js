@@ -123,6 +123,7 @@ function () {
 				Layout.centreElement($('#assignToGroup'));
 				$('#assignToGroup').find('#assignToGroupNewGroup').val('');
 				$('#assignToGroup').fadeIn(function() {
+					200,
 					$('#assignToGroup').find('#assignToGroupNewGroup').focus();
 				});
 				return false;
@@ -272,7 +273,9 @@ function () {
 				var remindMe = $('#remindMeWhen');
 				Layout.centreElement(remindMe);
 				remindMe.find('#remindMeWhenDays').val('');
-				remindMe.fadeIn(function() {
+				remindMe.fadeIn(
+					200,
+					function() {
 					remindMe.find('#remindMeWhenDays').click(function() {
 						remindMe.find('#remindMeWhenDaysRadio').click();
 					});
