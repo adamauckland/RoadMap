@@ -10,7 +10,7 @@
 			<div id="searchbox">
 				<!-- search-->
 				<input type="text" id="searchStart" />
-				<!--<img src="/media/layout/icons/magnifier.png" alt="Search"/> <a href="" id="searchLauncher">Search</a>-->
+
 
 				<div id="searchWrapper">
 						<div id="searchResults">&nbsp;</div>
@@ -40,7 +40,7 @@
 
 						{% else %}
 							{% if search_id %}
-								<a href="/roadmap/ledger/back_next?direction=-1&current_id={{ item.id }}&search_id={{ search_id }}"><img src="/media/layout/icons/control_rewind_blue.png" alt="Previous" title="Previous Item" /></a>{{ search_found }}/{{ search_count }}<a href="/roadmap/ledger/back_next?direction=1&current_id={{ item.id }}&search_id={{ search_id }}"><img src="/media/layout/icons/control_fastforward_blue.png" alt="Next Item" title="Next Item"  style="margin-left: 2px;"/></a>
+
 							{% endif %}
 						{% endif %}
 					</div>
@@ -115,7 +115,7 @@
 			</div> <!-- end of #container -->
 		</div>
 
-		
+
 	</div>
 	</body>
 </html>

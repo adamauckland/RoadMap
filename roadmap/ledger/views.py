@@ -34,7 +34,6 @@ from django.forms import ModelForm, Form
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import loader, RequestContext
-#from django.contrib.csrf.middleware import csrf_exempt
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.html import escape
 from django.db import connection
@@ -616,6 +615,18 @@ class ChartBasicItem(object):
 		self.testing = 0
 		self.delivered = 0
 
+class SearchStructure(object):
+	def __init__(self):
+		self.name = 'Filter'
+		self.assigned_to = []
+		self.item_states = []
+		self.locations = []
+		self.item_target = None
+		self.tags = ''
+		self.order_by = None
+		self.hide_reminders = True
+		self.items = []
+
 
 def latest_updates(request):
 	"""
@@ -1161,18 +1172,6 @@ def my_items(request):
 		},
 		context_instance = RequestContext(request),
 	)
-
-class SearchStructure(object):
-	def __init__(self):
-		self.name = 'Filter'
-		self.assigned_to = []
-		self.item_states = []
-		self.locations = []
-		self.item_target = None
-		self.tags = ''
-		self.order_by = None
-		self.hide_reminders = True
-		self.items = []
 
 def parse_querystring_filter(request, search_data):
 	#
@@ -5850,7 +5849,6 @@ def make_delivery_reassign(request, client, binder, project, location):
 		destination_location = Location.objects.get(method = constants.LOCATION_DELIVERED)
 
 	selected_items = request.session['selected_items']
-	print(selected_items)
 	keys = [item.replace('k', '') for item in selected_items]
 
 	items = Item.objects.filter(id__in = keys)
