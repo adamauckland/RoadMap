@@ -40,6 +40,8 @@ from django.db import connection
 from django.forms.extras.widgets import SelectDateWidget
 from django.template.defaultfilters import slugify
 from django.views.decorators.cache import never_cache
+from django.core.cache import cache
+
 
 #
 # RoadMap imports
@@ -54,47 +56,12 @@ from tagging.models import Tag, TaggedItem, TagManager, TaggedItemManager
 #
 from tinymce.widgets import TinyMCE
 from reversion.models import Version
+
 #
-# find /path/to/searches -mtime +1 -exec rm '{}' \;
+# Divide up views
 #
-#
-#
-# 'csrftoken': '{{ csrf_token }}'
+from view_forms import *
 
-def profile(log_file):
-	"""Profile some callable.
-
-	This decorator uses the hotshot profiler to profile some callable (like
-	a view function or method) and dumps the profile data somewhere sensible
-	for later processing and examination.
-
-	It takes one argument, the profile log name. If it's a relative path, it
-	places it under the PROFILE_LOG_BASE. It also inserts a time stamp into the
-	file name, such that 'my_view.prof' become 'my_view-20100211T170321.prof',
-	where the time stamp is in UTC. This makes it easy to run and compare
-	multiple trials.
-	"""
-
-	if not os.path.isabs(log_file):
-		log_file = os.path.join(settings.PROFILE_LOG_BASE, log_file)
-
-	def _outer(f):
-		def _inner(*args, **kwargs):
-			# Add a timestamp to the profile output when the callable
-			# is actually called.
-			(base, ext) = os.path.splitext(log_file)
-			base = base + "-" + time.strftime("%Y%m%dT%H%M%S", time.gmtime())
-			final_log_file = base + ext
-
-			prof = hotshot.Profile(final_log_file)
-			try:
-				ret = prof.runcall(f, *args, **kwargs)
-			finally:
-				prof.close()
-			return ret
-
-		return _inner
-	return _outer
 
 class calendar_data(object):
 	"""
@@ -140,443 +107,7 @@ def gravatar_list(queryset):
 		})
 		loop_item.gravatar = url
 	return queryset
-
-class UserField(forms.CharField):
-	def clean(self, value):
-		super(UserField, self).clean(value)
-		try:
-			User.objects.get(username=value)
-			raise forms.ValidationError("Someone is already using this username. Please pick another.")
-		except User.DoesNotExist:
-			return value
-
-class SignupForm(forms.Form):
-	"""
-	Signup form.
-
-	Attributes:
-		| first_name
-		| last_name
-		| username
-		| password
-		| password2
-		| email
-		| email2
-	"""
-	first_name = forms.CharField(max_length=30)
-	last_name = forms.CharField(max_length=30)
-	username = UserField(max_length=30)
-	password = forms.CharField(widget=forms.PasswordInput())
-	password2 = forms.CharField(widget=forms.PasswordInput(), label="Repeat your password")
-	email = forms.EmailField()
-	email2 = forms.EmailField(label="Repeat your email")
-
-	def clean_email(self):
-		if self.data['email'] != self.data['email2']:
-			raise forms.ValidationError('Emails are not the same')
-		return self.data['email']
-
-	def clean_password(self):
-		if self.data['password'] != self.data['password2']:
-			raise forms.ValidationError('Passwords are not the same')
-		return self.data['password']
-
-	def clean(self,*args, **kwargs):
-		self.clean_email()
-		self.clean_password()
-		return super(SignupForm, self).clean(*args, **kwargs)
-
-class FileForm(forms.Form):
-	"""
-	File on a form.
-	"""
-	subject = forms.CharField(label = 'Description', max_length = 2000, required = True)
-	file = forms.FileField(required = False, label = "Upload New File")
-	tags = forms.CharField(label = 'Tags', max_length = 2000, required = False, widget = forms.widgets.HiddenInput())
-	comments = forms.CharField(label = 'Comments', widget = forms.widgets.Textarea(), required = False)
-
-class FileProcess():
-	"""
-	Process a file
-	"""
-	def load(self, request, item, linked_item, extra):
-		"""
-		Return a dict to populate the form with an instance.
-		"""
-		extra['buttons_update'] = True
-		extra['fileitem'] = linked_item
-
-		return {
-			'subject' : item.description,
-			'tags' : item.tags,
-			'name' : linked_item.name,
-			'fileitem' : linked_item.file,
-		}
-
-	def save(self, request, item, linked_item, linked_item_form):
-		"""
-		Save the file to disc and store a reference to it.
-		"""
-		try:
-			form_file = request.FILES['file']
-			dir_name = str(uuid.uuid1())
-			plain_name = dir_name + '/' + form_file.name
-			os.makedirs(os.path.join(settings.MEDIA_ROOT, 'documents', dir_name))
-			file_name = os.path.join(settings.MEDIA_ROOT, 'documents', plain_name)
-			spool = open(file_name, 'wb')
-			for chunk in form_file.chunks():
-				spool.write(chunk)
-			spool.close()
-			linked_item.file = plain_name
-
-			linked_item.name = form_file.name
-			if linked_item.name.find('.') != -1:
-				linked_item.filetype = linked_item.name[linked_item.name.rfind('.'):]
-		except:
-			pass
-
-		item.description = linked_item_form.cleaned_data['subject']
-		item.tags = linked_item_form.cleaned_data['tags']
-		item.save()
-		linked_item.save()
-
-		#
-		# Check for comments and add
-		#
-		comment_text = linked_item_form.cleaned_data['comments'].strip()
-		if comment_text != '':
-			post_comment(request, item, comment_text)
-			#comment = Comment()
-			#comment.user = request.user
-			#comment.item = item
-			#comment.message = comment_text
-			#comment.save()
-
-class ItemForm(ModelForm):
-	"""
-	Holding class.
-	"""
-	class Meta:
-		model = Item
-
-class IssueForm(forms.Form):
-	"""
-	Standard Issue form.
-	"""
-	subject = forms.CharField(label = 'Subject', max_length = 2000, required = True)
-	url = forms.CharField(label = 'URL', required = False, max_length = 2000)
-	tags = forms.CharField(label = 'Tags', max_length = 2000, required = False)
-	comments = forms.CharField(label = 'Comments', widget = forms.widgets.Textarea(), required = False)
-	priority_choices = [(item.id, item.name) for item in Priority.objects.all().order_by('-id')]
-	priority = forms.ChoiceField(label = 'Priority', choices = priority_choices)
-	delivery_notes = forms.CharField(label = 'Delivery Tasks', widget = forms.widgets.Textarea(), required = False)
-
-class IssueProcess(object):
-	"""
-	Process an Issue form.
-	"""
-	def load(self, request, item, linked_item, extra):
-		"""
-		Return a dict to populate the form with an instance.
-		"""
-		extra['buttons_update'] = True
-		return {
-			'subject' : item.description,
-			'tags' : item.tags,
-			'url' : linked_item.url,
-			'priority' : item.priority.id,
-			'delivery_notes' : linked_item.delivery_notes,
-		}
-
-	def save(self, request, item, linked_item, linked_item_form):
-		"""
-		Save the form details into an item and the linked item.
-		"""
-		#print('called save')
-		linked_item.url = linked_item_form.cleaned_data['url']
-		item.description = linked_item_form.cleaned_data['subject']
-		#item.tags = linked_item_form.cleaned_data['tags'].replace(',', ' ')
-		item.priority = Priority.objects.get(id = linked_item_form.cleaned_data['priority'])
-		linked_item.delivery_notes = linked_item_form.cleaned_data['delivery_notes']
-		#
-		# Look for actions other than save
-		#
-		if request.POST.get('update', '') == 'Completed':
-			item.fixed = True
-			item.validated = False
-		if request.POST.get('update', '') == 'Failed':
-			item.fixed = False
-			item.validated = True
-			item.location = Location.objects.get(name = 'Production')
-		if request.POST.get('update', '') == 'Verified':
-			item.fixed = True
-			item.validated = True
-
-		#print('saving item')
-		item.save()
-		#print('saving link')
-		linked_item.save()
-
-		#
-		# Check for comments and add
-		#
-		comment_text = linked_item_form.cleaned_data['comments'].strip()
-		if comment_text != '':
-			post_comment(request, item, comment_text)
-			#comment = Comment()
-			#comment.user = request.user
-			#comment.item = item
-			#comment.message = comment_text
-			#comment.save()
-
-class NoteForm(Form):
-	"""
-	Note form.
-	"""
-	subject = forms.CharField(label = 'Subject', max_length = 2000, required = True)
-	text = forms.CharField(
-		label = 'Notes',
-		widget = TinyMCE(
-			attrs = { 'cols': 80, 'rows': 30 }
-		),
-		required = True
-	)
-	tags = forms.CharField(label = 'Tags', max_length = 2000, required = False)
-	comments = forms.CharField(
-		label = 'Comments',
-		widget = forms.widgets.Textarea(),
-		required = False
-	)
-
-class NoteProcess(object):
-	"""
-	Process a Note form.
-	"""
-	def load(self, request, item, linked_item, extra):
-		"""
-		Return a dict to populate the form with an instance.
-		"""
-		extra['buttons_update'] = True
-		return {
-			'subject' : item.description,
-			'tags' : item.tags,
-			'text' : linked_item.text,
-		}
-
-	def save(self, request, item, linked_item, linked_item_form):
-		item.description = linked_item_form.cleaned_data['subject']
-		item.tags = linked_item_form.cleaned_data['tags']
-		linked_item.text = linked_item_form.cleaned_data['text']
-		item.save()
-		linked_item.save()
-
-		#
-		# Check for comments and add
-		#
-		comment_text = linked_item_form.cleaned_data['comments'].strip()
-		if comment_text != '':
-			post_comment(request, item, comment_text)
-			#comment = Comment()
-			#comment.user = request.user
-			#comment.item = item
-			#comment.message = comment_text
-			#comment.save()
-
-class ChecklistForm(Form):
-	"""
-	Checklist form.
-	"""
-	subject = forms.CharField(label = 'Checklist title', max_length = 2000, required = True)
-	new_item = forms.CharField(label = 'Add item', max_length = 4000, required = True)
-
-class ChecklistProcess(object):
-	"""
-	Process checklist form
-	"""
-	def load(self, request, item, linked_item, extra):
-		"""
-		Return a dict to populate the form with an instance.
-		"""
-		extra['buttons_update'] = True
-		checklist_items = ChecklistItem.objects.filter(checklist = item).order_by('-order_index')
-
-		extra['checklist_items'] = checklist_items
-		return {
-			'subject' : item.description,
-			'tags' : item.tags,
-		}
-
-	def save(self, request, item, linked_item, linked_item_form):
-		"""
-		Save checklist item.
-		"""
-		item.description = linked_item_form.cleaned_data['subject']
-		item.save()
-		checklist_item = ChecklistItem()
-		checklist_item.checklist = item
-		checklist_item.order_index = 1
-		checklist_item.text = linked_item_form.cleaned_data['new_item']
-		checklist_item.save()
-
-class BinderForm(Form):
-	"""
-	Binder form.
-	"""
-	name = forms.CharField(label = 'Name', max_length = 500, required = True)
-
-class ClientForm(Form):
-	"""
-	Client form.
-	"""
-	name = forms.CharField(label = 'Name', max_length = 500, required = True)
-
-class ProjectForm(Form):
-	"""
-	Project form.
-	"""
-	name = forms.CharField(label = 'Name', max_length = 500, required = True)
-
-class TargetForm(ModelForm):
-	"""
-	Target form
-	"""
-	class Meta:
-		model = Target
-		fields = (
-			'name',
-			'deadline',
-			'public',
-			'active',
-		)
-	deadline = forms.DateField(widget=SelectDateWidget(), initial = datetime.date.today() + datetime.timedelta(1) )
-
-class PasswordForm(Form):
-	"""
-	Reset password form
-	"""
-	password = forms.CharField(
-		widget = forms.PasswordInput(),
-		label = 'Password', max_length = 500, required = True)
-	confirm_password = forms.CharField(
-		widget = forms.PasswordInput(),
-		label = 'Confirm', max_length = 500, required = True)
-
-	def clean_password(self):
-		if self.data['password'] != self.data['confirm_password']:
-			raise forms.ValidationError('Passwords do not match.')
-		return self.data['password']
-
-	def clean_confirm(self):
-		return self.data['confirm_password']
-
-	def clean(self,*args, **kwargs):
-		self.clean_password()
-		self.clean_confirm()
-		return super(Form, self).clean(*args, **kwargs)
-
-class RequirementForm(Form):
-	"""
-	Requirement form
-	"""
-	subject = forms.CharField(label = 'Requirement For', max_length = 2000, required = True)
-	text = forms.CharField(label = 'Additional Details', widget = forms.widgets.Textarea(), required = False)
-	tags = forms.CharField(label = 'Tags', max_length = 2000, required = False)
-	comments = forms.CharField(label = 'Comments', widget = forms.widgets.Textarea(), required = False)
-	priority_choices = [(item.id, item.name) for item in Priority.objects.all()]
-	priority = forms.ChoiceField(label = 'Priority', choices = priority_choices)
-	delivery_notes = forms.CharField(label = 'Delivery Tasks', widget = forms.widgets.Textarea(), required = False)
-
-class RequirementProcess(object):
-	"""
-	Process a requirement form
-	"""
-	def load(self, request, item, linked_item, extra):
-		"""
-		Return a dict to populate the form with an instance.
-		"""
-		fetch_comments = Comment.objects.filter(item = item).order_by('date_time')
-		gravatar_queryset(fetch_comments)
-
-		extra['comments'] = fetch_comments
-		extra['buttons_update'] = True
-		return {
-			'subject' : item.description,
-			'tags' : item.tags,
-			'text' : linked_item.text,
-			'priority' : item.priority.id,
-			'delivery_notes' : linked_item.delivery_notes,
-		}
-
-	def save(self, request, item, linked_item, linked_item_form):
-		"""
-		Save the Requirement item.
-		"""
-		item.description = linked_item_form.cleaned_data['subject']
-		#item.tags = linked_item_form.cleaned_data['tags']
-		linked_item.text = linked_item_form.cleaned_data['text']
-		linked_item.delivery_notes = linked_item_form.cleaned_data['delivery_notes']
-		item.priority = Priority.objects.get(id = linked_item_form.cleaned_data['priority'])
-		#
-		# Look for actions other than save
-		#
-		if request.POST.get('update', '') == 'Completed':
-			item.fixed = True
-		if request.POST.get('update', '') == 'Failed':
-			item.fixed = False
-			item.validated = True
-		if request.POST.get('update', '') == 'Verified':
-			item.fixed = True
-			item.validated = True
-
-		item.save()
-		linked_item.save()
-
-		#
-		# Check for comments and add
-		#
-		comment_text = linked_item_form.cleaned_data['comments'].strip()
-		if comment_text != '':
-			post_comment(request, item, comment_text)
-			#comment = Comment()
-			#comment.user = request.user
-			#comment.item = item
-			#comment.message = comment_text
-			#comment.save()
-
-class EmailForm(ModelForm):
-	class Meta:
-		model = Email
-		#fields = (
-		#	'description',
-		#)
-
-class EmailProcess(object):
-	def load(self, request, item, linked_item, extra):
-		read_buffer = self.read_email(str(linked_item.file_id))
-		extra['email_body'] = '\n'.join(email_return_body(read_buffer)).replace('=20', '')
-		extra['buttons_update'] = False
-		return {
-		}
-
-	def save(self, request, item, linked_item, linked_item_form):
-		pass
-
-	def read_email(self, id):
-		email_dir = os.path.join(settings.MEDIA_ROOT, 'emails')
-		file_name = os.path.join(email_dir, id)
-		if os.path.exists(file_name):
-			buffer = open(file_name, 'rt')
-			read_buffer = buffer.read()
-			buffer.close()
-		else:
-			read_buffer = ''
-		return read_buffer
-
 def login(request):
-	#from mobile.sniffer.wurlf.sniffer import WurlfSniffer
-
-	#sniffer = WurlfSniffer()
-
 	return render_to_response(
 		'ledger/login.html',
 		{
@@ -773,14 +304,8 @@ def home(request):
 						~Q(item_type__name = 'Email') &
 						~Q(item_type__name = 'Note')
 					)
-					#items = items.exclude(item_type = Type.objects.get(name = 'Email'))
-					#items = items.exclude(item_type = Type.objects.get(name = 'Note'))
-					#items = items.exclude(item_type = Type.objects.get(name = 'File'))
 
 					project_row.your_items = items.count()
-					#project_row.total_items = items.count()
-
-					#project_row.default_location = default_location
 
 					#
 					# Get the viewsettings
@@ -806,10 +331,6 @@ def home(request):
 			grid.append(row)
 
 	grid = sorted(grid, key=attrgetter('client_order_index'))
-
-	#updates_header, feed = latest_updates(request)
-	#gravatar_queryset(feed)
-
 	client_order = request.session.get('client_order', list())
 
 	return render_to_response(
@@ -817,12 +338,9 @@ def home(request):
 		{
 			'follow_ups': follow_ups,
 			'location': location,
-			#'project': project,
-			#'feed': feed,
 			'settings': settings,
 			'grid': grid,
-			'calendar_output': [], #mini_calendar(request),
-			#'updates_header': updates_header,
+			'calendar_output': [],
 			'headernav': 'home',
 			'active_items': active_items(request),
 			'clients': Client.objects.all().order_by('name'),
@@ -931,8 +449,6 @@ def attach_new_file(request):
 			link_items_process(request, main_item, item)
 	except Exception, ex:
 		pass
-	#	print('%s' % ex)
-	#	raise ex
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 	return HttpResponseRedirect('/roadmap/ledger/item/%s' % item_id)
 
@@ -1294,10 +810,10 @@ def new_project_filter(request, project_id):
 			massage_name = loop_check_name.name.replace('New View', '')
 			massage_name = massage_name.strip()
 			try:
-				attempt_to_cast = int(massage_name)
+				attempt_to_cast = int('00%s' % massage_name)
 				if attempt_to_cast > new_view_index:
 					new_view_index = attempt_to_cast
-			except:
+			except Exception, ex:
 				pass
 		if new_view_index > 1:
 			default_filter.name = 'New View %s' % (new_view_index + 1)
@@ -1494,6 +1010,7 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		location_list = Location.objects.filter(id__in = search_data.locations).order_by('order')
 	filters['location__in'] = location_list
 
+	#if cache.get('items') == None:
 	#
 	# If we're searching by tag, use them to retrieve the first resultset, then filter
 	#
@@ -1518,12 +1035,22 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	else:
 		filter_items = Q(**filters) & ~Q(item_type__name = 'File') & ~Q(item_type__name = 'Email') & ~Q(item_type__name = 'Note')
 
-		items = Item.objects.select_related().filter(
-			filter_items
-		)
+		if request.session.has_key('project_%s_items' % (project.id)):
+			items = request.session['project_%s_items' % (project.id)]
+		else:
+			items = None
+
+		if items == None:
+			items = Item.objects.select_related().filter(filter_items)
+
+		print(len(items))
+
 		#
 		# not searching with tags means we can start at the project list
 		#
+		request.session['project_%s_items' % (project.id)] = items
+	#else:
+	#	items = cache.get('items')
 
 	#
 	# Filter out any milestone
@@ -1582,7 +1109,8 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	for loop_location in location_list:
 		loop_location.items = []
 		loop_location.item_count = 0
-		loop_location.items = [	loop_item for loop_item in items if loop_item.location == loop_location ]
+		p_items = [	loop_item for loop_item in items if loop_item.location == loop_location ]
+		loop_location.items = p_items
 		loop_location.item_count = len(loop_location.items)
 
 	#
@@ -1633,6 +1161,10 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 	if request.GET.get('nv', '') == 't':
 		new_view = True
 
+	selected_items_count = len(request.session.get('selected_items',[]))
+	selected_items_list = request.session.get('selected_items', [])
+
+	print('start render')
 	result =  render_to_response(
 		'ledger/items/items.html',
 		{
@@ -1650,9 +1182,9 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 			'hide_reminders': search_data.hide_reminders,
 			'search_id': search_id,
 			'headernav': 'active',
-			'active_items': active_items(request),
-			'selected_items': request.session.get('selected_items', []),
-			'selected_items_count': len(request.session.get('selected_items',[])),
+			#'active_items': active_items(request),
+			'selected_items': selected_items_list,
+			'selected_items_count': selected_items_count,
 			'user_filters': user_filters,
 			#'show_selected_items': search_data.show_selected,
 			'assigned_to': search_data.assigned_to,
@@ -1670,6 +1202,8 @@ def items(request, client_name = None, binder_name = None, project_name = None, 
 		},
 		context_instance = RequestContext(request),
 	)
+	render_time_complete = time.time()
+	print('end render')
 	return result
 
 
@@ -1920,7 +1454,6 @@ def tagged_items(request):
 
 @login_required
 def active(request, client_name = None, binder_name = None, project_name = None, location_name = None):
-	#print('Active %s %s %s %s ' % (client_name, binder_name, project_name, location_name))
 	#
 	# check for command buttons
 	#
@@ -2410,7 +1943,6 @@ def move_items(request, item_ids, location_id, binder_id, project_id, user_id=''
 	notify_users = []
 	move_count = 0
 	location = Location.objects.get(id = location_id)
-	#deleted_location = Location.objects.get(method = constants.LOCATION_DELETED)
 	user_object = None
 	if user_id != '':
 		user_object = User.objects.get(id=user_id)
@@ -2456,25 +1988,19 @@ def move_items(request, item_ids, location_id, binder_id, project_id, user_id=''
 					#
 					# Production --> Testing: Reassign to the reporter
 					#
-					#print('Production -> Testing')
 					if item.location.name == 'Production' and this_user_object == None:
 						# Have we got a tester already?
 						previous_tester = None
 						ownership_list = Assigned.objects.filter(item=item)
 						ownership_list.order_by('id')
 						for loop_owner in ownership_list:
-							#print('checking %s' % loop_owner.user)
 							if loop_owner.location == location: # has it been in testing before?
-								#print('is previous tester')
 								previous_tester = loop_owner.user
 								break;
 							# We want the previous tester to be the first person who reported it
 							if loop_owner.user in item.project.binder.reporters.all() or loop_owner == item.project.binder.owner:
-								#print('remembering %s' % loop_owner.user)
 								previous_tester = loop_owner.user
-						#print('previous tester %s' % previous_tester)
 						if previous_tester != None:
-							#item.assigned_to = previous_tester
 							this_user_object = previous_tester
 						item.fixed = True
 
@@ -2501,12 +2027,9 @@ def move_items(request, item_ids, location_id, binder_id, project_id, user_id=''
 
 
 			if target_id != '':
-				#print('target id %s' % target_id)
 				for loop_target in item.targets.filter(user=request.user):
-					#print('clearing target %s' % loop_target.name)
 					item.targets.remove(loop_target)
 				target = Target.objects.get(id = target_id)
-				#print('attaching target %s ' % target)
 				item.targets.add(target)
 
 			if project_id != None:
@@ -2629,12 +2152,6 @@ def move(request):
 			previous = request.POST.get('referrer')
 			if previous == None or previous == 'None':
 				previous = '/'
-			#previous = '/roadmap/ledger/active?location=%s&project=%s&binder=%s&tags=%s' % (
-			#	request.POST.get('back_location', ''),
-			#	request.POST.get('back_project', ''),
-			#	request.POST.get('back_binder', ''),
-			#	urllib.quote(request.POST.get('tags', '')),
-			#)
 
 	if items_moved:
 		request.flash['item'] = u'<a href="/roadmap/ledger/profile/%s">%s %s</a> moved %s items to %s' % (
@@ -2656,7 +2173,6 @@ def move(request):
 				location.name,
 			)
 			feed.date_time = datetime.datetime.now()
-			#print(feed.date_time)
 			feed.user = user
 			feed.author = request.user
 			feed.save()
@@ -2664,7 +2180,6 @@ def move(request):
 		tags = request.POST.get('tags', '')
 		request.session['selected_items'] = []
 
-		#return HttpResponseRedirect(request.POST.get('referrer', ''))
 		return HttpResponseRedirect(previous)
 
 
@@ -2692,15 +2207,9 @@ def new_item(request, item_type, project_id = None):
 	# Now add location priorities
 	#
 	item.assigned_to = project.binder.owner
-
-	#if request.user in item.project.binder.producers.all():
 	item.location = Location.objects.get(project = project, method = 'action')
 	item.assigned_to = request.user
-
-	#if request.user in item.project.binder.reporters.all():
-	#	item.location = Location.objects.get(project = project, method = 'report')
 	item.item_state = ItemState.objects.get(constant = constants.ITEMSTATE_IDENTIFIED)
-
 	item.priority = Priority.objects.get(default = True)
 	item.save()
 
@@ -2794,17 +2303,13 @@ def new_binder(request, client_id):
 			binder.name = form.cleaned_data['name']
 			binder.owner = request.user
 			binder.active = True
-			binder.client = client #Client.objects.get(name = 'Internal')
+			binder.client = client
 			binder.save()
 
-			#print('creating default project')
 			project = Project()
 			project.name = 'Initial work'
 			project.binder = binder
-			#project.save()
-			#print('saving')
 
-			#binder.default_project = project
 			binder.team.add(request.user)
 			binder.reporters.add(request.user)
 			binder.save()
@@ -2833,11 +2338,8 @@ def edit_target(request, target_id, project_id):
 	if request.method == 'POST':
 		form = TargetForm(request.POST)
 		if form.is_valid():
-			#print('target user  %s %s' % (target.user, request.user))
 			if target.user == request.user:
-				#print('cleaned data')
 				for loop_item in form.cleaned_data:
-					#print(loop_item)
 					pass
 				target.name = form.cleaned_data['name']
 				target.deadline = form.cleaned_data['deadline']
@@ -2846,7 +2348,6 @@ def edit_target(request, target_id, project_id):
 				target.save()
 				return HttpResponseRedirect('/roadmap/ledger/project/%s/%s' % (project.binder.slug, project.slug))
 		else:
-			#print(form.errors)
 			pass
 
 	tag_cloud = Tag.objects.cloud_for_model(Item, 4, tagging.utils.LOGARITHMIC, {'project': project} )
@@ -2929,7 +2430,6 @@ def active_post(request):
 			feed = Feed()
 			feed.description = '%s moved to production.' % (len(item_list))
 			feed.date_time = datetime.datetime.now()
-			#print(feed.date_time)
 			feed.user = user
 			feed.author = request.user
 			feed.save()
@@ -2983,15 +2483,6 @@ def feed_calendar(request):
 		},
 		context_instance = RequestContext(request),
 	)
-#cal = vobject.iCalendar()
-#cal.add('method').value = 'PUBLISH'  # IE/Outlook needs this
-#for event in event_list:
-#    vevent = cal.add('vevent')
-#    ... # add your event details
-#icalstream = cal.serialize()
-#response = HttpResponse(icalstream, mimetype='text/calendar')
-#response['Filename'] = 'filename.ics'  # IE needs this
-#response['Content-Disposition'] = 'attachment; filename=filename.ics'
 
 
 def email_return_body(text):
@@ -3008,23 +2499,15 @@ def email_return_body(text):
 @csrf_exempt
 @login_required
 def update_tags(request):
-	#print('updating tags')
 	item_id = request.POST.get('item_id')
-	#print(item_id)
 	tags = request.POST.get('tags')
-	#print(tags)
 	item = Item.objects.get(id = item_id)
 	tags = tags.strip().replace('\n', ' ')
-	#print('updating item %s with %s' % (item_id, tags))
 	item.tags = tags
 	item.save()
-	#print('saved')
 
 	binder = item.project.binder
-	#print('got binder')
 	binder_tags = binder.tags
-	#print('got binder tags')
-	#print(binder.tags)
 
 	json_serializer = serializers.get_serializer("json")()
 	return HttpResponse(
@@ -3066,9 +2549,6 @@ def toggle_item(request, item_id):
 		'selected_items_count': items_count,
 		'search_id': search_id,
 	})
-
-	#if items_count == 0:
-	#	body = ''
 
 	return HttpResponse(
 		body,
@@ -3158,14 +2638,7 @@ def promote_objective(request):
 	#
 	comment_text = 'This item was separated out from <a href="/roadmap/ledger/item/%s">%s</a>' % (item.id, item.description)
 	new_item.add_comment(request.user, comment_text)
-	#comment = Comment()
-	#comment.user = request.user
-	#comment.item = new_item
-	#comment.message = comment_text
-	#comment.date_time = datetime.datetime.now()
-	#comment.save()
 
-	#if item.item_type.name == 'Issue':
 	return HttpResponseRedirect('/roadmap/ledger/item/%s' % (new_item.id))
 
 
@@ -3258,24 +2731,13 @@ def item(request, id):
 
 	if request.method == 'POST':
 		referrer = request.POST.get('referrer')
-		#print('posted')
 		custom_form = dynamic_type[1]
 		linked_item_form = custom_form(request.POST)
-		#print(str(linked_item_form))
 		if linked_item_form.is_valid():
 			#
 			# Call save actions for the specific type
 			#
 			manager.save(request, item, linked_item, linked_item_form)
-			#
-			# Check for moving
-			#
-			#if project_id == 'new':
-			#	project = Project()
-			#	project.name = request.POST.get('newProject')
-			#	project.binder = item.project.binder
-			#	project.save()
-			#	project_id = project.id
 
 			#
 			# If it was set to follow up, clear the request
@@ -3304,8 +2766,7 @@ def item(request, id):
 			tags += ' %s' % (item.item_type)
 
 			tags = tags.strip()
-			#print('saving tags: %s' % tags)
-			#item.tags = tags
+
 			if(item.state == 1):
 				new_item = True
 				#
@@ -3316,26 +2777,6 @@ def item(request, id):
 			item.save()
 
 			request.flash['item'] = '<br/>Updated <a href="/roadmap/ledger/item/%s">%s</a>.' % (item.id, item.description)
-
-			#
-			# We need to check for changes here
-			#
-			#for user in user_for_binder(request, item.project.binder):
-			#	feed = Feed()
-			#	feed.description = '<span class="floatRight"><img src="/media/layout/icons/text_signature.png" /></span><a href="/roadmap/ledger/profile/%s">%s %s</a> updated <a href="/roadmap/ledger/item/%s">%s</a> <span class="tags">%s</a>' % (
-			#		request.user.username,
-			#		request.user.first_name,
-			#		request.user.last_name,
-			#		item.id,
-			#		item.description,
-			#		item.tags
-			#	)
-			#	feed.item = item
-			#	feed.date_time = datetime.datetime.now()
-			#	#print(feed.date_time)
-			#	feed.user = user
-			#	feed.author = request.user
-			#	feed.save()
 
 			if new_item:
 				return HttpResponseRedirect(
@@ -3349,7 +2790,6 @@ def item(request, id):
 			return HttpResponseRedirect(redirect_to_referrer)
 		else:
 			pass
-			#print('invalid %s' % linked_item_form.errors)
 	else:
 		#
 		# Call the load of the type manager. This may populate extra values.
@@ -3385,11 +2825,6 @@ def item(request, id):
 			search_count = len(items)
 
 	deleted_items = Version.objects.get_deleted(ChecklistItem)
-	#print('len %s' % deleted_items)
-	#for l in deleted_items:
-		#print(str(dir(l)))
-		#print
-
 	recently_viewed_items_add(request, item)
 
 	#
@@ -3770,20 +3205,16 @@ def set_deadline(request):
 	team = gravatar_list(team)
 
 	if request.GET.get('action', '') == 'set':
-		#print('setting datetime')
 		if request.user == binder.owner:
-			#print('user is owner')
 			new_deadline = datetime.date(
 				int(request.GET.get('year')),
 				int(request.GET.get('month')),
 				int(request.GET.get('day'))
 			)
-			#print(new_deadline)
 			project.deadline = new_deadline
 			project.save()
 			return HttpResponseRedirect('/roadmap/ledger/project/%s/%s' % (binder.slug, project.slug))
 		else:
-			#print('user is not owner')
 			pass
 
 	return render_to_response(
@@ -3830,12 +3261,9 @@ def user_to_binder(request):
 		user.email = email_address
 		import random
 		new_random_password = ''.join([random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ') for x in xrange(5)])
-		#print('creating new user')
-		#print(new_random_password)
 		user.password = new_random_password
 		user.save()
 		user_id = user.id
-		#print('New user ID %s ' % user_id)
 
 		from django.core.mail import send_mail
 
@@ -3843,18 +3271,14 @@ def user_to_binder(request):
 		send_mail('Your Roadmap signin', body, 'help@road-map.org', [email_address], fail_silently=False)
 
 	user = User.objects.get(id = user_id)
-	#print('user %s' % user)
-	#print(producer)
 	if action == 'add':
 		binder.team.add(user)
 		if reporter != '':
 			binder.reporters.add(user)
 		if producer != '':
-			#print('adding producer')
 			binder.producers.add(user)
-	if action == 'remove':
 
-		#binder.team.remove(user)
+	if action == 'remove':
 		if reporter != '':
 			binder.reporters.remove(user)
 		if producer != '':
@@ -4416,49 +3840,6 @@ def view_project(request, binder_name, name, template_section = 'Overview'):
 
 			grid_item.items.append(all_items.count())
 		grid_item.location = loop_location
-		#grid_item.all_count = all_items.count()
-
-
-	#	grid_item.all_count = all_items.count()
-	#	grid_item.my_count = all_items.filter(assigned_to = request.user).count()
-	#	#
-	#	# For reporting, get sum of all hours
-	#	#
-	#	if loop_location.method == 'report':
-	#		grid_item.hours = all_items.aggregate(Sum('hours_estimated'))
-	#		try:
-	#			#coverage = int(float((grid_item.all_count - all_items.filter(hours_estimated = 0).aggregate(Count('hours_estimated'))['hours_estimated__count'])) / float(grid_item.all_count) * 100)  # number of 0 estimates
-	#			missing_estimates = all_items.filter(hours_estimated = 0).aggregate(Count('hours_estimated'))['hours_estimated__count']
-	#			if missing_estimates != 0:
-	#				grid_item.missing_estimates = missing_estimates
-	#		except:
-	#			pass
-	#	#
-	#	# For production, get sum of all hours + sum of completed hours
-	#	#
-	#	if loop_location.method == 'action':
-	#		grid_item.hours = all_items.aggregate(Sum('hours_estimated'))
-	#		grid_item.hours_completed = all_items.filter(fixed = True).aggregate(Sum('hours_total'))
-	#		#coverage = int(float((grid_item.all_count - all_items.filter(hours_estimated = 0).aggregate(Count('hours_estimated'))['hours_estimated__count'])) / float(grid_item.all_count) * 100)  # number of 0 estimates
-	#		#if coverage != 100:
-	#		#	grid_item.coverage = coverage
-	#		missing_estimates = all_items.filter(hours_estimated = 0).aggregate(Count('hours_estimated'))['hours_estimated__count']
-	#		if missing_estimates != 0:
-	#			grid_item.missing_estimates = missing_estimates
-	#		grid_item.all_items_completed_count  = all_items.filter(fixed = True).count()
-	#		grid_item.all_items_incompleted_count  = all_items.filter(fixed = False).count()
-	#		grid_item.all_items_failed_count  = all_items.filter(fixed = False, validated = True).count()
-	#
-	#		grid_item.my_items_completed_count  = all_items.filter(assigned_to = request.user, fixed = True).count()
-	#		grid_item.my_items_incompleted_count  = all_items.filter(assigned_to = request.user, fixed = False).count()
-	#		grid_item.my_items_failed_count  = all_items.filter(assigned_to = request.user, fixed = False, validated = True).count()
-	#
-	#	if loop_location.method == 'test':
-	#		grid_item.all_items_validated_count  = all_items.filter(fixed = True, validated = True).count()
-	#		grid_item.my_items_validated_count  = all_items.filter(assigned_to = request.user, fixed = True, validated = True).count()
-	#		grid_item.my_items_unvalidated_count  = all_items.filter(assigned_to = request.user, fixed = True, validated = False).count()
-	#		grid_item.all_items_unvalidated_count  = all_items.filter(fixed = True, validated = False).count()
-	#
 		row.items.append(grid_item)
 	#
 	# Fetch files
@@ -4616,9 +3997,7 @@ def check_email(request):
 		split_description = email_headers['subject'].split(' ')
 		found_binders = []
 		for loop_item in split_description:
-			#print('scanning binder %s' % loop_item)
 			found_binders.extend(Binder.objects.filter(Q(slug__iexact=loop_item)|Q(name__iexact=loop_item)))
-		#print('found binders %s' % found_binders)
 		#
 		# Now add to the binder's default project
 		#
@@ -4639,15 +4018,12 @@ def check_email(request):
 			email_item = Email()
 			email_item.file_id = message_id
 			if 'references' in email_headers.keys():
-				#print('setting references')
 				email_item.references = email_headers['references']
 			if 'message-id' in email_headers.keys():
-				#print('setting message_id')
 				email_item.message_id = email_headers['message-id']
 			if 'in-reply-to' in email_headers.keys():
 				email_item.in_reply_to = email_headers['in-reply-to']
 			if 'subject' in email_headers.keys():
-				#print('setting description')
 				item.description = email_headers['subject']
 			if 'from' in email_headers.keys():
 				email_item.email_from = email_headers['from']
@@ -4662,9 +4038,6 @@ def check_email(request):
 			item.save()
 			email_item.item = item
 
-			#email_item.message = '\n'.join(body)
-			#email_item.html = '<br/>'.join(body)
-			#emails.append(email_item)
 			tag_list = []
 			for tag in tags:
 				if item.description.find(tag.name) != -1:
@@ -4672,21 +4045,13 @@ def check_email(request):
 			item.tags = ' '.join(tag_list)
 			item.date_time = datetime.datetime.now()
 
-			#print('saving item')
 			item.save()
 			email_item.save()
 		#
 		# Finally, delete from server
 		#
-		#print('deleting item')
 		server.dele(message_number)
 
-		#for user in User.objects.all():
-		#	debug.append('adding feed to %s' % user)
-		#	feed = Feed()
-		#	feed.description = '<a href="/roadmap/ledger/item/%s">Email</a> from %s to %s: "%s"' % (item.id, email_item.email_from, email_item.email_to, item.description,)
-		#	feed.user = user
-		#	feed.save()
 	server.quit()
 	return render_to_response(
 		'ledger/email.html',
@@ -4851,8 +4216,6 @@ def ownership(request, item_id):
 			items = search_data.items
 			index = -1
 			for loop_item in items:
-				#print('item %s' %loop_item)
-				#print('id %s ' % item.id)
 				index+=1
 				if str(loop_item) == str(item.id):
 					search_found = index + 1
@@ -5126,7 +4489,6 @@ def item_details_priority(request):
 @login_required
 def item_details_target(request):
 	item = Item.objects.get(id = request.POST.get('item_id'))
-	#if item.assigned_to == request.user:
 	target_id = request.POST.get('target_id')
 	#
 	# Unattach any targets for this user and item
@@ -5202,14 +4564,9 @@ def edit_checklist_item(request):
 
 @csrf_exempt
 def upload_profile(request):
-	#print('getting upload')
 	upload_path = os.path.join(settings.MEDIA_ROOT, 'uploads')
 	file_uuid = str(uuid.uuid1())
 	full_file_name = os.path.join(upload_path, file_uuid)
-	#print('full file name %s' % full_file_name)
-
-	#for loop_item in request.FILES:
-		#print(str(loop_item))
 
 	if request.GET.get('base64', '') == 'true':
 		# Chrome
@@ -5226,7 +4583,6 @@ def upload_profile(request):
 				output.write(chunk)
 			output.close()
 		except Exception,ex:
-			#print(str(ex))
 			upload_file = request.raw_post_data
 			output = open(full_file_name, 'wb+')
 			output.write(upload_file)
@@ -5245,17 +4601,9 @@ def add_checklist_item(request):
 	item_type = request.POST.get('item_type')
 	file_uuid = request.POST.get('file_uuid')
 
-	#print('add %s' % item_text)
-	#print(request.POST.get('item_id'))
-	#print(item)
-
-	#print('getting upload directory')
 	upload_path = os.path.join(settings.MEDIA_ROOT, 'uploads')
-	#print('getting attachment')
 	attachment_path = os.path.join(settings.MEDIA_ROOT, 'attachments')
-	#print('file_uuid %s' % file_uuid)
 	directory_name = os.path.join(upload_path, file_uuid)
-	#print('dir %s' % directory_name)
 
 	checklist_items = ChecklistItem.objects.filter(item = item)
 	checklist_item = ChecklistItem()
@@ -5265,13 +4613,10 @@ def add_checklist_item(request):
 	checklist_item.save()
 
 	if os.path.exists(directory_name):
-		#print('has attachment. scanning %s' % directory_name)
 		file_list = os.listdir(directory_name)
 		if len(file_list) > 1:
 			file_list = [(os.path.getmtime(x), x) for x in os.listdir(directory_name)]
-			##print('sorting. length %s' % len(file_list))
 			file_list.sort()
-			#print('getting attached')
 			attached_file = file_list[-1][1]
 		elif len(file_list) == 1:
 			attached_file = file_list[0]
@@ -5294,8 +4639,6 @@ def add_checklist_item(request):
 			checklist_item.filename = attached_file
 			checklist_item.save()
 
-	#print('saved')
-
 	checklist_items_new = ChecklistItem.objects.filter(item = item).order_by('order_index')
 
 	return render_to_response(
@@ -5315,21 +4658,16 @@ def add_checklist_file(request):
 	file_name = None
 
 	if request.method == 'POST':
-		#print('adding file %s' % len(request.FILES))
 		try:
 			file = request.FILES["attachFile"]
 		except Exception,ex:
-			#print(str(ex))
 			pass
-		#print('got file')
 		attachment_path = os.path.join(settings.MEDIA_ROOT, 'uploads')
 		directory_name = os.path.join(attachment_path, file_uuid)
 		if not os.path.exists(directory_name):
-			#print('creating dir')
 			os.mkdir(directory_name)
 		file_name = file.name
 		full_file_name = os.path.join(directory_name, file_name)
-		#print('outputting to %s' % full_file_name)
 
 		output = open(full_file_name, 'wb+')
 		for chunk in file.chunks():
@@ -5408,16 +4746,13 @@ def item_details_mark_reopened(request):
 	ownership_list = Assigned.objects.filter(item=item)
 	ownership_list.order_by('id')
 	for loop_owner in ownership_list:
-		#print('checking %s' % loop_owner.user)
 		if loop_owner.location == location: # has it been in testing before?
-			#print('is previous producer')
 			previous_producer = loop_owner.user
 			break;
 		# We want the previous producer
 		if loop_owner.user in item.project.binder.producers.all() or loop_owner == item.project.binder.owner:
-			#print('remembering %s' % loop_owner.user)
 			previous_producer = loop_owner.user
-	#print('previous tester %s' % previous_producer)
+
 	if previous_producer != None:
 		item.assigned_to = previous_producer
 
@@ -5529,8 +4864,6 @@ def item_details_mark_identified(request):
 @csrf_exempt
 @login_required
 def item_details_mark_failed(request):
-	#location = Location.objects.get(method='action')
-
 	item = Item.objects.get(id = request.POST.get('item_id'))
 	item.item_state = ItemState.objects.get(id = 2)
 
@@ -5542,16 +4875,13 @@ def item_details_mark_failed(request):
 	ownership_list = Assigned.objects.filter(item=item)
 	ownership_list.order_by('id')
 	for loop_owner in ownership_list:
-		#print('checking %s' % loop_owner.user)
 		if loop_owner.location == location: # has it been in testing before?
-			#print('is previous producer')
 			previous_producer = loop_owner.user
 			break;
 		# We want the previous producer
 		if loop_owner.user in item.project.binder.producers.all() or loop_owner == item.project.binder.owner:
-			#print('remembering %s' % loop_owner.user)
 			previous_producer = loop_owner.user
-	#print('previous tester %s' % previous_producer)
+
 	if previous_producer != None:
 		item.assigned_to = previous_producer
 
@@ -5560,12 +4890,10 @@ def item_details_mark_failed(request):
 		#
 		assigned = Assigned()
 		assigned.item = item
-		#assigned.location = location
 		assigned.user = item.assigned_to
 		assigned.comments = "Reassigned"
 		assigned.save()
 
-	#item.location = location
 	item.save()
 
 	feed = Feed()
@@ -5930,14 +5258,10 @@ def shell(request):
 
 @login_required
 def change_password(request):
-	#print('changing password')
 	form = PasswordForm()
-	#print('got password form. %s' % request.method )
 	if request.method == 'POST':
-		#print('  change password. post')
 		form = PasswordForm(request.POST)
 		if form.is_valid():
-			#print('   change password valid')
 			user_item = User.objects.get(id = request.user.id)
 			user_item.set_password(form.cleaned_data['password'])
 			user_item.save()
@@ -5951,7 +5275,6 @@ def change_password(request):
 
 			return HttpResponseRedirect('/roadmap/ledger/profile/%s' % (request.user.username))
 		else:
-			#print('   change password invalid')
 			pass
 
 	return render_to_response(
@@ -5975,8 +5298,6 @@ def feed_growl(request):
 		lastcheck.minute,
 		lastcheck.second,
 	)
-	#ten_seconds = datetime.datetime.timedelta(seconds=-10)
-	#print(feed_date)
 	data = Feed.objects.filter(
 		date_time__gte = feed_date,
 		user = request.user,
@@ -5985,11 +5306,6 @@ def feed_growl(request):
 	json_serializer = serializers.get_serializer("json")()
 	request.session['last_checked'] = datetime.datetime.now()
 	serialized = json_serializer.serialize(data, ensure_ascii = False)
-	#try:
-	#	serialized = simplejson.dumps(data)
-	#except Exception,ex:
-	#	#print(ex)
-	#print(serialized)
 
 	return HttpResponse(
 		serialized,
@@ -6030,7 +5346,6 @@ def sign_out(request):
 		loop_file_path = os.path.join(path, loop_file)
 		if os.stat(loop_file_path).st_mtime < now - 86400:
 			if os.path.isfile(loop_file_path):
-				#os.remove(loop_file_path)
 				pass
 
 	import roadmap.chat.views
