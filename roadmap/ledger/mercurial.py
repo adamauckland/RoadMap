@@ -118,7 +118,7 @@ def look_for_warnings(scan):
 	for loop_repository in repositories:
 		report.append('')
 		report.append('Repository: %s' % loop_repository)
-		reader = MercurialReader('administrator@192.168.1.8', 'bh243pl', os.path.join('~/repositories/', loop_repository))
+		reader = MercurialReader('', '', os.path.join('~/repositories/', loop_repository))
 		tip = reader.get_tip()
 		logs = reader.get_logs(revision_from = '80762618892a', revision_to = 'tip')
 		for loop_log in logs:
